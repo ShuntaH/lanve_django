@@ -98,6 +98,7 @@ DATABASES = {
         'OPTIONS': {
             'charset': 'utf8mb4',
         },
+        'AUTOMATIC_REQUESTS': True,  # transaction now is working
     }
 }
 
@@ -146,3 +147,8 @@ STATICFILES_DIRS = [
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+
+
+# Custom User
+# AUTH_USER_MODEL = 'sns.User'
