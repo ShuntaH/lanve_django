@@ -1,0 +1,11 @@
+Django
+django-cleanup
+flake8
+ipython
+mysqlclient
+Pillow
+python-dotenv
+uWSGI
+django-bulma
+django-countries
+django-language-fields

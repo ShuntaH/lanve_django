@@ -1,0 +1,88 @@
+# General
+tmp
+temp
+\#*
+.#*
+~*
+.python-version
+.env
+
+# Editor
+*~
+*.orig
+*.swp
+
+# Python
+*.pyc
+*.pyo
+*.eggs
+*.egg-info/
+dist/
+.venv/
+venv/
+
+# Windows
+Thumbs.db
+
+# Eclipse
+.project
+
+# Pydev
+.pydevproject
+
+# Mac
+.DS_Store
+
+# Xcode
+build/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata
+*.xccheckout
+*.moved-aside
+DerivedData
+*.hmap
+*.ipa
+*.xcuserstate
+
+
+# CocoaPod
+Pods/*
+Podfile.lock
+
+# JetBrains
+.idea
+
+# virtualenv
+venv
+.venv
+
+# node
+node_modules
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+node_modules/
+_ansible
+
+bundle*.zip
+
+# DB
+db.sqlite3
+db/data/*
+
+
+# Media
+*.jpg
+
+# log
+*.log⏎

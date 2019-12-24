@@ -1,0 +1,41 @@
+version: '3.4'
+services:
+  nginx:
+    image: nginx:1.13
+    container_name: lanve_nginx
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./nginx/conf:/etc/nginx/conf.d
+      - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
+      - ./django/project/media:/media
+      - ./django/project/static:/static
+      - ./nginx/log:/var/log/nginx
+    depends_on:
+      - web
+  db:
+    image: mariadb:10.1
+    container_name: lanve_mariadb
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: lanve
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: root
+      TZ: 'Asia/Tokyo'
+    volumes:
+      - ./db/data:/var/lib/mysql
+      - ./db/sql:/docker-entrypoint-initdb.d
+  web:
+    build: ./web
+    image: lanve_web
+    container_name: lanve_web
+    expose:
+      - "8001"
+    ports:
+      - "8001:8001"
+    command: uwsgi --ini /code/project/project/uwsgi.ini
+    volumes:
+      - ./django:/code
+    depends_on:
+      - db
