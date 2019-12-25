@@ -10,7 +10,7 @@ from languages.fields import RegionField, LanguageField
 
 
 class LanveUserManager(BaseUserManager):
-    def create_user(self, username, email, date_of_birth, password=None):
+    def create_user(self, username, email, password=None):
         """
         Creates and saves a User with the given email, date of
         birth and password.
@@ -23,14 +23,13 @@ class LanveUserManager(BaseUserManager):
         user = self.model(
             username=username,
             email=self.normalize_email(email),
-            date_of_birth=date_of_birth,
         )
 
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, username, email, date_of_birth, password=None):
+    def create_superuser(self, username, email, password=None):
         """
         Creates and saves a superuser with the given email, date of
         birth and password.
@@ -39,7 +38,6 @@ class LanveUserManager(BaseUserManager):
             username,
             email,
             password=password,
-            date_of_birth=date_of_birth,
         )
 
         user.is_admin = True
@@ -83,7 +81,7 @@ class LanveUser(AbstractBaseUser):
         error_messages={
             'unique': "A user with that username already exists.",
         },
-        blank=False,
+        blank=True,
     )
     first_name = models.CharField('first name', max_length=30, blank=False)
     last_name = models.CharField('last name', max_length=150, blank=False)
@@ -91,41 +89,37 @@ class LanveUser(AbstractBaseUser):
         verbose_name='email address',
         max_length=255,
         unique=True,
-        blank=False,
+        blank=True,
     )
-    date_of_birth = models.DateField()
+    date_of_birth = models.DateField(
+        verbose_name='birthday',
+        blank=True,
+        null=True,
+    )
     profile_pic = models.ImageField(
         verbose_name='profile pic',
         width_field=300,
         height_field=300,
         upload_to=profile_pic_directory_path,
-        blank=False)
+        blank=True)
     gender = models.CharField(
         "gender",
         max_length=2,
         choices=GENDER_CHOICES,
-        blank=False
+        blank=True
     )
     nationality = RegionField(
         'nationality',
-        blank=False
+        blank=True
     )
     residence = RegionField(
         'residence',
-        blank=False
+        blank=True
     )
     mother_tongue = LanguageField(
         'mother tongue',
         max_length=8,
-        blank=False
-    )
-    following = models.ForeignKey(
-        'self',
-        on_delete=models.CASCADE,
-    )
-    follower = models.ForeignKey(
-        'self',
-        on_delete=models.CASCADE,
+        blank=True
     )
     answer_num = models.IntegerField(
         verbose_name='the numbers of answer',
@@ -147,6 +141,7 @@ class LanveUser(AbstractBaseUser):
         verbose_name='the numbers of bad',
         default=0
     )
+
     created_at = models.DateTimeField('Created at', default=timezone.now)
 
     is_staff = models.BooleanField(
@@ -162,10 +157,6 @@ class LanveUser(AbstractBaseUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = [
         'username',
-        'date_of_birth',
-        'gender',
-        'nationality',
-        'mother_tongue',
     ]
 
     def get_full_name(self):
@@ -193,5 +184,18 @@ class LanveUser(AbstractBaseUser):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_admin
+
+
+class Relationship(models.Model):
+    following = models.ForeignKey(
+        LanveUser,
+        related_name='follows',
+        on_delete=models.CASCADE,
+    )
+    follower = models.ForeignKey(
+        LanveUser,
+        related_name='followers',
+        on_delete=models.CASCADE,
+    )
 
 
