@@ -119,7 +119,36 @@ class LanveUser(AbstractBaseUser):
         max_length=8,
         blank=False
     )
-    models.DateTimeField('Created at', default=timezone.now)
+    following = models.ForeignKey(
+        'self',
+        on_delete=models.CASCADE,
+    )
+    follower = models.ForeignKey(
+        'self',
+        on_delete=models.CASCADE,
+    )
+    answer_num = models.IntegerField(
+        verbose_name='the numbers of answer',
+        default=0
+    )
+    helpful = models.IntegerField(
+        verbose_name='the numbers of helpful',
+        default=0
+    )
+    not_helpful = models.IntegerField(
+        verbose_name='the numbers of not helpful',
+        default=0
+    )
+    good = models.IntegerField(
+        verbose_name='the numbers of good',
+        default=0
+    )
+    bad = models.IntegerField(
+        verbose_name='the numbers of bad',
+        default=0
+    )
+    created_at = models.DateTimeField('Created at', default=timezone.now)
+
     is_staff = models.BooleanField(
         'staff status',
         default=False,
@@ -131,11 +160,13 @@ class LanveUser(AbstractBaseUser):
     objects = LanveUserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['date_of_birth']
-
-    def get_followers(self):
-        relations = Relationship.objects.filter(follow=self)
-        return [relation.follower for relation in relations]
+    REQUIRED_FIELDS = [
+        'username',
+        'date_of_birth',
+        'gender',
+        'nationality',
+        'mother_tongue',
+    ]
 
     def get_full_name(self):
         """
@@ -164,18 +195,3 @@ class LanveUser(AbstractBaseUser):
         return self.is_admin
 
 
-class Relationship(models.Model):
-    follower = models.ForeignKey(
-        LanveUser,
-        related_name='follower'
-        , on_delete=models.CASCADE
-    )
-    following = models.ForeignKey(
-        LanveUser,
-        related_name='following',
-        on_delete=models.CASCADE
-    )
-    models.DateTimeField('Created at', default=timezone.now)
-
-    def __str__(self):
-        return "{} : {}".format(self.follower.username, self.following.username)
