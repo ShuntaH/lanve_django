@@ -17,10 +17,21 @@ class UserCreationForm(forms.ModelForm):
         model = LanveUser
         fields = (
             'email',
+            'password',
             'username',
+            'date_of_birth',
+            'password',
             'gender',
             'nationality',
+            'residence',
             'mother_tongue',
+            'answer_num',
+            'helpful',
+            'not_helpful',
+            'good',
+            'bad',
+            'is_admin',
+            'is_active',
         )
 
     def clean_password2(self):
@@ -50,14 +61,22 @@ class UserChangeForm(forms.ModelForm):
     class Meta:
         model = LanveUser
         fields = (
-            'username',
             'email',
+            'password',
+            'username',
+            'date_of_birth',
             'password',
             'gender',
             'nationality',
+            'residence',
             'mother_tongue',
+            'answer_num',
+            'helpful',
+            'not_helpful',
+            'good',
+            'bad',
+            'is_admin',
             'is_active',
-            'is_admin'
         )
 
     def clean_password(self):
@@ -76,20 +95,43 @@ class UserAdmin(BaseUserAdmin):
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
     list_display = (
-        'username',
         'email',
+        'password',
+        'username',
         'date_of_birth',
         'password',
         'gender',
         'nationality',
+        'residence',
         'mother_tongue',
-        'is_admin'
+        'answer_num',
+        'helpful',
+        'not_helpful',
+        'good',
+        'bad',
+        'is_admin',
+        'is_active',
     )
     list_filter = ('is_admin',)
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        ('Personal info', {'fields': ('username',)}),
-        ('Permissions', {'fields': ('is_admin',)}),
+        ('Personal info', {'fields': (
+            'username',
+            'date_of_birth',
+            'gender',
+            'nationality',
+            'residence',
+            'mother_tongue',
+            'answer_num',
+            'helpful',
+            'not_helpful',
+            'good',
+            'bad',
+        )}),
+        ('Permissions', {'fields': (
+            'is_admin',
+            'is_active',
+        )}),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
     # overrides get_fieldsets to use this attribute when creating a user.
@@ -108,6 +150,6 @@ class UserAdmin(BaseUserAdmin):
 admin.site.register(LanveUser, UserAdmin)
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.
-admin.site.unregister(Group)
+# admin.site.unregister(Group)
 
 admin.site.register(Relationship)
