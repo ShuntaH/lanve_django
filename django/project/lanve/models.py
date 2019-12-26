@@ -10,6 +10,8 @@ from languages.fields import RegionField, LanguageField
 
 
 class LanveUserManager(BaseUserManager):
+    use_in_migrations = True
+
     def create_user(self, username, email, password=None):
         """
         Creates and saves a User with the given email, date of
@@ -98,8 +100,6 @@ class LanveUser(AbstractBaseUser):
     )
     profile_pic = models.ImageField(
         verbose_name='profile pic',
-        width_field=300,
-        height_field=300,
         upload_to=profile_pic_directory_path,
         blank=True)
     gender = models.CharField(
