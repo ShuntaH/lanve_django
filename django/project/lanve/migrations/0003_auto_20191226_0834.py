@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
                 ('question', models.TextField(verbose_name='question sentence')),
                 ('situation', models.TextField(blank=True, verbose_name='situation')),
                 ('created_date', models.DateTimeField(default=django.utils.timezone.now)),
-                ('contributor', models.ForeignKey(on_delete=models.SET(lanve.models.set_default_contributor_issue), related_name='contributor_issue', to=settings.AUTH_USER_MODEL)),
+                ('contributor', models.ForeignKey(on_delete=models.SET(lanve.models.set_default_contributor_issue_name), related_name='contributor_issue', to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'ordering': ['-created_date'],

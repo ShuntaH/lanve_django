@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{#{% load i18n %}#}
+
+{% block title %}{% trans "Welcome to Lanve" %}{% endblock %}
+{% block content_title %}<h1 class="title">{% trans "Welcome to Lanve" %}</h1>{% endblock content_title %}
+
+{% block content %}
+    <div><a class="button" href="{% url 'lanve:signin' %}">sign in</a></div>
+    <div><a class="button" href="{% url 'lanve:signup' %}">sign up</a></div>
+{% endblock %}

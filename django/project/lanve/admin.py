@@ -17,7 +17,6 @@ class UserCreationForm(forms.ModelForm):
         model = LanveUser
         fields = (
             'email',
-            'password',
             'username',
             'date_of_birth',
             'profile_pic',
@@ -25,13 +24,6 @@ class UserCreationForm(forms.ModelForm):
             'nationality',
             'residence',
             'mother_tongue',
-            'answer_num',
-            'helpful',
-            'not_helpful',
-            'good',
-            'bad',
-            'is_admin',
-            'is_active',
         )
 
     def clean_password2(self):
@@ -70,13 +62,6 @@ class UserChangeForm(forms.ModelForm):
             'nationality',
             'residence',
             'mother_tongue',
-            'answer_num',
-            'helpful',
-            'not_helpful',
-            'good',
-            'bad',
-            'is_admin',
-            'is_active',
         )
 
     def clean_password(self):
