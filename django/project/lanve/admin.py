@@ -4,7 +4,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-from .models import LanveUser, Relationship
+from .models import LanveUser, Relationship, Issue, Comment
 
 
 class UserCreationForm(forms.ModelForm):
@@ -154,3 +154,5 @@ admin.site.register(LanveUser, UserAdmin)
 # admin.site.unregister(Group)
 
 admin.site.register(Relationship)
+admin.site.register(Issue)
+admin.site.register(Comment)

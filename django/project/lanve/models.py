@@ -197,5 +197,59 @@ class Relationship(models.Model):
         related_name='followers',
         on_delete=models.CASCADE,
     )
+    created_date = models.DateTimeField(
+        default=timezone.now)
+
+    class Meta:
+        ordering = ['-created_date']
+
+    def __str__(self):
+        return 'relationship'
 
 
+def set_default_contributor_issue():
+    contributor = 'Disappeared user'
+    return contributor
+
+
+class Issue(models.Model):
+    question = models.TextField(verbose_name='question sentence', blank=False)
+    situation = models.TextField(verbose_name='situation', blank=True)
+    contributor = models.ForeignKey(
+        LanveUser,
+        on_delete=models.SET(set_default_contributor_issue),
+        related_name='contributor_issue',
+    )
+    created_date = models.DateTimeField(
+        default=timezone.now)
+
+    class Meta:
+        ordering = ['-created_date']
+
+    def __str__(self):
+        return self.question
+
+
+class Comment(models.Model):
+    issue = models.ForeignKey(
+        'Issue',
+        verbose_name='issue',
+        on_delete=models.CASCADE,
+        related_name='issue',
+    )
+    contributor = models.ForeignKey(
+        'LanveUser',
+        verbose_name='contributor',
+        on_delete=models.CASCADE,
+        related_name='contributor_comment',
+        default='Anonymous',
+    )
+    text = models.TextField('comment',)
+    created_date = models.DateTimeField(
+        default=timezone.now)
+
+    class Meta:
+        ordering = ['-created_date']
+
+    def __str__(self):
+        return self.text[:10]
