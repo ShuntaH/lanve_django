@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{% endblock title %}</title>
     {% block css %}
-{#        {% font_awesome %}#}
+        {#        {% font_awesome %}#}
         <link rel="stylesheet" href="{% static 'bulma/css/style.min.css' %}">
         {% block extra_css %}{% endblock extra_css %}
     {% endblock css %}
@@ -18,8 +18,7 @@
         <nav class="navbar">
             <div class="navbar-brand">
                 <a class="navbar-item" href="/">
-                    <img src="{% static 'lanve/image/lanve-logo.png' %}"
-                         alt="lanve-logo">
+                    <img src="{% static 'lanve/image/lanve-logo.png' %}" alt="lanve-logo">
                 </a>
                 <div class="navbar-burger burger" data-target="navMenuExample">
                     <span></span>
@@ -28,28 +27,27 @@
                     <span></span>
                 </div>
             </div>
-
             <div id="navMenuExample" class="navbar-menu">
                 <div class="navbar-end">
                     <div class="navbar-item is-hoverable">
-                        <a class="navbar-link  is-active" href="/documentation/overview/start/">
+                        <a class="navbar-link" href="/documentation/overview/start/">
                             My Page
                         </a>
                     </div>
                     <div class="navbar-item is-hoverable">
-                        <div class="navbar-link">
+                        <a class="navbar-link">
                             New Post
-                        </div>
-                        <div class="navbar-item is-hoverable">
-                            <div class="navbar-link">
-                                Participating Issue
-                            </div>
-                        </div>
-                        <div class="navbar-item is-hoverable">
-                            <div class="navbar-link">
-                                Sign Out
-                            </div>
-                        </div>
+                        </a>
+                    </div>
+                    <div class="navbar-item is-hoverable">
+                        <a class="navbar-link">
+                            Participating Issue
+                        </a>
+                    </div>
+                    <div class="navbar-item is-hoverable">
+                        <a class="navbar-link">
+                            Sign Out
+                        </a>
                     </div>
                 </div>
             </div>
@@ -105,6 +103,19 @@
 {% endblock footer %}
 
 {% block javascript %}
+    <script>
+        // toggle burger-menu
+        for (const el of document.getElementsByClassName('navbar-burger')) {
+            const menuId = el.dataset.target;
+            const menu = document.getElementById(menuId);
+            el.addEventListener('click', e => {
+                el.classList.toggle('is-active');
+                menu.classList.toggle('is-active');
+            });
+        }
+    </script>
+
+
     {% block extra_javascript %}{% endblock extra_javascript %}
 {% endblock javascript %}
 </body>
