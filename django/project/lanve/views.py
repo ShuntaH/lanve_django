@@ -9,7 +9,7 @@ from .models import Issue
 
 
 class WelcomeView(generic.TemplateView):
-    template_name = 'welcome.html'
+    template_name = 'lanve/welcome.html'
 
 
 class SignupView(generic.CreateView):
