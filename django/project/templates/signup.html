@@ -1,23 +1,61 @@
 {% extends "base.html" %}
 
-{% load i18n bulma_tags %}
+{% load i18n static bulma_tags %}
 
 {% block title %}{% trans "Signup" %}{% endblock %}
 {% block content_title %}<h1 class="title">{% trans "Sign Up" %}</h1>{% endblock %}
 
+{% block header %}
+    <div class="container">
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="/">
+                    <img src="{% static 'lanve/image/lanve-logo.png' %}"
+                         alt="lanve-logo">
+                </a>
+                <div class="navbar-burger burger" data-target="navMenuExample">
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div id="navMenuExample" class="navbar-menu">
+                <div class="navbar-end">
+                    {% url 'lanve:signin' as login_url %}
+                    {% if login_url %}
+                        <a class="navbar-item is-hidden-desktop-only" href="{{ login_url }}">
+                            Login
+                        </a>
+                    {% endif %}
+                    {#                    {% url 'lanve:signin' as login_auth_url %}#}
+                    {#                    {% if login_url %}#}
+                    {#                        <a class="navbar-item is-hidden-desktop-only" href="{{ login_url }}">#}
+                    {#                            Login (allauth)#}
+                    {#                        </a>#}
+                    {#                    {% endif %}#}
+                    {% url 'lanve:signup' as signup_url %}
+                    {% if signup_url %}
+                        <a class="navbar-item is-hidden-desktop-only" href="{{ signup_url }}">
+                            Signup
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    </div>
+{% endblock header %}
+
 {% block content %}
+    <p class="content">
+        {% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}
+    </p>
 
-  <p class="content">
-    {% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}
-  </p>
-
-  <form class="signup" id="signup_form" method="post" action="{% url 'lanve:signup' %}">
-    {% csrf_token %}
-    {{ form|bulma }}
-    {% if redirect_field_value %}
-      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-    {% endif %}
-    <button type="submit" class="button is-primary">{% trans "Sign Up" %}</button>
-  </form>
+    <form class="signup" id="signup_form" method="post" action="{% url 'lanve:signup' %}">
+        {% csrf_token %}
+        {{ form|bulma }}
+        {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+        {% endif %}
+        <button type="submit" class="button is-primary">{% trans "Sign Up" %}</button>
+    </form>
 
 {% endblock %}
