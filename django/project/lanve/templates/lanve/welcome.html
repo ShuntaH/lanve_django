@@ -12,8 +12,7 @@
         <nav class="navbar">
             <div class="navbar-brand">
                 <a class="navbar-item" href="/">
-                    <img src="{% static 'lanve/image/lanve-logo.png' %}"
-                         alt="lanve-logo">
+                    <img src="{% static 'lanve/image/lanve-logo.png' %}" alt="lanve-logo">
                 </a>
                 <div class="navbar-burger burger" data-target="navMenuExample">
                     <span></span>
@@ -24,28 +23,31 @@
                 <div class="navbar-end">
                     {% url 'lanve:signin' as login_url %}
                     {% if login_url %}
-                        <a class="navbar-item is-hidden-desktop-only" href="{{ login_url }}">
+                    <div class="navbar-item is-hoverable">
+                        <a class="navbar-link" href="{{ login_url }}">
                             Login
                         </a>
+                    </div>
                     {% endif %}
-{#                    {% url 'lanve:signin' as login_auth_url %}#}
-{#                    {% if login_url %}#}
-{#                        <a class="navbar-item is-hidden-desktop-only" href="{{ login_url }}">#}
-{#                            Login (allauth)#}
-{#                        </a>#}
-{#                    {% endif %}#}
+                    {#                    {% url 'lanve:signin' as login_auth_url %}#}
+                    {#                    {% if login_url %}#}
+                    {#                        <a class="navbar-item is-hidden-desktop-only" href="{{ login_url }}">#}
+                    {#                            Login (allauth)#}
+                    {#                        </a>#}
+                    {#                    {% endif %}#}
                     {% url 'lanve:signup' as signup_url %}
                     {% if signup_url %}
-                        <a class="navbar-item is-hidden-desktop-only" href="{{ signup_url }}">
-                            Signup
+                    <div class="navbar-item is-hoverable">
+                        <a class="navbar-link" href="{{ signup_url }}">
+                            Sign Up
                         </a>
+                    </div>
                     {% endif %}
                 </div>
             </div>
         </nav>
     </div>
 {% endblock header %}
-
 
 {% block content %}
     <div class="hero-body">
@@ -83,4 +85,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}
