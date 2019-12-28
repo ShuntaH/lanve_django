@@ -1,42 +1,81 @@
 {% extends 'base.html' %}
 
-{% load i18n %}
-{% load  bulma_tags %}
+{% load i18n static  bulma_tags %}
 {#{% load account socialaccount bulma_tags %}#}
 
 {% block title %}{% trans "Sign In" %}{% endblock %}
 {% block content_title %}<h1 class="title">{% trans "Sign In" %}</h1>{% endblock content_title %}
 
+{% block header %}
+    <div class="container">
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="/">
+                    <img src="{% static 'lanve/image/lanve-logo.png' %}"
+                         alt="lanve-logo">
+                </a>
+                <div class="navbar-burger burger" data-target="navMenuExample">
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div id="navMenuExample" class="navbar-menu">
+                <div class="navbar-end">
+                    {% url 'lanve:signin' as login_url %}
+                    {% if login_url %}
+                        <a class="navbar-item is-hidden-desktop-only" href="{{ login_url }}">
+                            Login
+                        </a>
+                    {% endif %}
+                    {#                    {% url 'lanve:signin' as login_auth_url %}#}
+                    {#                    {% if login_url %}#}
+                    {#                        <a class="navbar-item is-hidden-desktop-only" href="{{ login_url }}">#}
+                    {#                            Login (allauth)#}
+                    {#                        </a>#}
+                    {#                    {% endif %}#}
+                    {% url 'lanve:signup' as signup_url %}
+                    {% if signup_url %}
+                        <a class="navbar-item is-hidden-desktop-only" href="{{ signup_url }}">
+                            Signup
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    </div>
+{% endblock header %}
+
 {% block content %}
 
-{#  {% get_providers as socialaccount_providers %}#}
+    {#  {% get_providers as socialaccount_providers %}#}
 
-{#  {% if socialaccount_providers %}#}
-{#    <p class="content">{% blocktrans with site.name as site_name %}Please sign in with one of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a> for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>#}
-{##}
-{#    <div class="socialaccount_ballot">#}
-{#      <ul class="socialaccount_providers">#}
-{#        {% include "socialaccount/snippets/provider_list.html" with process="login" %}#}
-{#      </ul>#}
-{#      <br/>#}
-{#      <div class="login-or">{% trans 'or' %}</div>#}
-{#      <br/>#}
-{#    </div>#}
-{##}
-{#    {% include "socialaccount/snippets/login_extra.html" %}#}
+    {#  {% if socialaccount_providers %}#}
+    {#    <p class="content">{% blocktrans with site.name as site_name %}Please sign in with one of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a> for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>#}
+    {##}
+    {#    <div class="socialaccount_ballot">#}
+    {#      <ul class="socialaccount_providers">#}
+    {#        {% include "socialaccount/snippets/provider_list.html" with process="login" %}#}
+    {#      </ul>#}
+    {#      <br/>#}
+    {#      <div class="login-or">{% trans 'or' %}</div>#}
+    {#      <br/>#}
+    {#    </div>#}
+    {##}
+    {#    {% include "socialaccount/snippets/login_extra.html" %}#}
 
-{#  {% else %}#}
-    <p class="content">{% blocktrans %}If you have not created an account yet, then please <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
-{#  {% endif %}#}
+    {#  {% else %}#}
+    <p class="content">{% blocktrans %}If you have not created an account yet, then please
+        <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
+    {#  {% endif %}#}
 
-  <form class="login" method="POST" action="{{ login_url }}">
-    {% csrf_token %}
-    {{ form|bulma }}
-    {% if redirect_field_value %}
-      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-    {% endif %}
-{#    <a class="button is-link" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>#}
-    <button class="button is-primary" type="submit">{% trans "Sign In" %}</button>
-  </form>
+    <form class="login" method="POST" action="{{ login_url }}">
+        {% csrf_token %}
+        {{ form|bulma }}
+        {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+        {% endif %}
+        {#    <a class="button is-link" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>#}
+        <button class="button is-primary" type="submit">{% trans "Sign In" %}</button>
+    </form>
 
 {% endblock %}
