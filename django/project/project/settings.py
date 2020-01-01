@@ -14,6 +14,7 @@ import os
 from os.path import join
 
 from dotenv import load_dotenv
+import MySQLdb
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -92,10 +93,7 @@ DATABASES = {
         'PASSWORD': 'root',
         'HOST': 'db',
         'PORT': '3306',
-        'OPTIONS': {
-            'charset': 'utf8mb4',
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
+        'OPTIONS': {'charset': 'utf8mb4'},
         'AUTOMATIC_REQUESTS': True,  # transaction now is working
     }
 }
@@ -146,7 +144,6 @@ MEDIA_URL = '/media/'
 # Custom User
 AUTH_USER_MODEL = 'lanve.LanveUser'
 
-
 '''
 The URL or named URL pattern where requests are redirected after login
 when the LoginView doesn't get a next GET parameter.
@@ -165,4 +162,3 @@ if LogoutView doesn't have a next_page attribute.
 If None, no redirect will be performed and the logout view will be rendered.
 '''
 # LOGOUT_REDIRECT_URL =
-
