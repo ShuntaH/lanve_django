@@ -35,7 +35,8 @@
                         </a>
                     </div>
                     <div class="navbar-item is-hoverable">
-                        <a class="navbar-link is-arrowless">
+                        <a class="navbar-link is-arrowless"
+                            href="{% url 'lanve:add' %}">
                             New Post
                         </a>
                     </div>
@@ -68,7 +69,7 @@
         {% block messages %}
             {% if messages %}
                 <div class="messages columns is-desktop">
-                    <div class="column is-4 is-offset-4">
+                    <div class="column is-full">
                         {% for message in messages %}
                             <div class="message {% if message.tags %}is-{{ message.tags|bulma_message_tag }}{% endif %}">
                                 <div class="message-body">{{ message }}</div>

@@ -207,7 +207,7 @@ class Relationship(models.Model):
         return 'relationship'
 
 
-def set_default_contributor_issue_name():
+def set_default_contributor_issue_deleted():
     contributor = 'Disappeared user'
     return contributor
 
@@ -217,7 +217,7 @@ class Issue(models.Model):
     situation = models.TextField(verbose_name='situation', blank=True)
     contributor = models.ForeignKey(
         LanveUser,
-        on_delete=models.SET(set_default_contributor_issue_name),
+        on_delete=models.SET(set_default_contributor_issue_deleted),
         related_name='contributor_issue',
     )
     created_at = models.DateTimeField(
