@@ -1,1 +1,51 @@
 {% extends 'base.html' %}
+{% load static i18n bulma_tags %}
+
+{% block hero %}
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    投稿してね
+                </h1>
+                <h2 class="subtitle">
+                    form bangkok
+                </h2>
+            </div>
+        </div>
+    </section>
+{% endblock hero %}
+
+{% block content %}
+    {% for issue in issue_list %}
+        <div class="card">
+            <div class="card-content">
+                <div class="media">
+                    <div class="media-left">
+                        <figure class="image is-48x48">
+                            <img src="{{ issue.contributor.profile_pic.url }}" alt="profile picture">
+                        </figure>
+                    </div>
+                    <div class="media-content">
+                        <p class="title is-4">{{ issue.contributor.username }}</p>
+                    </div>
+                </div>
+                <div class="content">
+                    <h2 class="is-size-3">{{ issue.question|truncatechars:100 }}</h2>
+                    <p>{{ issue.situation|truncatechars:250 }}</p>
+                    <div>
+                        <a class="button">I will help</a>
+                    </div>
+                    {# 同じネイティブがいいか判定　全員観れるがネイティブしか押せない　#}
+                    <a class="icon"><i class="fas fa-fw fa-thumbs-up"></i></a><span>0</span>
+                    <a class="icon"><i class="fas fa-fw fa-flip-vertical fa-thumbs-up"></i></a><span>0</span>
+                    {# 質問者が助かったか判定　全員観れるが投稿者しか押せない#}
+                    <a class="icon"><i class="fas fa-fw fa-heart"></i></a>
+                    <small>
+                        <time datetime="{{ issue.created_at }}">{{ issue.created_at }}</time>
+                    </small>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

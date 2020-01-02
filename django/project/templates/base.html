@@ -1,4 +1,4 @@
-{% load static bulma_tags %}
+{% load static i18n bulma_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{% endblock title %}</title>
     {% block css %}
-        {#        {% font_awesome %}#}
+        {% font_awesome %}
         <link rel="stylesheet" href="{% static 'bulma/css/style.min.css' %}">
         {% block extra_css %}{% endblock extra_css %}
     {% endblock css %}
@@ -20,33 +20,39 @@
                 <a class="navbar-item" href="/">
                     <img src="{% static 'lanve/image/lanve-logo.png' %}" alt="lanve-logo">
                 </a>
-                <div class="navbar-burger burger" data-target="navMenuExample">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                <div class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
                 </div>
             </div>
-            <div id="navMenuExample" class="navbar-menu">
+            <div id="navMenu" class="navbar-menu">
                 <div class="navbar-end">
                     <div class="navbar-item is-hoverable">
-                        <a class="navbar-link" href="/documentation/overview/start/">
+                        <a class="navbar-link is-arrowless" href="/documentation/overview/start/">
                             My Page
                         </a>
                     </div>
                     <div class="navbar-item is-hoverable">
-                        <a class="navbar-link">
+                        <a class="navbar-link is-arrowless">
                             New Post
                         </a>
                     </div>
                     <div class="navbar-item is-hoverable">
-                        <a class="navbar-link">
+                        <a class="navbar-link is-arrowless">
                             Participating Issue
                         </a>
                     </div>
                     <div class="navbar-item is-hoverable">
-                        <a class="navbar-link">
+                        <a class="navbar-link is-arrowless">
                             Sign Out
+                        </a>
+                    </div>
+                    <div class="navbar-item is-hoverable">
+                        <img src="{{ user.profile_pic.url }}" alt="profile pictures">
+                        <a class="navbar-link is-arrowless">
+                            {{ user.username }}
                         </a>
                     </div>
                 </div>
@@ -105,14 +111,37 @@
 {% block javascript %}
     <script>
         // toggle burger-menu
-        for (const el of document.getElementsByClassName('navbar-burger')) {
-            const menuId = el.dataset.target;
-            const menu = document.getElementById(menuId);
-            el.addEventListener('click', e => {
-                el.classList.toggle('is-active');
-                menu.classList.toggle('is-active');
-            });
-        }
+        {#for (const el of document.getElementsByClassName('navbar-burger')) {#}
+        {#    const menuId = el.dataset.target;#}
+        {#    const menu = document.getElementById(menuId);#}
+        {#    el.addEventListener('click', e => {#}
+        {#        el.classList.toggle('is-active');#}
+        {#        menu.classList.toggle('is-active');#}
+        {#    });#}
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Get all "navbar-burger" elements
+            const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+            // Check if there are any navbar burgers
+            if ($navbarBurgers.length > 0) {
+
+                // Add a click event on each of them
+                $navbarBurgers.forEach(el => {
+                    el.addEventListener('click', () => {
+
+                        // Get the target from the "data-target" attribute
+                        const target = el.dataset.target;
+                        const $target = document.getElementById(target);
+
+                        // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                        el.classList.toggle('is-active');
+                        $target.classList.toggle('is-active');
+
+                    });
+                });
+            }
+        });
     </script>
 
 

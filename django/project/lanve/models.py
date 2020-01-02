@@ -52,7 +52,7 @@ def profile_pic_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/post/<post_title>.拡張子
     filename_divided = os.path.splitext(filename)
     ext = filename_divided[1]
-    filename = 'users/{0}{1}'.format(instance.username, ext)
+    filename = 'users/profile/{0}{1}'.format(instance.username, ext)
     return filename
 
 
@@ -197,11 +197,11 @@ class Relationship(models.Model):
         related_name='followers',
         on_delete=models.CASCADE,
     )
-    created_date = models.DateTimeField(
+    created_at = models.DateTimeField(
         default=timezone.now)
 
     class Meta:
-        ordering = ['-created_date']
+        ordering = ['-created_at']
 
     def __str__(self):
         return 'relationship'
@@ -220,11 +220,11 @@ class Issue(models.Model):
         on_delete=models.SET(set_default_contributor_issue_name),
         related_name='contributor_issue',
     )
-    created_date = models.DateTimeField(
+    created_at = models.DateTimeField(
         default=timezone.now)
 
     class Meta:
-        ordering = ['-created_date']
+        ordering = ['-created_at']
 
     def __str__(self):
         return self.question
@@ -245,11 +245,11 @@ class Comment(models.Model):
         default='Anonymous',
     )
     text = models.TextField('comment',)
-    created_date = models.DateTimeField(
+    created_at = models.DateTimeField(
         default=timezone.now)
 
     class Meta:
-        ordering = ['-created_date']
+        ordering = ['-created_at']
 
     def __str__(self):
         return self.text[:10]
