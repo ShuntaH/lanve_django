@@ -31,8 +31,8 @@
                     </div>
                 </div>
                 <div class="content">
-                    <h2 class="is-size-3">{{ issue.question|truncatechars:100 }}</h2>
-                    <p>{{ issue.situation|truncatechars:250 }}</p>
+                    <h2 class="is-size-3">{{ issue.question|truncatechars_html:100 }}</h2>
+                    <p>{{ issue.situation|linebreaksbr|urlize|truncatechars_html:250 }}</p>
                     <div>
                         <a class="button">I will help</a>
                     </div>
@@ -47,5 +47,7 @@
                 </div>
             </div>
         </div>
+        {% empty %}
+        <p>there is not any posts yet.</p>
     {% endfor %}
 {% endblock %}
