@@ -31,10 +31,10 @@
                     </div>
                 </div>
                 <div class="content">
-                    <h2 class="is-size-3">{{ issue.question|truncatechars_html:100 }}</h2>
+                    <h2 class="is-size-3">{{ issue.question|urlize|truncatechars_html:100 }}</h2>
                     <p>{{ issue.situation|linebreaksbr|urlize|truncatechars_html:250 }}</p>
                     <div>
-                        <a class="button">I will help</a>
+                        <a class="button" href="{% url 'lanve:detail' issue.pk %}">I will help</a>
                     </div>
                     {# 同じネイティブがいいか判定　全員観れるがネイティブしか押せない　#}
                     <a class="icon"><i class="fas fa-fw fa-thumbs-up"></i></a><span>0</span>

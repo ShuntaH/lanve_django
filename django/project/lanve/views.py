@@ -69,3 +69,8 @@ class AddView(LoginRequiredMixin, generic.CreateView):
         response = super().form_valid(form)
         return response
 
+
+class DetailView(LoginRequiredMixin, generic.DetailView):
+    model = Issue
+    login_url = 'lanve:signin'
+
