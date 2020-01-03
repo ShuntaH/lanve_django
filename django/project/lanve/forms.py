@@ -15,8 +15,3 @@ class CommentCreateForm(ModelForm):
         model = Comment
         fields = ('text', 'contributor')
 
-    def __init__(self, *args, **kwargs):
-        kwargs.setdefault('label_suffix', '')
-        super().__init__(*args, **kwargs)
-        self.fields['contributor'].widget.attrs['value'] = self.request.user
-
