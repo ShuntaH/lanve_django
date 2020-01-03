@@ -6,6 +6,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 
+from . import forms, models
 from .admin import UserCreationForm
 from .forms import IssueCreateForm, CommentCreateForm
 from .models import Issue, Comment
@@ -83,10 +84,13 @@ class DetailView(
 
     def get_context_data(self, **kwargs):
         """Get the context for this view."""
-        issue_pk = self.kwargs['pk']
-        comment_queryset = Comment.objects.all().filter(contributor=issue_pk)
+        # issue_pk = self.kwargs['pk']
+        # comment_queryset = Comment.objects.all().filter(contributor=issue_pk)
         context = super().get_context_data(**kwargs)
-        context['comment_list'] = comment_queryset
+        # context['comment_list'] = comment_queryset
+        context.update({
+            'comment_list': forms.CommentCreateForm(**self.get_form_kwargs())
+        })
         return context
 
     def post(self, request, *args, **kwargs):
@@ -94,10 +98,17 @@ class DetailView(
         Handle POST requests: instantiate a form instance with the passed
         POST variables and then check if it's valid.
         """
-        form = self.get_form()
+        form = forms.CommentCreateForm(**self.get_form_kwargs())
+        # バリデーション
         if form.is_valid():
+            # フォームに書き込んだ部分を取得する(保存しない)
+            form_query = form.save(commit=False)
+            form_query.pk = models.Comment.objects.get(pk=self.kwargs['pk'])
+            # 保存
+            form_query.save()
             return self.form_valid(form)
         else:
+            self.object = self.get_object()
             return self.form_invalid(form)
 
 
