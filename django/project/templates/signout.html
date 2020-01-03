@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% load i18n static bulma_tags  %}
+
+{% block title %}{% trans "Sign Out" %}{% endblock %}
+{% block content_title %}{% trans "Sign Out" %}{% endblock %}
+
+{% block content %}
+  <p class="content">{% trans 'Are you sure you want to sign out?' %}</p>
+
+  <form method="post" action="{% url 'lanve:signin' %}">
+    {% csrf_token %}
+    {% if redirect_field_value %}
+      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+    {% endif %}
+    <button type="submit" class="button is-primary">{% trans 'Sign Out' %}</button>
+  </form>
+
+{% endblock %}
