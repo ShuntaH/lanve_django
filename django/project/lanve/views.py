@@ -1,9 +1,8 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Q
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect
 
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.views import generic
 
 from . import forms, models
@@ -80,19 +79,6 @@ class DetailView(
     login_url = 'lanve:signin'
     model = Issue
     form_class = CommentCreateForm
-<<<<<<< Updated upstream
-    success_url = reverse_lazy('lanve:detail issue.pk')
-
-    def get_context_data(self, **kwargs):
-        """Get the context for this view."""
-        # issue_pk = self.kwargs['pk']
-        # comment_queryset = Comment.objects.all().filter(contributor=issue_pk)
-        context = super().get_context_data(**kwargs)
-        # context['comment_list'] = comment_queryset
-        context.update({
-            'comment_list': forms.CommentCreateForm(**self.get_form_kwargs())
-        })
-=======
     pk = None
 
     def get_context_data(self, **kwargs):
@@ -101,7 +87,6 @@ class DetailView(
         comment = Comment.objects.all().filter(issue=issue_pk)
         context = super().get_context_data(**kwargs)
         context['comment_list'] = comment
->>>>>>> Stashed changes
         return context
 
     def form_valid(self, form):
@@ -120,28 +105,6 @@ class DetailView(
         Handle POST requests: instantiate a form instance with the passed
         POST variables and then check if it's valid.
         """
-<<<<<<< Updated upstream
-        form = forms.CommentCreateForm(**self.get_form_kwargs())
-        # バリデーション
-        if form.is_valid():
-            # フォームに書き込んだ部分を取得する(保存しない)
-            form_query = form.save(commit=False)
-            form_query.pk = models.Comment.objects.get(pk=self.kwargs['pk'])
-            # 保存
-            form_query.save()
-            return self.form_valid(form)
-        else:
-            self.object = self.get_object()
-            return self.form_invalid(form)
-
-
-
-
-
-
-
-
-=======
         # create a form instance and populate it with data from the request:
         form = self.get_form()
         # check whether it's valid:
@@ -150,4 +113,4 @@ class DetailView(
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
->>>>>>> Stashed changes
+
