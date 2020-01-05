@@ -5,13 +5,13 @@ from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import generic
 
 from . import forms, models
 from .admin import UserCreationForm
 from .forms import IssueCreateForm, CommentCreateForm
-from .models import Issue, Comment
+from .models import Issue, Comment, LanveUser
 
 
 # Create your views here.
@@ -72,60 +72,37 @@ class DetailView(LoginRequiredMixin, generic.DetailView, generic.edit.ModelFormM
     login_url = 'lanve:signin'
     model = Issue
     form_class = CommentCreateForm
+    pk = None
 
     def get_context_data(self, **kwargs):
         """Get the context for this view."""
         issue_pk = self.kwargs['pk']
-        comment_queryset = Comment.objects.all().filter(contributor=issue_pk)
+        comment = Comment.objects.all().filter(issue=issue_pk)
         context = super().get_context_data(**kwargs)
-        context.update({
-            'comment_list': comment_queryset
-        })
+        context['comment_list'] = comment
         return context
+
+    def form_valid(self, form):
+        # process the data in form.cleaned_data as required
+        issue_pk = self.kwargs['pk']
+        contributor_pk = self.request.user.id
+        comment = form.save(commit=False)
+        comment.issue = get_object_or_404(Issue, pk=issue_pk)
+        comment.contributor = get_object_or_404(LanveUser, pk=contributor_pk)
+        # 保存
+        comment.save()
+        return redirect('lanve:detail', pk=issue_pk)
 
     def post(self, request, *args, **kwargs):
         """
         Handle POST requests: instantiate a form instance with the passed
         POST variables and then check if it's valid.
         """
-        # if this is a POST request we need to process the form data
-        if request.method == 'POST':
-            # create a form instance and populate it with data from the request:
-            form = CommentCreateForm(request.POST)
-            # check whether it's valid:
-            if form.is_valid():
-                # process the data in form.cleaned_data as required
-                form_comment = form.save(commit=False)
-                form_comment.issue = models.Issue.objects.get(pk=self.kwargs['pk'])
-                form_comment.contributor = models.LanveUser.objects.get(pk=1)
-                # 保存
-                form_comment.save()
-                # redirect to a new URL:
-                self.form_valid(form)
-            else:
-                self.form_invalid(form)
-
-    def get_success_url(self):
-        """Return the URL to redirect to after processing a valid form."""
-        if self.success_url:
-            url = self.success_url.format(**self.object.__dict__)
+        # create a form instance and populate it with data from the request:
+        form = self.get_form()
+        # check whether it's valid:
+        if form.is_valid():
+            # redirect to a new URL:
+            return self.form_valid(form)
         else:
-            try:
-                url = self.object.get_absolute_url()
-            except AttributeError:
-                raise ImproperlyConfigured(
-                    "No URL to redirect to.  Either provide a url or define"
-                    " a get_absolute_url method on the Model.")
-        return url
-
-    def form_valid(self, form):
-        return HttpResponseRedirect(reverse_lazy('lanve:detail', kwargs={'pk': self.kwargs['pk']}))
-
-
-
-
-
-
-
-
-
+            return self.form_invalid(form)
