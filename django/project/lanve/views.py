@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
 
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import generic
 
 from . import forms, models
@@ -52,12 +52,6 @@ class AddView(LoginRequiredMixin, generic.CreateView):
     model = Issue
     form_class = IssueCreateForm
     login_url = 'lanve:signin'
-
-    # 単純なフォームだったらform_classはいらなくてこれでok
-    # fields = '__all__'
-
-    # redirect()はhttp response objectを返す関数
-    # reverse_lazy()は文字列を返す関数
     success_url = reverse_lazy('lanve:list')
 
     def form_valid(self, form):
@@ -71,11 +65,7 @@ class AddView(LoginRequiredMixin, generic.CreateView):
         return response
 
 
-class DetailView(
-    LoginRequiredMixin,
-    generic.DetailView,
-    generic.edit.BaseCreateView
-):
+class DetailView(LoginRequiredMixin, generic.DetailView, generic.edit.ModelFormMixin):
     login_url = 'lanve:signin'
     model = Issue
     form_class = CommentCreateForm

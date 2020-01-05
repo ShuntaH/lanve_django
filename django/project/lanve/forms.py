@@ -13,5 +13,5 @@ class IssueCreateForm(ModelForm):
 class CommentCreateForm(ModelForm):
     class Meta:
         model = Comment
-        fields = ('text', 'contributor')
+        fields = ('text',)
 

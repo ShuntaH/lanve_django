@@ -69,16 +69,10 @@
     <form class="media" method="post" action="">
         {% csrf_token %}
         <figure class="media-left">
-            <p class="image is-64x64">
-                <img src="{{ user.profile_pic.url }}">
-            </p>
+            <p class="image is-64x64"><img src="{{ user.profile_pic.url }}"></p>
         </figure>
         <div class="media-content">
-            <div class="field">
-                <p class="control">
-                    <textarea class="textarea" placeholder="Add a comment..."></textarea>
-                </p>
-            </div>
+            <div class="field"><p class="control">{{ form.text|bulma }}</p></div>
             <div class="field">
                 <p class="control">
                     <button class="button" type="submit">Post comment</button>
