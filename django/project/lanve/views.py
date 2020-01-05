@@ -3,13 +3,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
 
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import generic
 
 from . import forms, models
 from .admin import UserCreationForm
 from .forms import IssueCreateForm, CommentCreateForm
-from .models import Issue, Comment
+from .models import Issue, Comment, LanveUser
 
 
 # Create your views here.
@@ -80,6 +80,7 @@ class DetailView(
     login_url = 'lanve:signin'
     model = Issue
     form_class = CommentCreateForm
+<<<<<<< Updated upstream
     success_url = reverse_lazy('lanve:detail issue.pk')
 
     def get_context_data(self, **kwargs):
@@ -91,13 +92,35 @@ class DetailView(
         context.update({
             'comment_list': forms.CommentCreateForm(**self.get_form_kwargs())
         })
+=======
+    pk = None
+
+    def get_context_data(self, **kwargs):
+        """Get the context for this view."""
+        issue_pk = self.kwargs['pk']
+        comment = Comment.objects.all().filter(issue=issue_pk)
+        context = super().get_context_data(**kwargs)
+        context['comment_list'] = comment
+>>>>>>> Stashed changes
         return context
+
+    def form_valid(self, form):
+        # process the data in form.cleaned_data as required
+        issue_pk = self.kwargs['pk']
+        contributor_pk = self.request.user.id
+        comment = form.save(commit=False)
+        comment.issue = get_object_or_404(Issue, pk=issue_pk)
+        comment.contributor = get_object_or_404(LanveUser, pk=contributor_pk)
+        # 保存
+        comment.save()
+        return redirect('lanve:detail', pk=issue_pk)
 
     def post(self, request, *args, **kwargs):
         """
         Handle POST requests: instantiate a form instance with the passed
         POST variables and then check if it's valid.
         """
+<<<<<<< Updated upstream
         form = forms.CommentCreateForm(**self.get_form_kwargs())
         # バリデーション
         if form.is_valid():
@@ -118,3 +141,13 @@ class DetailView(
 
 
 
+=======
+        # create a form instance and populate it with data from the request:
+        form = self.get_form()
+        # check whether it's valid:
+        if form.is_valid():
+            # redirect to a new URL:
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+>>>>>>> Stashed changes
