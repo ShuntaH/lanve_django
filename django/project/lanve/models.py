@@ -242,7 +242,6 @@ class Comment(models.Model):
         verbose_name='contributor',
         on_delete=models.CASCADE,
         related_name='contributor_comment',
-        default='Anonymous',
     )
     text = models.TextField('comment',)
     created_at = models.DateTimeField(
