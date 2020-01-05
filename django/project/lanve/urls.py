@@ -12,4 +12,5 @@ urlpatterns = [
     path('signout/', auth_views.LogoutView.as_view(template_name='signout.html'), name='signout'),
     path(r'home/', views.ListView.as_view(), name='list'),
     path(r'add/', views.AddView.as_view(), name='add'),
+    path(r'detail/<int:pk>/', views.DetailView.as_view(), name='detail'),
 ]
