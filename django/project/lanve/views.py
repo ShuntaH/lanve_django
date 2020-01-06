@@ -69,14 +69,13 @@ class DetailView(LoginRequiredMixin, generic.DetailView, generic.edit.ModelFormM
     login_url = 'lanve:signin'
     model = Issue
     form_class = CommentCreateForm
-    pk = None
 
     def get_context_data(self, **kwargs):
         """Get the context for this view."""
         issue_pk = self.kwargs['pk']
-        comment = Comment.objects.all().filter(issue=issue_pk)
+        comment = Comment.objects.filter(issue=issue_pk)
         context = super().get_context_data(**kwargs)
-        context['comment_list'] = comment
+        context['comments'] = comment
         return context
 
     def form_valid(self, form):
