@@ -5,21 +5,64 @@
     <h1 class="title is-3">MyPage</h1>
 {% endblock content_title %}
 {% block content %}
-    <div class="content">
-        <ul>
-            <li>username {{ user.username }}</li>
-            <li>Email {{ user.email }}</li>
-            <li>Picture {{ user.profile_pic.url }}</li>
-            <li>First Name {{ user.first_name }}</li>
-            <li>Last Name {{ user.last_name }}</li>
-            <li>Birthday {{ user.date_of_birth }}</li>
-            <li>Gender {{ user.gender }}</li>
-            <li>Nationality {{ user.nationality }}</li>
-            <li>Residence {{ user.residence }}</li>
-            <li>Mother Tongue {{ user.mother_tongue }}</li>
-            <li>The number of your answer {{ user.answer_num }}</li>
-            <li>Your rate of 'helpful' {{ user.helpful|ratio:user.not_helpful }}</li>
-            <li>Your rate of 'good' {{ user.good|ratio:user.bad }}</li>
-        </ul>
+
+    <div class="table-container">
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>username</th>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>Profile picture</th>
+                <td><img src="{{ user.profile_pic.url }}" alt="Your profile picture"></td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ user.first_name }}</td>
+                <td>{{ user.last_name }}</td>
+            </tr>
+            <tr>
+                <th>Birthday</th>
+                <td>{{ user.date_of_birth }}</td>
+            </tr>
+            <tr>
+                <th>Gender</th>
+                <td>{{ user.gender }}</td>
+            </tr>
+            <tr>
+                <th>Nationality</th>
+                <td>{{ user.nationality }}</td>
+            </tr>
+            <tr>
+                <th>Mother tongue</th>
+                <td>{{ user.mother_tongue }}</td>
+            </tr>
+            <tr>
+                <th>Residence</th>
+                <td>{{ user.residence }}</td>
+            </tr>
+            <tr>
+                <th>The number of your answer</th>
+                <td>{{ user.helpful|ratio:user.not_helpful }}</td>
+            </tr>
+             <tr>
+                <th>The number of your answer</th>
+                <td>{{ user.answer_num }}</td>
+            </tr>
+             <tr>
+                <th>Your ratio of 'helpful'</th>
+                <td>{{ user.helpful|ratio:user.not_helpful }}</td>
+            </tr>
+             <tr>
+                <th>Your ratio of 'good'</th>
+                <td>{{ user.good|ratio:user.bad }}</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 {% endblock content %}
