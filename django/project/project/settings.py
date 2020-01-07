@@ -76,7 +76,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
             ],
         },
-    },
+    }
 ]
 
 WSGI_APPLICATION = 'project.wsgi.application'
@@ -162,4 +162,4 @@ The URL or named URL pattern where requests are redirected after logout
 if LogoutView doesn't have a next_page attribute.
 If None, no redirect will be performed and the logout view will be rendered.
 '''
-# LOGOUT_REDIRECT_URL =
+LOGOUT_REDIRECT_URL = 'lanve:welcome'

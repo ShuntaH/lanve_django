@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static i18n bulma_tags %}
+{% load static i18n bulma_tags lanve_tags %}
 
 {% block content_title %}
     <h1 class="title is-3">MyPage</h1>
@@ -7,19 +7,19 @@
 {% block content %}
     <div class="content">
         <ul>
-            <li>username</li>
-            <li>Email</li>
-            <li>Picture</li>
-            <li>First Name</li>
-            <li>Last Name</li>
-            <li>Birthday</li>
-            <li>Gender</li>
-            <li>Nationality</li>
-            <li>Residence</li>
-            <li>Mother Tongue</li>
-            <li>The number of your answer</li>
-            <li>Your rate of 'helpful'</li>
-            <li>Your rate of 'good'</li>
+            <li>username {{ user.username }}</li>
+            <li>Email {{ user.email }}</li>
+            <li>Picture {{ user.profile_pic.url }}</li>
+            <li>First Name {{ user.first_name }}</li>
+            <li>Last Name {{ user.last_name }}</li>
+            <li>Birthday {{ user.date_of_birth }}</li>
+            <li>Gender {{ user.gender }}</li>
+            <li>Nationality {{ user.nationality }}</li>
+            <li>Residence {{ user.residence }}</li>
+            <li>Mother Tongue {{ user.mother_tongue }}</li>
+            <li>The number of your answer {{ user.answer_num }}</li>
+            <li>Your rate of 'helpful' {{ user.helpful|ratio:user.not_helpful }}</li>
+            <li>Your rate of 'good' {{ user.good|ratio:user.bad }}</li>
         </ul>
     </div>
 {% endblock content %}
