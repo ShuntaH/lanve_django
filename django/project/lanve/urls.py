@@ -13,4 +13,5 @@ urlpatterns = [
     path(r'home/', views.ListView.as_view(), name='list'),
     path(r'add/', views.AddView.as_view(), name='add'),
     path(r'detail/<int:pk>/', views.DetailView.as_view(), name='detail'),
+    path(r'mypage', views.MyPageTemplateView.as_view(), name='mypage')
 ]
