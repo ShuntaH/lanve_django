@@ -103,3 +103,7 @@ class DetailView(LoginRequiredMixin, generic.DetailView, generic.edit.ModelFormM
         else:
             return self.form_invalid(form)
 
+
+class MyPageTemplateView(generic.TemplateView):
+    template_name = 'lanve/mypage.html'
+
