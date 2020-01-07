@@ -19,7 +19,6 @@ class UserCreationForm(forms.ModelForm):
             'email',
             'username',
             'date_of_birth',
-            'profile_pic',
             'gender',
             'nationality',
             'residence',
