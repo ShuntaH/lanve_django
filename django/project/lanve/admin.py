@@ -1,3 +1,5 @@
+import datetime
+
 from django import forms
 from django.contrib import admin
 from django.contrib.auth.models import Group
@@ -24,6 +26,11 @@ class UserCreationForm(forms.ModelForm):
             'residence',
             'mother_tongue',
         )
+        today = datetime.date.today()
+        present_year = today.year
+        widgets = {
+            'date_of_birth': forms.SelectDateWidget(years=[x for x in range(present_year-110, present_year)])
+        }
 
     def clean_password2(self):
         # Check that the two password entries match
