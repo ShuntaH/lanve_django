@@ -20,6 +20,8 @@ class UserCreationForm(forms.ModelForm):
         fields = (
             'email',
             'username',
+            'first_name',
+            'last_name',
             'date_of_birth',
             'gender',
             'nationality',
