@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'languages',
     'django_countries',
     'django_cleanup',
+    'stdimage',
 ]
 
 CRISPY_TEMPLATE_PACK = "bulma"

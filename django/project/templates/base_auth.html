@@ -18,49 +18,35 @@
     <div class="container">
         <nav class="navbar">
             <div class="navbar-brand">
-                <a class="navbar-item" href="{% url 'lanve:list' %}">
-                    <img src="{% static 'lanve/image/lanve-logo.png' %}" alt="lanve-logo">
+                <a class="navbar-item" href="{% url 'lanve:welcome' %}">
+                    <img src="{% static 'lanve/image/lanve-logo.png' %}"
+                         alt="lanve-logo">
                 </a>
-                <div class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
+                <div class="navbar-burger burger" data-target="navMenuExample">
+                    <span></span>
+                    <span></span>
                 </div>
             </div>
-            <div id="navMenu" class="navbar-menu">
+            <div id="navMenuExample" class="navbar-menu">
                 <div class="navbar-end">
-                    <div class="navbar-item is-hoverable">
-                        <a class="navbar-link is-arrowless"
-                           href="{% url 'lanve:user_detail' user.pk %}">
-                            My Page
+                    {% url 'lanve:signin' as login_url %}
+                    {% if login_url %}
+                        <a class="navbar-item is-hidden-desktop-only" href="{{ login_url }}">
+                            Sign In
                         </a>
-                    </div>
-                    <div class="navbar-item is-hoverable">
-                        <a class="navbar-link is-arrowless"
-                           href="{% url 'lanve:add' %}">
-                            New Post
+                    {% endif %}
+                    {#                    {% url 'lanve:signin' as login_auth_url %}#}
+                    {#                    {% if login_url %}#}
+                    {#                        <a class="navbar-item is-hidden-desktop-only" href="{{ login_url }}">#}
+                    {#                            Login (allauth)#}
+                    {#                        </a>#}
+                    {#                    {% endif %}#}
+                    {% url 'lanve:signup' as signup_url %}
+                    {% if signup_url %}
+                        <a class="navbar-item is-hidden-desktop-only" href="{{ signup_url }}">
+                            Sign Up
                         </a>
-                    </div>
-                    <div class="navbar-item is-hoverable">
-                        <a class="navbar-link is-arrowless">
-                            Participating Issue
-                        </a>
-                    </div>
-                    <div class="navbar-item is-hoverable">
-                        <a class="navbar-link is-arrowless"
-                           href="{% url 'lanve:signout' %}">
-                            Sign Out
-                        </a>
-                    </div>
-                    <div class="navbar-item is-hoverable">
-                        {% if user.profile_pic %}
-                        <img src="{{ user.profile_pic.url }}" alt="profile pictures">
-                        {% endif %}
-                        <a class="navbar-link is-arrowless">
-                            {{ user.username }}
-                        </a>
-                    </div>
+                    {% endif %}
                 </div>
             </div>
         </nav>
@@ -72,7 +58,7 @@
 <section class="section">
     <div class="container">
         <div class="columns is-desktop">
-            <div class="column is-three-fifths-desktop is-offset-one-fifth-desktop">
+            <div class="column">
                 {% block messages %}
                     {% if messages %}
                         <div class="messages columns is-desktop">
@@ -119,14 +105,6 @@
 
 {% block javascript %}
     <script>
-        // toggle burger-menu
-        {#for (const el of document.getElementsByClassName('navbar-burger')) {#}
-        {#    const menuId = el.dataset.target;#}
-        {#    const menu = document.getElementById(menuId);#}
-        {#    el.addEventListener('click', e => {#}
-        {#        el.classList.toggle('is-active');#}
-        {#        menu.classList.toggle('is-active');#}
-        {#    });#}
         document.addEventListener('DOMContentLoaded', () => {
             // Get all "navbar-burger" elements
             const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
