@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'django_cleanup',
 ]
 
+CRISPY_TEMPLATE_PACK = "bulma"
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

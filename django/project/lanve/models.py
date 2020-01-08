@@ -56,6 +56,12 @@ def profile_pic_directory_path(instance, filename):
     return filename
 
 
+# set a default user profile picture when an user make a new account
+def get_default_profile_picture():
+    path = 'users/profile/default-user-profile-picture.jpg'
+    return path
+
+
 GENDER_CHOICES = (
     ('1', 'Male'),
     ('2', 'Female'),
@@ -99,6 +105,7 @@ class LanveUser(AbstractBaseUser):
         null=True,
     )
     profile_pic = models.ImageField(
+        default=get_default_profile_picture,
         verbose_name='profile pic',
         upload_to=profile_pic_directory_path,
         blank=True)
@@ -243,7 +250,7 @@ class Comment(models.Model):
         on_delete=models.CASCADE,
         related_name='contributor_comment',
     )
-    text = models.TextField('comment',)
+    text = models.TextField('comment', )
     created_at = models.DateTimeField(
         default=timezone.now)
 
