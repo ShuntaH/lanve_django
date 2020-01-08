@@ -1,7 +1,7 @@
 from django.forms import ModelForm
 from django.http import request
 
-from .models import Issue, Comment
+from .models import Issue, Comment, LanveUser
 
 
 class IssueCreateForm(ModelForm):
@@ -15,3 +15,12 @@ class CommentCreateForm(ModelForm):
         model = Comment
         fields = ('text',)
 
+
+class UserUpdateForm(ModelForm):
+    class Meta:
+        model = LanveUser
+        fields = (
+            'username',
+            'profile_pic',
+            'residence',
+        )

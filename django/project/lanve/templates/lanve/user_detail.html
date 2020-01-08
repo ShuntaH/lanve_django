@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 {% load static i18n bulma_tags lanve_tags %}
 
+
 {% block content_title %}
     <h1 class="title is-3">MyPage</h1>
 {% endblock content_title %}
 {% block content %}
     <div class="table-container">
-        <table class="table">
+        <table class="table table is-fullwidth">
             <tbody>
             <tr>
                 <th>username</th>
@@ -18,12 +19,15 @@
             </tr>
             <tr>
                 <th>Profile picture</th>
-                <td><img src="{{ user.profile_pic.url }}" alt="Your profile picture"></td>
+                <td>
+                    <figure class="image is-128x128">
+                        <img src="{{ user.profile_pic.url }}" alt="Your profile picture">
+                    </figure>
+                </td>
             </tr>
             <tr>
                 <th>Name</th>
-                <td>{{ user.first_name }}</td>
-                <td>{{ user.last_name }}</td>
+                <td>{{ user.first_name }} {{ user.last_name }}</td>
             </tr>
             <tr>
                 <th>Birthday</th>
@@ -31,23 +35,19 @@
             </tr>
             <tr>
                 <th>Gender</th>
-                <td>{{ user.gender }}</td>
+                <td>{{ user.get_gender_display }}</td>
             </tr>
             <tr>
                 <th>Nationality</th>
-                <td>{{ user.nationality }}</td>
+                <td>{{ user.get_nationality_display }}</td>
             </tr>
             <tr>
                 <th>Mother tongue</th>
-                <td>{{ user.mother_tongue }}</td>
+                <td>{{ user.get_mother_tongue_display }}</td>
             </tr>
             <tr>
                 <th>Residence</th>
-                <td>{{ user.residence }}</td>
-            </tr>
-            <tr>
-                <th>The number of your answer</th>
-                <td>{{ user.helpful|ratio:user.not_helpful }}</td>
+                <td>{{ user.get_residence_display }}</td>
             </tr>
             <tr>
                 <th>The number of your answer</th>
@@ -64,4 +64,5 @@
             </tbody>
         </table>
     </div>
+    <a class="button" href="{% url 'lanve:user_form' user.pk %}">Edit</a>
 {% endblock content %}

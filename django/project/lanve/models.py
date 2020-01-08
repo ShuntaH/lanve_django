@@ -7,6 +7,7 @@ from django.contrib.auth.models import (
 )
 from django.utils import timezone
 from languages.fields import RegionField, LanguageField
+from stdimage import StdImageField
 
 
 class LanveUserManager(BaseUserManager):
@@ -104,11 +105,17 @@ class LanveUser(AbstractBaseUser):
         blank=True,
         null=True,
     )
-    profile_pic = models.ImageField(
-        default=get_default_profile_picture,
-        verbose_name='profile pic',
+
+    profile_pic = StdImageField(
         upload_to=profile_pic_directory_path,
-        blank=True)
+        verbose_name='profile picture',
+        default=get_default_profile_picture,
+        blank=True,
+        variations={
+            'thumbnail': (300, 300, True),
+        },
+        delete_orphans=True)
+
     gender = models.CharField(
         "gender",
         max_length=2,

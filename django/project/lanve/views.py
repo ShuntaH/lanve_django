@@ -1,13 +1,15 @@
+from abc import ABC
+
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.shortcuts import get_object_or_404, redirect, resolve_url
 
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 
 from . import forms, models
 from .admin import UserCreationForm
-from .forms import IssueCreateForm, CommentCreateForm
+from .forms import IssueCreateForm, CommentCreateForm, UserUpdateForm
 from .models import Issue, Comment, LanveUser
 
 
@@ -71,7 +73,7 @@ class DetailView(LoginRequiredMixin, generic.DetailView, generic.edit.ModelFormM
     form_class = CommentCreateForm
 
     def get_context_data(self, **kwargs):
-        """Get the context for this view."""
+        """Get the context for this view. for comments"""
         issue_pk = self.kwargs['pk']
         comment = Comment.objects.filter(issue=issue_pk)
         context = super().get_context_data(**kwargs)
@@ -104,6 +106,23 @@ class DetailView(LoginRequiredMixin, generic.DetailView, generic.edit.ModelFormM
             return self.form_invalid(form)
 
 
-class MyPageTemplateView(generic.TemplateView):
-    template_name = 'lanve/mypage.html'
+# class OnlyYouMixin(UserPassesTestMixin):
+#     raise_exception = True
+#
+#     def see_only_by_myself(self, request):
+#         user = self.request.user
+#         return user.pk == self.kwargs['pk'] or user.is_superuser
 
+
+class UserDetailView(generic.DetailView, ABC):
+    model = LanveUser
+    template_name = 'lanve/user_detail.html'
+
+
+class UserUpdateView(generic.UpdateView, ABC):
+    model = LanveUser
+    form_class = UserUpdateForm
+    template_name = 'lanve/user_form.html'
+
+    def get_success_url(self):
+        return resolve_url('lanve:user_detail', pk=self.kwargs['pk'])

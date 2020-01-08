@@ -7,6 +7,7 @@ django-bulma==0.6.0
 django-cleanup==4.0.0
 django-countries==5.5
 django-language-fields==1.0.0
+django-stdimage==5.0.2
 entrypoints==0.3
 flake8==3.7.9
 ipython==7.11.0
@@ -18,12 +19,14 @@ parso==0.5.2
 pexpect==4.7.0
 pickleshare==0.7.5
 Pillow==6.2.1
+progressbar2==3.47.0
 prompt-toolkit==3.0.2
 ptyprocess==0.6.0
 pycodestyle==2.5.0
 pyflakes==2.1.1
 Pygments==2.5.2
 python-dotenv==0.10.3
+python-utils==2.3.0
 pytz==2019.3
 six==1.13.0
 sqlparse==0.3.0

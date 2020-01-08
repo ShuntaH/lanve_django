@@ -13,5 +13,6 @@ urlpatterns = [
     path(r'home/', views.ListView.as_view(), name='list'),
     path(r'add/', views.AddView.as_view(), name='add'),
     path(r'detail/<int:pk>/', views.DetailView.as_view(), name='detail'),
-    path(r'mypage', views.MyPageTemplateView.as_view(), name='mypage')
+    path(r'mypage/<int:pk>/', views.UserDetailView.as_view(), name='user_detail'),
+    path(r'mypage/update/<int:pk>', views.UserUpdateView.as_view(), name='user_form'),
 ]

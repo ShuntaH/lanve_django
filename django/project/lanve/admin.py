@@ -62,10 +62,11 @@ class UserChangeForm(forms.ModelForm):
         model = LanveUser
         fields = (
             'email',
-            'password',
             'username',
-            'date_of_birth',
             'profile_pic',
+            'first_name',
+            'last_name',
+            'date_of_birth',
             'gender',
             'nationality',
             'residence',
