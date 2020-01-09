@@ -15,21 +15,19 @@
                        data-target="{{ widget.name }}-preview"
                        data-initial="{{ widget.value.url }}">
                 <span class="file-cta">
-          <span class="file-icon">
-            <i class="fas fa-upload"></i>
-          </span>
-          <span class="file-label">
-            Choose a file…
-          </span>
-    </span>
-                <span class="file-name">
-      {{ widget.value }}
-    </span>
+                    <span class="file-icon">
+                      <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                      Choose a file…
+                    </span>
+                </span>
+                <span class="file-name">{{ widget.value }}</span>
             </label>
         </div>
         {% if widget.include_preview %}
             <figure class="image is-128x128">
-                <img src="{{ widget.value.url }}" id="{{ widget.name }}-preview" class="default-preview-img">
+                <img src="{{ widget.value.thumbnail.url }}" id="{{ widget.name }}-preview" class="default-preview-img">
             </figure>
         {% endif %}
     </div>

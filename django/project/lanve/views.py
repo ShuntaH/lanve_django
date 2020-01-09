@@ -14,7 +14,6 @@ from .models import Issue, Comment, LanveUser
 
 
 # Create your views here.
-
 class WelcomeView(generic.TemplateView):
     template_name = 'lanve/welcome.html'
 

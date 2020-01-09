@@ -20,7 +20,10 @@
     <h1 class="title is-3">MyPage Edit</h1>
 {% endblock content_title %}
 {% block content %}
-    <form class="user-update" id="user-update-form" method="post" action="{% url 'lanve:user_form' user.pk %}">
+    <form method="post"
+          action="{% url 'lanve:user_form' user.pk %}"
+          enctype="multipart/form-data"
+    >
         {% csrf_token %}
         {{ form.username|bulma }}
         {{ form.profile_pic }}
@@ -28,14 +31,11 @@
         {% if redirect_field_value %}
             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
         {% endif %}
-        <div class="field is-grouped">
-            <div class="control">
-                <button type="submit" class="button is-primary">{% trans "Update" %}</button>
-            </div>
-            <div class="control">
-                <a class="button is-link is-light" href="{% url 'lanve:user_detail' user.pk %}">Cancel</a>
-            </div>
-        </div>
-        {{ form.media }}
+        <button type="submit" class="button is-primary">{% trans "Update" %}</button>
+        <a class="button is-link is-light" href="{% url 'lanve:user_detail' user.pk %}">Cancel</a>
     </form>
 {% endblock content %}
+
+{% block extra_javascript %}
+    {{ form.media }}
+{% endblock %}
