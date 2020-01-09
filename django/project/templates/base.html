@@ -51,7 +51,7 @@
                         <a class="navbar-link is-arrowless"
                            href="{% url 'lanve:user_detail' user.pk %}">
                             {% if user.profile_pic %}
-                                <img src="{{ user.profile_pic.url }}" alt="profile pictures">
+                                <img src="{{ user.profile_pic.thumbnail.url }}" alt="profile pictures">
                             {% endif %}
                             <span>&nbsp;&nbsp;</span>
                             {{ user.username }}
