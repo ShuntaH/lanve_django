@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # my apps
     'lanve.apps.LanveConfig',
+    'django.forms',
     # third apps
     'bulma',
     'languages',
@@ -51,6 +52,8 @@ INSTALLED_APPS = [
     'django_cleanup',
     'stdimage',
 ]
+
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
 CRISPY_TEMPLATE_PACK = "bulma"
 

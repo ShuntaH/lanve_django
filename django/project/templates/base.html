@@ -32,12 +32,6 @@
                 <div class="navbar-end">
                     <div class="navbar-item is-hoverable">
                         <a class="navbar-link is-arrowless"
-                           href="{% url 'lanve:user_detail' user.pk %}">
-                            My Page
-                        </a>
-                    </div>
-                    <div class="navbar-item is-hoverable">
-                        <a class="navbar-link is-arrowless"
                            href="{% url 'lanve:add' %}">
                             New Post
                         </a>
@@ -54,10 +48,12 @@
                         </a>
                     </div>
                     <div class="navbar-item is-hoverable">
-                        {% if user.profile_pic %}
-                        <img src="{{ user.profile_pic.url }}" alt="profile pictures">
-                        {% endif %}
-                        <a class="navbar-link is-arrowless">
+                        <a class="navbar-link is-arrowless"
+                           href="{% url 'lanve:user_detail' user.pk %}">
+                            {% if user.profile_pic %}
+                                <img src="{{ user.profile_pic.url }}" alt="profile pictures">
+                            {% endif %}
+                            <span>&nbsp;&nbsp;</span>
                             {{ user.username }}
                         </a>
                     </div>

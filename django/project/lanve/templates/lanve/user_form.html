@@ -1,6 +1,21 @@
 {% extends 'base.html' %}
 {% load static i18n bulma_tags %}
 
+{% block hero %}
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Edit Mypage
+                </h1>
+                <h2 class="subtitle">
+                    form bangkok
+                </h2>
+            </div>
+        </div>
+    </section>
+{% endblock hero %}
+
 {% block content_title %}
     <h1 class="title is-3">MyPage Edit</h1>
 {% endblock content_title %}
@@ -8,9 +23,7 @@
     <form class="user-update" id="user-update-form" method="post" action="{% url 'lanve:user_form' user.pk %}">
         {% csrf_token %}
         {{ form.username|bulma }}
-       <div>
-           {{ form.profile_pic }}
-       </div>
+        {{ form.profile_pic }}
         {{ form.residence|bulma }}
         {% if redirect_field_value %}
             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
@@ -23,5 +36,6 @@
                 <a class="button is-link is-light" href="{% url 'lanve:user_detail' user.pk %}">Cancel</a>
             </div>
         </div>
+        {{ form.media }}
     </form>
 {% endblock content %}

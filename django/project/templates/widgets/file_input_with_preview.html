@@ -1,0 +1,36 @@
+<div class="field">
+    <label class="label">
+        Profile Picture
+    </label>
+    <div class="control">
+        <div class="file has-name is-warning">
+            <label class="file-label">
+                <input type="{{ widget.type }}"
+                       class="file-input"
+                       name="{{ widget.name }}"
+                        {% if widget.value != None %}
+                       value="{{ widget.value|stringformat:'s' }}"
+                        {% endif %}
+                        {% include "django/forms/widgets/attrs.html" %}
+                       data-target="{{ widget.name }}-preview"
+                       data-initial="{{ widget.value.url }}">
+                <span class="file-cta">
+          <span class="file-icon">
+            <i class="fas fa-upload"></i>
+          </span>
+          <span class="file-label">
+            Choose a file…
+          </span>
+    </span>
+                <span class="file-name">
+      {{ widget.value }}
+    </span>
+            </label>
+        </div>
+        {% if widget.include_preview %}
+            <figure class="image is-128x128">
+                <img src="{{ widget.value.url }}" id="{{ widget.name }}-preview" class="default-preview-img">
+            </figure>
+        {% endif %}
+    </div>
+</div>
