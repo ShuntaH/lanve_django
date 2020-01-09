@@ -1,6 +1,20 @@
 {% extends 'base.html' %}
 {% load static i18n bulma_tags %}
 
+{% block hero %}
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    投稿してね
+                </h1>
+                <h2 class="subtitle">
+                    form bangkok
+                </h2>
+            </div>
+        </div>
+    </section>
+{% endblock hero %}
 
 {% block content %}
     <form action="" method="post">

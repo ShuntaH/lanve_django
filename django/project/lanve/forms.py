@@ -2,6 +2,7 @@ from django.forms import ModelForm
 from django.http import request
 
 from .models import Issue, Comment, LanveUser
+from .widgets import FileInputWithPreview
 
 
 class IssueCreateForm(ModelForm):
@@ -24,3 +25,7 @@ class UserUpdateForm(ModelForm):
             'profile_pic',
             'residence',
         )
+        widgets = {
+            'profile_pic': FileInputWithPreview,
+        }
+

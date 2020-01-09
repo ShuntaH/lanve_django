@@ -111,6 +111,8 @@ class UserAdmin(BaseUserAdmin):
         (None, {'fields': ('email', 'password')}),
         ('Personal info', {'fields': (
             'username',
+            'first_name',
+            'last_name',
             'date_of_birth',
             'profile_pic',
             'gender',
