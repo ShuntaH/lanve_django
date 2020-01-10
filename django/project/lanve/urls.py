@@ -15,4 +15,5 @@ urlpatterns = [
     path(r'detail/<int:pk>/', views.DetailView.as_view(), name='detail'),
     path(r'mypage/<int:pk>/', views.UserDetailView.as_view(), name='user_detail'),
     path(r'mypage/update/<int:pk>', views.UserUpdateView.as_view(), name='user_form'),
+    path(r'related/', views.RelatingListView.as_view(), name='relating')
 ]

@@ -125,3 +125,18 @@ class UserUpdateView(generic.UpdateView, ABC):
 
     def get_success_url(self):
         return resolve_url('lanve:user_detail', pk=self.kwargs['pk'])
+
+
+class RelatingListView(LoginRequiredMixin, generic.ListView):
+    model = Issue  # make html file name as model name + list.html
+    ordering = ['-created_at']
+    paginate_by = 100
+    template_name = 'lanve/issue_relating_list.html'
+    login_url = 'lanve:signin'
+
+    def get_queryset(self):
+        user_pk = self.request.user.id
+        queryset = Issue.objects.filter(contributor=user_pk)  # 新しい投稿順
+        return queryset
+
+

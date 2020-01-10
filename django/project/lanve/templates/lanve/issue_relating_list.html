@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static i18n bulma_tags %}
+
+{% block hero %}
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    your ever relating issues
+                </h1>
+                <h2 class="subtitle">
+                    form bangkok
+                </h2>
+            </div>
+        </div>
+    </section>
+{% endblock hero %}
+
+{% block content %}
+    <div class="tabs is-centered tab-panel">
+        <ul>
+            <li class="tab tab-A"><a>Your issues</a></li>
+            <li class="tab tab-B"><a>Your answer</a></li>
+        </ul>
+    </div>
+
+    <div class="panel-group">
+        <div class="panel tab-A is-show">
+            {% for issue in issue_list %}
+                <div class="card">
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-left">
+                                <figure class="image is-48x48">
+                                    <a href="{% url 'lanve:user_detail' issue.contributor.pk %}">
+                                        <img src="{{ issue.contributor.profile_pic.thumbnail.url }}"
+                                             alt="profile picture">
+                                    </a>
+                                </figure>
+                            </div>
+                            <div class="media-content">
+                                <a href="{% url 'lanve:user_detail' issue.contributor.pk %}">
+                                    <p class="title is-4">{{ issue.contributor.username }}</p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <h2 class="is-size-3">{{ issue.question|urlize|truncatechars_html:100 }}</h2>
+                            <p>{{ issue.situation|linebreaksbr|urlize|truncatechars_html:250 }}</p>
+                            <div>
+                                <a class="button" href="{% url 'lanve:detail' issue.pk %}">I will help</a>
+                            </div>
+                            {# 同じネイティブがいいか判定　全員観れるがネイティブしか押せない　#}
+                            <a class="icon"><i class="fas fa-fw fa-thumbs-up"></i></a><span>0</span>
+                            <a class="icon"><i
+                                    class="fas fa-fw fa-flip-vertical fa-thumbs-up"></i></a><span>0</span>
+                            {# 質問者が助かったか判定　全員観れるが投稿者しか押せない#}
+                            <a class="icon"><i class="fas fa-fw fa-heart"></i></a>
+                            <small>
+                                <time datetime="{{ issue.created_at }}">{{ issue.created_at }}</time>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p>there is not any posts that you have ever posted yet.</p>
+            {% endfor %}
+        </div>
+        <div class="panel tab-B">
+            Content-B
+        </div>
+    </div>
+
+
+
+
+{% endblock %}
+
+{% block extra_javascript %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // タブに対してクリックイベントを適用
+            const tabs = document.getElementsByClassName('tab');
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].addEventListener('click', tabSwitch);
+            }
+
+            // タブをクリックすると実行する関数
+            function tabSwitch() {
+                // タブのclassの値を変更
+                document.getElementsByClassName('is-active')[0].classList.remove('is-active');
+                this.classList.add('is-active');
+                // コンテンツのclassの値を変更
+                document.getElementsByClassName('is-show')[0].classList.remove('is-show');
+                const arrayTabs = Array.prototype.slice.call(tabs);
+                const index = arrayTabs.indexOf(this);
+                document.getElementsByClassName('panel')[index].classList.add('is-show');
+            };
+        });
+    </script>
+{% endblock %}
