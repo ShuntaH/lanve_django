@@ -23,11 +23,15 @@
                 <div class="media">
                     <div class="media-left">
                         <figure class="image is-48x48">
-                            <img src="{{ issue.contributor.profile_pic.thumbnail.url }}" alt="profile picture">
+                            <a href="{% url 'lanve:user_detail' issue.contributor.pk %}">
+                                <img src="{{ issue.contributor.profile_pic.thumbnail.url }}" alt="profile picture">
+                            </a>
                         </figure>
                     </div>
                     <div class="media-content">
-                        <p class="title is-4">{{ issue.contributor.username }}</p>
+                        <a href="{% url 'lanve:user_detail' issue.contributor.pk %}">
+                            <p class="title is-4">{{ issue.contributor.username }}</p>
+                        </a>
                     </div>
                 </div>
                 <div class="content">
@@ -47,7 +51,7 @@
                 </div>
             </div>
         </div>
-        {% empty %}
+    {% empty %}
         <p>there is not any posts yet.</p>
     {% endfor %}
 {% endblock %}

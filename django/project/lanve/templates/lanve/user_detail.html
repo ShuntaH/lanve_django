@@ -26,58 +26,60 @@
             <tbody>
             <tr>
                 <th>username</th>
-                <td>{{ user.username }}</td>
+                <td>{{  lanveuser.username }}</td>
             </tr>
             <tr>
                 <th>Email</th>
-                <td>{{ user.email }}</td>
+                <td>{{ lanveuser.email }}</td>
             </tr>
             <tr>
                 <th>Profile picture</th>
                 <td>
                     <figure class="image is-128x128">
-                        <img src="{{ user.profile_pic.thumbnail.url }}" alt="Your profile picture">
+                        <img src="{{ lanveuser.profile_pic.thumbnail.url }}" alt="Your profile picture">
                     </figure>
                 </td>
             </tr>
             <tr>
                 <th>Name</th>
-                <td>{{ user.first_name }} {{ user.last_name }}</td>
+                <td>{{ lanveuser.first_name }} {{ lanveuser.last_name }}</td>
             </tr>
             <tr>
                 <th>Birthday</th>
-                <td>{{ user.date_of_birth }}</td>
+                <td>{{ lanveuser.date_of_birth }}</td>
             </tr>
             <tr>
                 <th>Gender</th>
-                <td>{{ user.get_gender_display }}</td>
+                <td>{{ lanveuser.get_gender_display }}</td>
             </tr>
             <tr>
                 <th>Nationality</th>
-                <td>{{ user.get_nationality_display }}</td>
+                <td>{{ lanveuser.get_nationality_display }}</td>
             </tr>
             <tr>
                 <th>Mother tongue</th>
-                <td>{{ user.get_mother_tongue_display }}</td>
+                <td>{{ lanveuser.get_mother_tongue_display }}</td>
             </tr>
             <tr>
                 <th>Residence</th>
-                <td>{{ user.get_residence_display }}</td>
+                <td>{{ lanveuser.get_residence_display }}</td>
             </tr>
             <tr>
                 <th>The number of your answer</th>
-                <td>{{ user.answer_num }}</td>
+                <td>{{ lanveuser.answer_num }}</td>
             </tr>
             <tr>
                 <th>Your ratio of 'helpful'</th>
-                <td>{{ user.helpful|ratio:user.not_helpful }}</td>
+                <td>{{ lanveuser.helpful|ratio:lanveuser.not_helpful }}</td>
             </tr>
             <tr>
                 <th>Your ratio of 'good'</th>
-                <td>{{ user.good|ratio:user.bad }}</td>
+                <td>{{ lanveuser.good|ratio:lanveuser.bad }}</td>
             </tr>
             </tbody>
         </table>
     </div>
+    {% if user.pk == lanveuser.pk %}
     <a class="button" href="{% url 'lanve:user_form' user.pk %}">Edit</a>
+    {% endif %}
 {% endblock content %}
