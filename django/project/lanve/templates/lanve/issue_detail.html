@@ -28,12 +28,19 @@
         <article class="media">
             <figure class="media-left">
                 <p class="image is-64x64">
-                    <img src="{{ comment.contributor.profile_pic.url }}" alt="contributor pic">
+                    <img src="{{ comment.contributor.profile_pic.thumbnail.url }}" alt="contributor pic">
                 </p>
             </figure>
             <div class="media-content">
                 <div class="content">
                     <p>
+                        {% if comment.contributor.username == user.username %}
+                            {#  もしcomment.contributorだとmodelのdef __str__(self):でemailが設定される#}
+                            <span class="has-text-weight-semibold">You</span>
+                        {% else %}
+                            <span class="has-text-weight-semibold"> {{ comment.contributor.username }}</span>
+                        {% endif %}
+                        <br>
                         {{ comment.text }}
                         <br>
                         <small><a>Like</a> · <a>Reply</a> · 3 hrs</small>

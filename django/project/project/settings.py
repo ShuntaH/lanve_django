@@ -169,3 +169,68 @@ if LogoutView doesn't have a next_page attribute.
 If None, no redirect will be performed and the logout view will be rendered.
 '''
 LOGOUT_REDIRECT_URL = 'lanve:welcome'
+
+# logging configuration
+# LOGGING = {
+#     # バージョンは1で固定
+#     'version': 1,
+#     # 既存のログ設定を無効化しない
+#     'disable_existing_loggers': False,
+#     # ログフォーマット
+#     'formatters': {
+#         # 開発用
+#         'develop': {
+#             'format': '%(asctime)s [%(levelname)s] %(pathname)s:%(lineno)d '
+#                       '%(message)s'
+#         },
+#     },
+#     # ハンドラ
+#     'handlers': {
+#         # コンソール出力用ハンドラ
+#         'console': {
+#             'level': 'DEBUG',
+#             'class': 'logging.StreamHandler',
+#             'formatter': 'develop',
+#         },
+#     },
+#     # ロガー
+#     'loggers': {
+#         # 自作アプリケーションz全般のログを拾うロガー
+#         # ロガー （loggers） に 「’’」 という設定を書くと
+#         # 独⾃に追加したアプリケーション全般のログを拾うことができるs。
+#         '': {
+#             'handlers': ['console'],
+#             'level': 'DEBUG',
+#             'propagate': False,
+#         },
+#         # django全般が出すエラーを拾うロガー
+#         'django': {
+#             'handlers': ['console'],
+#             'level': 'INFO',
+#             'propagate': False,
+#         },
+#         # 発行されるsql文を出力するための設定
+#         'django.db.backend': {
+#             'handlers': ['console'],
+#             'level': 'DEBUG',
+#             'propagate': False,
+#         },
+#     },
+# }
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django.db.backends': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    },
+}

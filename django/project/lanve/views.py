@@ -1,16 +1,18 @@
+import logging
 from abc import ABC
 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404, redirect, resolve_url
 
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.views import generic
 
-from . import forms, models
 from .admin import UserCreationForm
 from .forms import IssueCreateForm, CommentCreateForm, UserUpdateForm
 from .models import Issue, Comment, LanveUser
+
+logger = logging.getLogger(__name__)
 
 
 # Create your views here.
@@ -139,4 +141,11 @@ class RelatingListView(LoginRequiredMixin, generic.ListView):
         queryset = Issue.objects.filter(contributor=user_pk)  # 新しい投稿順
         return queryset
 
+    def get_context_data(self, **kwargs):
+        """Get the context for this view. for comments"""
+        user_pk = self.request.user.id
+        queryset = Issue.objects.filter(issue__contributor_id=user_pk)
+        context = super().get_context_data(**kwargs)
+        context['issue_answer_list'] = queryset
+        return context
 
