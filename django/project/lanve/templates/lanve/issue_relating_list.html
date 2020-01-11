@@ -17,15 +17,15 @@
 {% endblock hero %}
 
 {% block content %}
-    <div class="tabs is-centered tab-panel">
+    <div class="tabs is-centered">
         <ul>
-            <li class="tab tab-A"><a>Your issues</a></li>
-            <li class="tab tab-B"><a>Your answer</a></li>
+            <li class="tab is-active"><a>Your issues</a></li>
+            <li class="tab"><a>Your answer</a></li>
         </ul>
     </div>
 
-    <div class="panel-group">
-        <div class="panel tab-A is-show">
+    <div class="tab-contents">
+        <div class="tab-content is-invisible">
             {% for issue in issue_list %}
                 <div class="card">
                     <div class="card-content">
@@ -66,7 +66,7 @@
                 <p>there is not any posts that you have ever posted yet.</p>
             {% endfor %}
         </div>
-        <div class="panel tab-B">
+        <div class="tab-content">
             Content-B
         </div>
     </div>
@@ -91,11 +91,11 @@
                 document.getElementsByClassName('is-active')[0].classList.remove('is-active');
                 this.classList.add('is-active');
                 // コンテンツのclassの値を変更
-                document.getElementsByClassName('is-show')[0].classList.remove('is-show');
+                document.getElementsByClassName('is-invisible')[0].classList.remove('is-invisible');
                 const arrayTabs = Array.prototype.slice.call(tabs);
                 const index = arrayTabs.indexOf(this);
-                document.getElementsByClassName('panel')[index].classList.add('is-show');
-            };
+                document.getElementsByClassName('tab-content')[index].classList.add('is-invisible');
+            }
         });
     </script>
 {% endblock %}
