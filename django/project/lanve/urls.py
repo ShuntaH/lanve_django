@@ -15,5 +15,7 @@ urlpatterns = [
     path(r'detail/<int:pk>/', views.DetailView.as_view(), name='detail'),
     path(r'mypage/<int:pk>/', views.UserDetailView.as_view(), name='user_detail'),
     path(r'mypage/update/<int:pk>', views.UserUpdateView.as_view(), name='user_form'),
-    path(r'related/', views.RelatingListView.as_view(), name='relating')
+    path(r'relating/', views.RelatingListView.as_view(), name='relating'),
+    path('password_change/', views.PasswordChange.as_view(), name='password_change'),
+    path('password_change/done/', views.PasswordChangeDone.as_view(), name='password_change_done'),
 ]
