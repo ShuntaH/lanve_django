@@ -2,7 +2,9 @@ import logging
 from abc import ABC
 
 from django.contrib import messages
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView
 from django.shortcuts import get_object_or_404, redirect, resolve_url
 
 from django.urls import reverse_lazy
@@ -119,6 +121,19 @@ class UserUpdateView(LoginRequiredMixin, generic.UpdateView, ABC):
 
     def get_success_url(self):
         return resolve_url('lanve:user_detail', pk=self.kwargs['pk'])
+
+
+class PasswordChange(LoginRequiredMixin,PasswordChangeView):
+    """パスワード変更ビュー"""
+    form_class = PasswordChangeForm
+    success_url = reverse_lazy('lanve:password_change_done')
+    template_name = 'lanve/user_password_change.html'
+
+
+class PasswordChangeDone(PasswordChangeDoneView):
+    """パスワード変更しました"""
+    template_name = 'lanve/user_password_change_done.html'
+
 
 
 class RelatingListView(LoginRequiredMixin, generic.ListView):
