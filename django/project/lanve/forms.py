@@ -28,4 +28,3 @@ class UserUpdateForm(ModelForm):
         widgets = {
             'profile_pic': FileInputWithPreview,
         }
-

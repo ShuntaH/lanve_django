@@ -2,9 +2,10 @@ import logging
 from abc import ABC
 
 from django.contrib import messages
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm, SetPasswordForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView
+from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView, PasswordResetView, \
+    PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 from django.shortcuts import get_object_or_404, redirect, resolve_url
 
 from django.urls import reverse_lazy
@@ -19,10 +20,12 @@ logger = logging.getLogger(__name__)
 
 # Create your views here.
 class WelcomeView(generic.TemplateView):
+    """Top page for users who is not logged in"""
     template_name = 'lanve/welcome.html'
 
 
 class SignupView(generic.CreateView):
+    """Sign up View"""
     form_class = UserCreationForm
     success_url = reverse_lazy('lanve:signin')
 
@@ -32,7 +35,34 @@ class SignupView(generic.CreateView):
         return response
 
 
+class MyPasswordResetView(PasswordResetView):
+    """set email and send email to reset password View"""
+    subject_template_name = 'mailtemplates/password_reset/subject.txt'
+    email_template_name = 'mailtemplates/password_reset/message.txt'
+    template_name = 'password_reset_form.html'
+    success_url = reverse_lazy('lanve:password_reset_done')
+
+
+class MyPasswordResetDoneView(PasswordResetDoneView):
+    """page which notice that email already sent View"""
+    template_name = 'password_reset_done.html'
+
+
+class MyPasswordResetConfirmView(PasswordResetConfirmView):
+    """page to input new password View"""
+    form_class = SetPasswordForm
+    success_url = reverse_lazy('lanve:password_reset_complete')
+    template_name = 'password_reset_confirm.html'
+
+
+class MyPasswordResetCompleteView(PasswordResetCompleteView):
+    """page that notice new password set View"""
+    template_name = 'password_reset_complete.html'
+
+
 class ListView(generic.ListView, LoginRequiredMixin):
+    """Timeline page with Issue list View"""
+
     model = Issue  # make html file name as model name + list.html
     ordering = ['-created_at']
     paginate_by = 100
@@ -54,6 +84,7 @@ class ListView(generic.ListView, LoginRequiredMixin):
 
 
 class AddView(LoginRequiredMixin, generic.CreateView):
+    """Create new issues View"""
     model = Issue
     form_class = IssueCreateForm
     login_url = 'lanve:signin'
@@ -71,6 +102,7 @@ class AddView(LoginRequiredMixin, generic.CreateView):
 
 
 class DetailView(LoginRequiredMixin, generic.DetailView, generic.edit.ModelFormMixin):
+    """Details of each issue View"""
     login_url = 'lanve:signin'
     model = Issue
     form_class = CommentCreateForm
@@ -110,11 +142,13 @@ class DetailView(LoginRequiredMixin, generic.DetailView, generic.edit.ModelFormM
 
 
 class UserDetailView(LoginRequiredMixin, generic.DetailView, ABC):
+    """User detail page View"""
     model = LanveUser
     template_name = 'lanve/user_detail.html'
 
 
 class UserUpdateView(LoginRequiredMixin, generic.UpdateView, ABC):
+    """User update page View"""
     model = LanveUser
     form_class = UserUpdateForm
     template_name = 'lanve/user_form.html'
@@ -123,20 +157,20 @@ class UserUpdateView(LoginRequiredMixin, generic.UpdateView, ABC):
         return resolve_url('lanve:user_detail', pk=self.kwargs['pk'])
 
 
-class PasswordChange(LoginRequiredMixin,PasswordChangeView):
-    """パスワード変更ビュー"""
+class MyPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
+    """Password change View"""
     form_class = PasswordChangeForm
     success_url = reverse_lazy('lanve:password_change_done')
     template_name = 'lanve/user_password_change.html'
 
 
-class PasswordChangeDone(PasswordChangeDoneView):
-    """パスワード変更しました"""
+class MyPasswordChangeDoneVIew(PasswordChangeDoneView):
+    """Password change is done View"""
     template_name = 'lanve/user_password_change_done.html'
 
 
-
 class RelatingListView(LoginRequiredMixin, generic.ListView):
+    """Lists you are related View"""
     model = Issue  # make html file name as model name + list.html
     ordering = ['-created_at']
     paginate_by = 100
