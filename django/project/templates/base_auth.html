@@ -9,6 +9,7 @@
     {% block css %}
         {% font_awesome %}
         <link rel="stylesheet" href="{% static 'bulma/css/style.min.css' %}">
+         <link rel="stylesheet" href="{% static 'lanve/scss/base_auth.css' %}">
         {% block extra_css %}{% endblock extra_css %}
     {% endblock css %}
 </head>
@@ -58,7 +59,7 @@
 <section class="section">
     <div class="container">
         <div class="columns is-desktop">
-            <div class="column">
+            <div class="column is-three-fifths-desktop is-offset-one-fifth-desktop">
                 {% block messages %}
                     {% if messages %}
                         <div class="messages columns is-desktop">
