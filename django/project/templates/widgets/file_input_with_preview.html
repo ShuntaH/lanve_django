@@ -26,8 +26,8 @@
             </label>
         </div>
         {% if widget.include_preview %}
-            <figure class="image is-128x128">
-                <img src="{{ widget.value.thumbnail.url }}" id="{{ widget.name }}-preview" class="default-preview-img">
+            <figure class="image is-128x128" style="margin-top: 16px;">
+                <img src="{{ widget.value.thumbnail.url }}" id="{{ widget.name }}-preview" class="default-preview-img" alt="{{ widget.value.thumbnail.url }}">
             </figure>
         {% endif %}
     </div>

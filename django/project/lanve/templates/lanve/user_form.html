@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% load static i18n bulma_tags %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'lanve/scss/user_form.css' %}">
+{% endblock %}
+
 {% block hero %}
     <section class="hero is-primary">
         <div class="hero-body">
@@ -25,14 +29,22 @@
           enctype="multipart/form-data"
     >
         {% csrf_token %}
-        {{ form.username|bulma }}
-        {{ form.profile_pic }}
-        {{ form.residence|bulma }}
+        <div class="username">
+            {{ form.username|bulma }}
+        </div>
+        <div class="profile-pic">
+            {{ form.profile_pic }}
+        </div>
+        <div class="residence">
+            {{ form.residence|bulma }}
+        </div>
         {% if redirect_field_value %}
             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
         {% endif %}
-        <button type="submit" class="button is-primary">{% trans "Update" %}</button>
-        <a class="button is-link is-light" href="{% url 'lanve:user_detail' user.pk %}">Cancel</a>
+        <div class="button-row">
+            <button type="submit" class="button is-primary">{% trans "Update" %}</button>
+            <a class="button is-link is-light" href="{% url 'lanve:user_detail' user.pk %}">Cancel</a>
+        </div>
     </form>
 {% endblock content %}
 
