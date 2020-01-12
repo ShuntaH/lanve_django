@@ -115,12 +115,12 @@ class DetailView(LoginRequiredMixin, generic.DetailView, generic.edit.ModelFormM
 #         return user.pk == self.kwargs['pk'] or user.is_superuser
 
 
-class UserDetailView(generic.DetailView, ABC):
+class UserDetailView(LoginRequiredMixin, generic.DetailView, ABC):
     model = LanveUser
     template_name = 'lanve/user_detail.html'
 
 
-class UserUpdateView(generic.UpdateView, ABC):
+class UserUpdateView(LoginRequiredMixin, generic.UpdateView, ABC):
     model = LanveUser
     form_class = UserUpdateForm
     template_name = 'lanve/user_form.html'
