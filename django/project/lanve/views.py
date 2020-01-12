@@ -139,7 +139,7 @@ class RelatingListView(LoginRequiredMixin, generic.ListView):
         queryset = Issue.objects\
             .select_related()\
             .filter(issue__contributor_id=user_pk)\
-            .order_by()\
+            .order_by('-created_at')\
             .distinct()
         context = super().get_context_data(**kwargs)
         context['issue_answer_list'] = queryset
