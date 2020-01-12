@@ -76,7 +76,7 @@ class DetailView(LoginRequiredMixin, generic.DetailView, generic.edit.ModelFormM
     def get_context_data(self, **kwargs):
         """Get the context for this view. for comments"""
         issue_pk = self.kwargs['pk']
-        comment = Comment.objects.filter(issue=issue_pk)
+        comment = Comment.objects.select_related().filter(issue=issue_pk)
         context = super().get_context_data(**kwargs)
         context['comments'] = comment
         return context
@@ -107,14 +107,6 @@ class DetailView(LoginRequiredMixin, generic.DetailView, generic.edit.ModelFormM
             return self.form_invalid(form)
 
 
-# class OnlyYouMixin(UserPassesTestMixin):
-#     raise_exception = True
-#
-#     def see_only_by_myself(self, request):
-#         user = self.request.user
-#         return user.pk == self.kwargs['pk'] or user.is_superuser
-
-
 class UserDetailView(LoginRequiredMixin, generic.DetailView, ABC):
     model = LanveUser
     template_name = 'lanve/user_detail.html'
@@ -138,13 +130,17 @@ class RelatingListView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         user_pk = self.request.user.id
-        queryset = Issue.objects.filter(contributor=user_pk)  # 新しい投稿順
+        queryset = Issue.objects.select_related().filter(contributor=user_pk)  # 新しい投稿順
         return queryset
 
     def get_context_data(self, **kwargs):
         """Get the context for this view. for comments"""
         user_pk = self.request.user.id
-        queryset = Issue.objects.filter(issue__contributor_id=user_pk)
+        queryset = Issue.objects\
+            .select_related()\
+            .filter(issue__contributor_id=user_pk)\
+            .order_by()\
+            .distinct()
         context = super().get_context_data(**kwargs)
         context['issue_answer_list'] = queryset
         return context
