@@ -9,8 +9,9 @@
     {% block css %}
         {% font_awesome %}
         <link rel="stylesheet" href="{% static 'bulma/css/style.min.css' %}">
-         <link rel="stylesheet" href="{% static 'lanve/scss/base_auth.css' %}">
-        {% block extra_css %}{% endblock extra_css %}
+        {% block extra_css %}
+            <link rel="stylesheet" href="{% static 'lanve/scss/base_auth.css' %}">
+        {% endblock extra_css %}
     {% endblock css %}
 </head>
 <body>
@@ -59,7 +60,9 @@
 <section class="section">
     <div class="container">
         <div class="columns is-desktop">
+            {% block window_width %}
             <div class="column is-three-fifths-desktop is-offset-one-fifth-desktop">
+            {% endblock window_width %}
                 {% block messages %}
                     {% if messages %}
                         <div class="messages columns is-desktop">
