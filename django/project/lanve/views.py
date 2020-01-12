@@ -130,7 +130,7 @@ class RelatingListView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         user_pk = self.request.user.id
-        queryset = Issue.objects.select_related().filter(contributor=user_pk)  # 新しい投稿順
+        queryset = Issue.objects.select_related().filter(contributor=user_pk) 
         return queryset
 
     def get_context_data(self, **kwargs):
