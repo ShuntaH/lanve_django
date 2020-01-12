@@ -125,3 +125,29 @@ class UserUpdateView(generic.UpdateView, ABC):
 
     def get_success_url(self):
         return resolve_url('lanve:user_detail', pk=self.kwargs['pk'])
+
+
+class RelatingListView(LoginRequiredMixin, generic.ListView):
+    model = Issue  # make html file name as model name + list.html
+    ordering = ['-created_at']
+    paginate_by = 100
+    template_name = 'lanve/issue_relating_list.html'
+    login_url = 'lanve:signin'
+
+    def get_queryset(self):
+        user_pk = self.request.user.id
+        queryset = Issue.objects.select_related().filter(contributor=user_pk) 
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        """Get the context for this view. for comments"""
+        user_pk = self.request.user.id
+        queryset = Issue.objects\
+            .select_related()\
+            .filter(issue__contributor_id=user_pk)\
+            .order_by('-created_at')\
+            .distinct()
+        context = super().get_context_data(**kwargs)
+        context['issue_answer_list'] = queryset
+        return context
+
