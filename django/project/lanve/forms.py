@@ -5,6 +5,8 @@ from .models import Issue, Comment, LanveUser
 from .widgets import FileInputWithPreview
 
 
+# django2.2以降,Metaのなかでgroup_byのクエリに対してorderingを使わない。
+# viewsでorder_byでソートする
 class IssueCreateForm(ModelForm):
     class Meta:
         model = Issue

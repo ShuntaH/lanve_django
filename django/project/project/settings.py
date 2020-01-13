@@ -99,7 +99,7 @@ DATABASES = {
         'HOST': 'db',
         'PORT': '3306',
         'OPTIONS': {'charset': 'utf8mb4',
-                    'sql_mode': 'TRADITIONAL,NO_AUTO_VALUE_ON_ZERO,ONLY_FULL_GROUP_BY',
+                    'sql_mode': 'TRADITIONAL,NO_AUTO_VALUE_ON_ZERO',
                     },
         'AUTOMATIC_REQUESTS': True,  # transaction now is working
     }
@@ -235,7 +235,12 @@ LOGGING = {
     },
 }
 
-#DataFlair
+# Mail
+
+# develop
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# production
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True

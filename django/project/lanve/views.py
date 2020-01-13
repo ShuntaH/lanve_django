@@ -6,6 +6,7 @@ from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm, Set
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView, PasswordResetView, \
     PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
+from django.db.models import Count
 from django.shortcuts import get_object_or_404, redirect, resolve_url
 
 from django.urls import reverse_lazy
@@ -110,7 +111,11 @@ class DetailView(LoginRequiredMixin, generic.DetailView, generic.edit.ModelFormM
     def get_context_data(self, **kwargs):
         """Get the context for this view. for comments"""
         issue_pk = self.kwargs['pk']
-        comment = Comment.objects.select_related().filter(issue=issue_pk)
+        comment = Comment.objects.select_related()\
+            .filter(issue=issue_pk)\
+            .annotate(
+                favorite_count=Count('favorite_comment')
+            )
         context = super().get_context_data(**kwargs)
         context['comments'] = comment
         return context

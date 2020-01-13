@@ -135,26 +135,6 @@ class LanveUser(AbstractBaseUser):
         max_length=8,
         blank=True
     )
-    answer_num = models.IntegerField(
-        verbose_name='the numbers of answer',
-        default=0
-    )
-    helpful = models.IntegerField(
-        verbose_name='the numbers of helpful',
-        default=0
-    )
-    not_helpful = models.IntegerField(
-        verbose_name='the numbers of not helpful',
-        default=0
-    )
-    good = models.IntegerField(
-        verbose_name='the numbers of good',
-        default=0
-    )
-    bad = models.IntegerField(
-        verbose_name='the numbers of bad',
-        default=0
-    )
 
     created_at = models.DateTimeField('Created at', default=timezone.now)
 
@@ -266,3 +246,30 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.text[:10]
+
+
+class FavoriteManager(models.Manager):
+    def create_favorite(self, ip_address, comment_id):
+        favorite = self.model(
+            ip_address=ip_address,
+            comment_id=comment_id
+        )
+        try:
+            favorite.save()
+        except:
+            return False
+        return True
+
+
+class Favorite(models.Model):
+    ip_address = models.CharField('IP Address', max_length=50)
+    comment = models.ForeignKey(
+        Comment,
+        on_delete=models.CASCADE,
+        related_name='favorite_comment'
+    )
+
+    objects = FavoriteManager()
+
+    def __str__(self):
+        return '{}-{}-favorite'.format(self.comment.text[:10], self.comment.issue.question[:10])

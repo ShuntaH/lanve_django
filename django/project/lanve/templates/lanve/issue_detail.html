@@ -43,7 +43,9 @@
                         <br>
                         {{ comment.text }}
                         <br>
-                        <small><a>Like</a> · <a>Reply</a> · 3 hrs</small>
+                        <small><a class="icon"><i class="fas fa-fw fa-heart"></i></a>
+                               <span>{{comment.favorite_count}}</span>
+                            · <a>Reply</a> · 3 hrs</small>
                     </p>
                 </div>
                 {#                <article class="media">#}
