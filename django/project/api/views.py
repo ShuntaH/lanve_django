@@ -6,7 +6,7 @@ from lanve.models import Favorite
 
 class CreateFavoriteView(View):
     """
-    いいね投票作成処理を行う
+    いいね作成処理を行う
     """
 
     def post(self, request, *args, **kwargs):
@@ -50,7 +50,7 @@ def get_client_ip(request):
 
 class DeleteFavoriteView(View):
     """
-    いいね投票作成処理を行う
+    いいねdelete処理を行う
     """
 
     def post(self, request, *args, **kwargs):
@@ -66,7 +66,7 @@ class DeleteFavoriteView(View):
         comment_id = request.POST['comment_id']
         ip_address = get_client_ip(request)
 
-        # Favoriteの保存に成功した場合のみ成功
+        # Favoriteのdeleteに成功した場合のみ成功
         if Favorite.objects.filter(comment_id=comment_id, ip_address=ip_address).delete():
             res['result'] = True
             res['message'] = 'deleted a favorite!!'
