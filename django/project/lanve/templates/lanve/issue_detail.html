@@ -1,29 +1,43 @@
 {% extends 'base.html' %}
 {% load static i18n bulma_tags %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'lanve/scss/issue_list.css' %}">
+{% endblock %}
+
 {% block content %}
     <div class="media">
         <div class="media-left">
             <figure class="image is-48x48">
-                <img src="{{ issue.contributor.profile_pic.thumbnail.url }}" alt="profile picture">
+                <a href="{% url 'lanve:user_detail' issue.contributor.pk %}">
+                    <img src="{{ issue.contributor.profile_pic.thumbnail.url }}" alt="profile picture">
+                </a>
             </figure>
         </div>
         <div class="media-content">
-            <p class="title is-4">{{ issue.contributor.username }}</p>
+            <a href="{% url 'lanve:user_detail' issue.contributor.pk %}">
+                <p class="title is-4">{{ issue.contributor.username }}</p>
+            </a>
         </div>
     </div>
     <div class="content">
-        <h2 class="is-size-3">{{ issue.question|linebreaksbr|urlize }}</h2>
-        <p>{{ issue.situation|linebreaksbr|urlize }}</p>
-        {# 同じネイティブがいいか判定 全員観れるがネイティブしか押せない　#}
-        {#        <a class="icon"><i class="fas fa-fw fa-thumbs-up"></i></a><span>0</span>#}
-        {#        <a class="icon"><i class="fas fa-fw fa-flip-vertical fa-thumbs-up"></i></a><span>0</span>#}
-        {# 質問者が助かったか判定 全員観れるが投稿者しか押せない#}
-        {#        <a class="icon"><i class="fas fa-fw fa-heart"></i></a>#}
+        <p><small class="has-text-weight-semibold">Question</small>
+            <br>
+            <a class="is-size-3" href="{% url 'lanve:detail' issue.pk %}">
+                {{ issue.question|urlize|truncatechars_html:100 }}
+            </a>
+        </p>
+        <p class="situation-border"><small class="has-text-weight-semibold">Situation</small>
+            <br>
+            {{ issue.situation|linebreaksbr|urlize|truncatechars_html:250 }}
+        </p>
         <small>
             <time datetime="{{ issue.created_at }}">{{ issue.created_at }}</time>
+            &nbsp;&nbsp;
+            <span>{{ issue.created_at|timesince }}</span>
         </small>
     </div>
+    <hr>
     {% for comment in comments %}
         <article class="media">
             <figure class="media-left">
@@ -45,9 +59,11 @@
                         <br>
                         <small><a class="icon favorite-link" data-comment-id="{{ comment.id }}"
                                   data-count="{{ comment.favorite_count }}">
-                            <i class="fas fa-fw fa-heart"></i>
-                        </a>
+                            <i class="fas fa-fw fa-heart color-heart"></i>
+                            &nbsp;
                             <span class="favorite_counter">{{ comment.favorite_count }}</span>
+                        </a>
+
                             · <a>Reply</a> · 3 hrs</small>
                     </p>
                 </div>
@@ -75,7 +91,7 @@
             </div>
         </article>
     {% empty %}
-        <p>No comments yet</p>
+        <p class="is-size-4">No comments yet</p>
     {% endfor %}
 
     <form class="media" method="post" action="">

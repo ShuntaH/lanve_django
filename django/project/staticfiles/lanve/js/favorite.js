@@ -36,11 +36,13 @@ $(function () {
 
     function onClickFavoriteLink() {
         $('.favorite-link').on('click', function () {
-            const commentId = $(this).data('comment-id');
-            const currentCount = $(this).data('count');
-            const countViewer = $(this).find('.favorite_counter');
+            let commentId = $(this).data('comment-id');
+            let currentCount = $(this).data('count');
+            let countViewer = $(this).find('.favorite_counter');
             if (favoriteList.indexOf(commentId) < 0) {
                 favorite(commentId, currentCount, countViewer);
+            } else if (favoriteList.indexOf(commentId) >= 0){
+                delete_favorite(commentId, currentCount, countViewer);
             }
         });
     }
@@ -68,4 +70,33 @@ $(function () {
             }
         );
     }
+
+    function delete_favorite(commentId, currentCount, countViewer) {
+        let url = '/api/v1/delete_favorite/';
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: {
+                comment_id: commentId
+            }
+        }).then(
+            data => {
+                if (data.result) {
+                    countViewer.text(currentCount);
+                    const index = favoriteList.indexOf(commentId);
+                    if (index > -1) {
+                        favoriteList.splice(index, 1);
+                    }
+                }
+            }
+            ,
+            error => {
+                if (error.responseJSON.message) {
+                    alert(error.responseJSON.message);
+                }
+            }
+        );
+    }
 });
+
+
