@@ -16,6 +16,7 @@ from .admin import UserCreationForm
 from .forms import IssueCreateForm, CommentCreateForm, UserUpdateForm
 from .models import Issue, Comment, LanveUser
 
+
 logger = logging.getLogger(__name__)
 
 

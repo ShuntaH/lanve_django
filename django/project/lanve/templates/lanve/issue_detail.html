@@ -43,8 +43,11 @@
                         <br>
                         {{ comment.text }}
                         <br>
-                        <small><a class="icon"><i class="fas fa-fw fa-heart"></i></a>
-                               <span>{{comment.favorite_count}}</span>
+                        <small><a class="icon favorite-link" data-comment-id="{{ comment.id }}"
+                                  data-count="{{ comment.favorite_count }}">
+                            <i class="fas fa-fw fa-heart"></i>
+                        </a>
+                            <span class="favorite_counter">{{ comment.favorite_count }}</span>
                             · <a>Reply</a> · 3 hrs</small>
                     </p>
                 </div>
@@ -89,4 +92,8 @@
             </div>
         </div>
     </form>
+{% endblock %}
+
+{% block extra_javascript %}
+    <script src="{% static 'lanve/js/favorite.js' %}"></script>
 {% endblock %}

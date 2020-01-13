@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # my apps
     'lanve.apps.LanveConfig',
+    'api.apps.ApiConfig',
     'django.forms',
     # third apps
     'bulma',
