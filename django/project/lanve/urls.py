@@ -22,5 +22,5 @@ urlpatterns = [
     path('password_reset/done/', views.MyPasswordResetDoneView.as_view(), name='password_reset_done'),
     path('password_reset/confirm/<uidb64>/<token>/', views.MyPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('password_reset/complete/', views.MyPasswordResetCompleteView.as_view(), name='password_reset_complete'),
-    # path('post//ine_ajax/', views.add_ine, name='favorite'),
+
 ]
