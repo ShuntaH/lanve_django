@@ -23,7 +23,7 @@ class CreateFavoriteView(View):
         ip_address = get_client_ip(request)
 
         # 既にIP登録があればコンフリクト
-        if Favorite.objects.filter(comment_id=comment_id, ip_address=ip_address):
+        if Favorite.objects.select_related().filter(comment_id=comment_id, ip_address=ip_address):
             res['message'] = 'favo済みです'
             return JsonResponse(res, status=409)
 
@@ -67,7 +67,7 @@ class DeleteFavoriteView(View):
         ip_address = get_client_ip(request)
 
         # Favoriteのdeleteに成功した場合のみ成功
-        if Favorite.objects.filter(comment_id=comment_id, ip_address=ip_address).delete():
+        if Favorite.objects.select_related().filter(comment_id=comment_id, ip_address=ip_address).delete():
             res['result'] = True
             res['message'] = 'deleted a favorite!!'
             return JsonResponse(res, status=201)
