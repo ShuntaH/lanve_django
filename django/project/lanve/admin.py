@@ -98,11 +98,6 @@ class UserAdmin(BaseUserAdmin):
         'nationality',
         'residence',
         'mother_tongue',
-        'answer_num',
-        'helpful',
-        'not_helpful',
-        'good',
-        'bad',
         'is_admin',
         'is_active',
     )
@@ -119,11 +114,6 @@ class UserAdmin(BaseUserAdmin):
             'nationality',
             'residence',
             'mother_tongue',
-            'answer_num',
-            'helpful',
-            'not_helpful',
-            'good',
-            'bad',
         )}),
         ('Permissions', {'fields': (
             'is_admin',
