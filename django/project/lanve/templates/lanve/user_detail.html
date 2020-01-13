@@ -28,10 +28,12 @@
                 <th>username</th>
                 <td>{{  lanveuser.username }}</td>
             </tr>
+            {% if user.pk == lanveuser.pk %}
             <tr>
                 <th>Email</th>
                 <td>{{ lanveuser.email }}</td>
             </tr>
+            {% endif %}
             <tr>
                 <th>Profile picture</th>
                 <td>
@@ -40,10 +42,12 @@
                     </figure>
                 </td>
             </tr>
+            {% if user.pk == lanveuser.pk %}
             <tr>
                 <th>Name</th>
                 <td>{{ lanveuser.first_name }} {{ lanveuser.last_name }}</td>
             </tr>
+            {% endif %}
             <tr>
                 <th>Birthday</th>
                 <td>{{ lanveuser.date_of_birth }}</td>

@@ -1,0 +1,8 @@
+Dear {{ user.username }}
+
+Reset your password as you following bellow this url.
+
+Url for reset password
+{{ protocol}}://{{ domain }}{% url 'lanve:password_reset_confirm' uid token %}
+
+Lanve
