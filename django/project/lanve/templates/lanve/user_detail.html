@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% load static i18n bulma_tags lanve_tags %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'lanve/scss/issue_list.css' %}">
+{% endblock %}
+
 
 {% block hero %}
     <section class="hero is-primary">
@@ -21,69 +25,173 @@
     <h1 class="title is-3">MyPage</h1>
 {% endblock content_title %}
 {% block content %}
-    <div class="table-container">
-        <table class="table table is-fullwidth">
-            <tbody>
-            <tr>
-                <th>username</th>
-                <td>{{  lanveuser.username }}</td>
-            </tr>
-            {% if user.pk == lanveuser.pk %}
-            <tr>
-                <th>Email</th>
-                <td>{{ lanveuser.email }}</td>
-            </tr>
-            {% endif %}
-            <tr>
-                <th>Profile picture</th>
-                <td>
-                    <figure class="image is-128x128">
-                        <img src="{{ lanveuser.profile_pic.thumbnail.url }}" alt="Your profile picture">
-                    </figure>
-                </td>
-            </tr>
-            {% if user.pk == lanveuser.pk %}
-            <tr>
-                <th>Name</th>
-                <td>{{ lanveuser.first_name }} {{ lanveuser.last_name }}</td>
-            </tr>
-            {% endif %}
-            <tr>
-                <th>Birthday</th>
-                <td>{{ lanveuser.date_of_birth }}</td>
-            </tr>
-            <tr>
-                <th>Gender</th>
-                <td>{{ lanveuser.get_gender_display }}</td>
-            </tr>
-            <tr>
-                <th>Nationality</th>
-                <td>{{ lanveuser.get_nationality_display }}</td>
-            </tr>
-            <tr>
-                <th>Mother tongue</th>
-                <td>{{ lanveuser.get_mother_tongue_display }}</td>
-            </tr>
-            <tr>
-                <th>Residence</th>
-                <td>{{ lanveuser.get_residence_display }}</td>
-{#            </tr>#}
-{#            <tr>#}
-{#                <th>The number of your answer</th>#}
-{#                <td>{{ lanveuser.answer_num }}</td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <th>Your ratio of 'helpful'</th>#}
-{#                <td>{{ lanveuser.helpful|ratio:lanveuser.not_helpful }}</td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <th>Your ratio of 'good'</th>#}
-{#                <td>{{ lanveuser.good|ratio:lanveuser.bad }}</td>#}
-{#            </tr>#}
-            </tbody>
-        </table>
-    </div>
-    {% if user.pk == lanveuser.pk %}
-    <a class="button" href="{% url 'lanve:user_form' user.pk %}">Edit</a>
-    {% endif %}
+    {% block user_informaiton %}
+        <div class="table-container">
+            <table class="table table is-fullwidth">
+                <tbody>
+                <tr>
+                    <th>username</th>
+                    <td>{{ lanveuser.username }}</td>
+                </tr>
+                {% if user.pk == lanveuser.pk %}
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ lanveuser.email }}</td>
+                    </tr>
+                {% endif %}
+                <tr>
+                    <th>Profile picture</th>
+                    <td>
+                        <figure class="image is-128x128">
+                            <img src="{{ lanveuser.profile_pic.thumbnail.url }}" alt="Your profile picture">
+                        </figure>
+                    </td>
+                </tr>
+                {% if user.pk == lanveuser.pk %}
+                    <tr>
+                        <th>Name</th>
+                        <td>{{ lanveuser.first_name }} {{ lanveuser.last_name }}</td>
+                    </tr>
+                {% endif %}
+                <tr>
+                    <th>Birthday</th>
+                    <td>{{ lanveuser.date_of_birth }}</td>
+                </tr>
+                <tr>
+                    <th>Gender</th>
+                    <td>{{ lanveuser.get_gender_display }}</td>
+                </tr>
+                <tr>
+                    <th>Nationality</th>
+                    <td>{{ lanveuser.get_nationality_display }}</td>
+                </tr>
+                <tr>
+                    <th>Mother tongue</th>
+                    <td>{{ lanveuser.get_mother_tongue_display }}</td>
+                </tr>
+                <tr>
+                    <th>Residence</th>
+                    <td>{{ lanveuser.get_residence_display }}</td>
+                    {#            </tr>#}
+                    {#            <tr>#}
+                    {#                <th>The number of your answer</th>#}
+                    {#                <td>{{ lanveuser.answer_num }}</td>#}
+                    {#            </tr>#}
+                    {#            <tr>#}
+                    {#                <th>Your ratio of 'helpful'</th>#}
+                    {#                <td>{{ lanveuser.helpful|ratio:lanveuser.not_helpful }}</td>#}
+                    {#            </tr>#}
+                    {#            <tr>#}
+                    {#                <th>Your ratio of 'good'</th>#}
+                    {#                <td>{{ lanveuser.good|ratio:lanveuser.bad }}</td>#}
+                    {#            </tr>#}
+                </tbody>
+            </table>
+        </div>
+        {% if user.pk == lanveuser.pk %}
+            <a class="button is-info" href="{% url 'lanve:user_form' user.pk %}">Edit</a>
+        {% endif %}
+    {% endblock user_informaiton %}
+    {% block user_related %}
+        <div class="tabs is-centered">
+            <ul>
+                <li class="has-text-weight-semibold tab is-active"><a>{{ lanveuser.username }} Issues</a></li>
+                <li class="has-text-weight-semibold tab"><a>{{ lanveuser.username }} Comments</a></li>
+            </ul>
+        </div>
+
+        <div class="tab-contents">
+            <div class="tab-content">
+                {% for issue in issue_list %}
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-left">
+                                    <figure class="image is-48x48">
+                                        <a href="{% url 'lanve:user_detail' issue.contributor.pk %}">
+                                            <img src="{{ issue.contributor.profile_pic.thumbnail.url }}"
+                                                 alt="profile picture">
+                                        </a>
+                                    </figure>
+                                </div>
+                                <div class="media-content">
+                                    <a href="{% url 'lanve:user_detail' issue.contributor.pk %}">
+                                        <p class="title is-4">{{ issue.contributor.username }}</p>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="content">
+                                <p><small class="has-text-weight-semibold">Question</small>
+                                    <br>
+                                    <a class="is-size-3" href="{% url 'lanve:detail' issue.pk %}">
+                                        {{ issue.question|urlize|truncatechars_html:100 }}
+                                    </a>
+                                </p>
+                                <p class="situation-border"><small class="has-text-weight-semibold">Situation</small>
+                                    <br>
+                                    {{ issue.situation|linebreaksbr|urlize|truncatechars_html:250 }}
+                                </p>
+                                <a class="icon"><i class="fas fa-fw fa-heart color-heart"></i></a>
+                                <small>
+                                    <time datetime="{{ issue.created_at }}">{{ issue.created_at }}</time>
+                                    &nbsp;&nbsp;
+                                    <span>{{ issue.created_at|timesince }}</span>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>there is not any posts that you have ever posted yet.</p>
+                {% endfor %}
+            </div>
+
+            <div class="tab-content is-hidden">
+                {% for issue_commented in issue_commented_list %}
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-left">
+                                    <figure class="image is-48x48">
+                                        <a href="{% url 'lanve:user_detail' issue_commented.contributor.pk %}">
+                                            <img src="{{ issue_commented.contributor.profile_pic.thumbnail.url }}"
+                                                 alt="profile picture">
+                                        </a>
+                                    </figure>
+                                </div>
+                                <div class="media-content">
+                                    <a href="{% url 'lanve:user_detail' issue_commented.contributor.pk %}">
+                                        <p class="title is-4">{{ issue_commented.contributor.username }}</p>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="content">
+                                <p><small class="has-text-weight-semibold">Question</small>
+                                    <br>
+                                    <a class="is-size-3" href="{% url 'lanve:detail' issue_commented.pk %}">
+                                        {{ issue_commented.question|urlize|truncatechars_html:100 }}
+                                    </a>
+                                </p>
+                                <p class="situation-border"><small class="has-text-weight-semibold">Situation</small>
+                                    <br>
+                                    {{ issue_commented.situation|linebreaksbr|urlize|truncatechars_html:250 }}
+                                </p>
+                                <a class="icon"><i class="fas fa-fw fa-heart color-heart"></i></a>
+                                <small>
+                                    <time datetime="{{ issue_commented.created_at }}">{{ issue_commented.created_at }}</time>
+                                    &nbsp;&nbsp;
+                                    <span>{{ issue_commented.created_at|timesince }}</span>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>there is not any posts that you have ever posted yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    {% endblock user_related %}
 {% endblock content %}
+
+{% block extra_javascript %}
+    <script src="{% static 'lanve/js/tabSwitch.js' %}"></script>
+{% endblock %}

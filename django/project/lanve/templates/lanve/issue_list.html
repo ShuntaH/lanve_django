@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% load static i18n bulma_tags %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'lanve/scss/issue_list.css' %}">
+{% endblock %}
+
 {% block hero %}
     <section class="hero is-primary">
         <div class="hero-body">
@@ -35,18 +39,21 @@
                     </div>
                 </div>
                 <div class="content">
-                    <h2 class="is-size-3">{{ issue.question|urlize|truncatechars_html:100 }}</h2>
-                    <p>{{ issue.situation|linebreaksbr|urlize|truncatechars_html:250 }}</p>
-                    <div>
-                        <a class="button" href="{% url 'lanve:detail' issue.pk %}">I will help</a>
-                    </div>
-                    {# 同じネイティブがいいか判定　全員観れるがネイティブしか押せない　#}
-                    <a class="icon"><i class="fas fa-fw fa-thumbs-up"></i></a><span>0</span>
-                    <a class="icon"><i class="fas fa-fw fa-flip-vertical fa-thumbs-up"></i></a><span>0</span>
-                    {# 質問者が助かったか判定　全員観れるが投稿者しか押せない#}
-                    <a class="icon"><i class="fas fa-fw fa-heart"></i></a>
+                    <p><small class="has-text-weight-semibold">Question</small>
+                        <br>
+                        <a class="is-size-3" href="{% url 'lanve:detail' issue.pk %}">
+                            {{ issue.question|urlize|truncatechars_html:100 }}
+                        </a>
+                    </p>
+                    <p class="situation-border"><small class="has-text-weight-semibold">Situation</small>
+                        <br>
+                        {{ issue.situation|linebreaksbr|urlize|truncatechars_html:250 }}
+                    </p>
+                    <a class="icon"><i class="fas fa-fw fa-heart color-heart"></i></a>
                     <small>
                         <time datetime="{{ issue.created_at }}">{{ issue.created_at }}</time>
+                        &nbsp;&nbsp;
+                        <span>{{ issue.created_at|timesince }}</span>
                     </small>
                 </div>
             </div>
