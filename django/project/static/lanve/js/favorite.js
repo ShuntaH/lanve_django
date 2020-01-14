@@ -9,9 +9,9 @@ $(function () {
         }
     });
 
-    var votedList = [];// 連打防止用のコメントID格納リスト
+    const favoriteList = [];// 連打防止用のコメントID格納リスト
     // いいねボタン押下時の処理
-    onClickVoteButton();
+    onClickFavoriteLink();
 
     function getCookie(name) {
         let cookieValue = null;
@@ -34,20 +34,22 @@ $(function () {
         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
     }
 
-    function onClickVoteButton() {
-        $('.vote_button').on('click', function () {
-            const commentId = $(this).data('comment-id');
-            const currentCount = $(this).data('count');
-            const countViewer = $(this).find('.vote_counter');
-            if (votedList.indexOf(commentId) < 0) {
-                vote(commentId, currentCount, countViewer);
+    function onClickFavoriteLink() {
+        $('.favorite-link').on('click', function () {
+            let commentId = $(this).data('comment-id');
+            let currentCount = $(this).data('count');
+            let countViewer = $(this).find('.favorite_counter');
+            if (favoriteList.indexOf(commentId) < 0) {
+                favorite(commentId, currentCount, countViewer);
+            } else if (favoriteList.indexOf(commentId) >= 0){
+                delete_favorite(commentId, currentCount, countViewer);
             }
         });
     }
 
     // ajax通信して投票結果を反映する
-    function vote(commentId, currentCount, countViewer) {
-        let url = '/api/v1/vote/';
+    function favorite(commentId, currentCount, countViewer) {
+        let url = '/api/v1/favorite/';
         $.ajax({
             type: 'POST',
             url: url,
@@ -58,7 +60,7 @@ $(function () {
             data => {
                 if (data.result) {
                     countViewer.text(currentCount + 1);
-                    votedList.push(commentId);
+                    favoriteList.push(commentId);
                 }
             },
             error => {
@@ -68,4 +70,33 @@ $(function () {
             }
         );
     }
+
+    function delete_favorite(commentId, currentCount, countViewer) {
+        let url = '/api/v1/delete_favorite/';
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: {
+                comment_id: commentId
+            }
+        }).then(
+            data => {
+                if (data.result) {
+                    countViewer.text(currentCount);
+                    const index = favoriteList.indexOf(commentId);
+                    if (index > -1) {
+                        favoriteList.splice(index, 1);
+                    }
+                }
+            }
+            ,
+            error => {
+                if (error.responseJSON.message) {
+                    alert(error.responseJSON.message);
+                }
+            }
+        );
+    }
 });
+
+

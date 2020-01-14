@@ -27,14 +27,19 @@
                 {{ issue.question|urlize|truncatechars_html:100 }}
             </a>
         </p>
-        <p class="situation-border"><small class="has-text-weight-semibold">Situation</small>
+        <p class="situation-border has-background-white"><small class="has-text-weight-semibold">Situation</small>
             <br>
             {{ issue.situation|linebreaksbr|urlize|truncatechars_html:250 }}
         </p>
         <small>
-            <time datetime="{{ issue.created_at }}">{{ issue.created_at }}</time>
-            &nbsp;&nbsp;
-            <span>{{ issue.created_at|timesince }}</span>
+            <time datetime="{{ issue.updated_at }}"><span
+                    class="has-text-info">Updated:</span> <span class="has-text-grey">{{ issue.updated_at }}</span>
+            </time>
+            <span class="has-text-grey-light">{{ issue.updated_at|timesince }}</span>
+            &nbsp;
+            <time datetime="{{ issue.created_at }}"><span
+                    class="has-text-info">Created:</span> <span
+                    class="has-text-grey">{{ issue.created_at }}</span></time>
         </small>
     </div>
     <hr>
@@ -50,7 +55,7 @@
                     <p>
                         {% if comment.contributor.username == user.username %}
                             {#  もしcomment.contributorだとmodelのdef __str__(self):でemailが設定される#}
-                            <span class="has-text-weight-semibold">You</span>
+                            <span class="has-text-weight-semibold">You ({{ user.username }})</span>
                         {% else %}
                             <span class="has-text-weight-semibold"> {{ comment.contributor.username }}</span>
                         {% endif %}
@@ -64,7 +69,8 @@
                             <span class="favorite_counter">{{ comment.favorite_count }}</span>
                         </a>
 
-                            · <a>Reply</a> · 3 hrs</small>
+                            · <a>Reply</a> · <span class="has-text-grey">{{ comment.updated_at }}</span>&nbsp;
+                            <span class="has-text-grey-light">{{ comment.updated_at|timesince }}</span></small>
                     </p>
                 </div>
                 {#                <article class="media">#}

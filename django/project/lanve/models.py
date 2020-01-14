@@ -136,7 +136,10 @@ class LanveUser(AbstractBaseUser):
         blank=True
     )
 
-    created_at = models.DateTimeField('Created at', default=timezone.now)
+    # auto_now_add はインスタンスの作成(DBにINSERT)する度に更新
+    created_at = models.DateTimeField('created_at', auto_now_add=True)
+    # # auto_now=Trueの場合はモデルインスタンスを保存する度に現在の時間で更新
+    updated_at = models.DateTimeField('update_at', auto_now=True)
 
     is_staff = models.BooleanField(
         'staff status',
@@ -191,8 +194,10 @@ class Relationship(models.Model):
         related_name='followers',
         on_delete=models.CASCADE,
     )
-    created_at = models.DateTimeField(
-        default=timezone.now)
+    # auto_now_add はインスタンスの作成(DBにINSERT)する度に更新
+    created_at = models.DateTimeField('created_at', auto_now_add=True)
+    # # auto_now=Trueの場合はモデルインスタンスを保存する度に現在の時間で更新
+    updated_at = models.DateTimeField('update_at', auto_now=True)
 
     class Meta:
         ordering = ['-created_at']
@@ -214,8 +219,10 @@ class Issue(models.Model):
         on_delete=models.SET(set_default_contributor_issue_deleted),
         related_name='contributor_issue',
     )
-    created_at = models.DateTimeField(
-        default=timezone.now)
+    # auto_now_add はインスタンスの作成(DBにINSERT)する度に更新
+    created_at = models.DateTimeField('created_at', auto_now_add=True)
+    # # auto_now=Trueの場合はモデルインスタンスを保存する度に現在の時間で更新
+    updated_at = models.DateTimeField('update_at', auto_now=True)
 
     class Meta:
         ordering = ['-created_at']
@@ -238,8 +245,10 @@ class Comment(models.Model):
         related_name='contributor_comment',
     )
     text = models.TextField('comment', )
-    created_at = models.DateTimeField(
-        default=timezone.now)
+    # auto_now_add はインスタンスの作成(DBにINSERT)する度に更新
+    created_at = models.DateTimeField('created_at', auto_now_add=True)
+    # # auto_now=Trueの場合はモデルインスタンスを保存する度に現在の時間で更新
+    updated_at = models.DateTimeField('update_at', auto_now=True)
 
     class Meta:
         ordering = ['-created_at']
@@ -268,6 +277,10 @@ class Favorite(models.Model):
         on_delete=models.CASCADE,
         related_name='favorite_comment'
     )
+    # auto_now_add はインスタンスの作成(DBにINSERT)する度に更新
+    created_at = models.DateTimeField('created_at', auto_now_add=True)
+    # # auto_now=Trueの場合はモデルインスタンスを保存する度に現在の時間で更新
+    updated_at = models.DateTimeField('update_at', auto_now=True)
 
     objects = FavoriteManager()
 

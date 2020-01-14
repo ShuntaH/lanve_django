@@ -9,6 +9,7 @@
     {% block css %}
         {% font_awesome %}
         <link rel="stylesheet" href="{% static 'bulma/css/style.min.css' %}">
+        <link rel="stylesheet" href="{% static 'lanve/scss/base.css' %}">
         {% block extra_css %}{% endblock extra_css %}
     {% endblock css %}
 </head>
@@ -32,13 +33,17 @@
                     <div class="navbar-item is-hoverable">
                         <a class="navbar-link is-arrowless"
                            href="{% url 'lanve:add' %}">
-                            New Post
+                            <i class="fas fa-edit fa-lg color-post"></i>
+                            <span>&nbsp;&nbsp;</span>
+                            <small>Post</small>
                         </a>
                     </div>
                     <div class="navbar-item is-hoverable">
                         <a class="navbar-link is-arrowless"
                            href="{% url 'lanve:signout' %}">
-                            Sign Out
+                            <i class="fas fa-sign-out-alt fa-lg color-singout"></i>
+                            <span>&nbsp;&nbsp;</span>
+                            <small>Sign Out</small>
                         </a>
                     </div>
                     <div class="navbar-item is-hoverable">
@@ -48,7 +53,7 @@
                                 <img src="{{ user.profile_pic.thumbnail.url }}" alt="profile pictures">
                             {% endif %}
                             <span>&nbsp;&nbsp;</span>
-                            {{ user.username }}
+                            <span>{{ user.username }}</span>
                         </a>
                     </div>
                 </div>
@@ -59,7 +64,7 @@
 
 {% block hero %}{% endblock hero %}
 
-<section class="section">
+<section class="section has-background-white-bis">
     <div class="container">
         <div class="columns is-desktop">
             <div class="column is-three-fifths-desktop is-offset-one-fifth-desktop">
@@ -88,7 +93,7 @@
 {% block modal %}{% endblock modal %}
 
 {% block footer %}
-    <footer class="footer">
+    <footer class="footer has-background-white-ter">
         <div class="container">
             <div class="content has-text-centered">
                 <p>
@@ -108,34 +113,7 @@
 {% endblock footer %}
 
 {% block javascript %}
-    <script>
-        // toggle burger-menu
-        {#for (const el of document.getElementsByClassName('navbar-burger')) {#}
-        {#    const menuId = el.dataset.target;#}
-        {#    const menu = document.getElementById(menuId);#}
-        {#    el.addEventListener('click', e => {#}
-        {#        el.classList.toggle('is-active');#}
-        {#        menu.classList.toggle('is-active');#}
-        {#    });#}
-        document.addEventListener('DOMContentLoaded', () => {
-            // Get all "navbar-burger" elements
-            const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
-            // Check if there are any navbar burgers
-            if ($navbarBurgers.length > 0) {
-                // Add a click event on each of them
-                $navbarBurgers.forEach(el => {
-                    el.addEventListener('click', () => {
-                        // Get the target from the "data-target" attribute
-                        const target = el.dataset.target;
-                        const $target = document.getElementById(target);
-                        // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-                        el.classList.toggle('is-active');
-                        $target.classList.toggle('is-active');
-                    });
-                });
-            }
-        });
-    </script>
+    <script src="{% static 'lanve/js/burgers.js' %}"></script>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
