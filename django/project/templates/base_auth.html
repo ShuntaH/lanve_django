@@ -34,7 +34,7 @@
                     {% url 'lanve:signin' as login_url %}
                     {% if login_url %}
                         <a class="navbar-item is-hidden-desktop-only" href="{{ login_url }}">
-                            Sign In
+                           <i class="fas fa-sign-in-alt"><small> Sign In</small></i>
                         </a>
                     {% endif %}
                     {#                    {% url 'lanve:signin' as login_auth_url %}#}
@@ -46,7 +46,7 @@
                     {% url 'lanve:signup' as signup_url %}
                     {% if signup_url %}
                         <a class="navbar-item is-hidden-desktop-only" href="{{ signup_url }}">
-                            Sign Up
+                            <i class="fas fa-sign-out-alt"><small> Sign Up</small></i>
                         </a>
                     {% endif %}
                 </div>
@@ -57,29 +57,29 @@
 
 {% block hero %}{% endblock hero %}
 
-<section class="section">
+<section class="section has-background-white-bis">
     <div class="container">
         <div class="columns is-desktop">
             {% block window_width %}
-            <div class="column is-three-fifths-desktop is-offset-one-fifth-desktop">
+                <div class="column is-three-fifths-desktop is-offset-one-fifth-desktop">
             {% endblock window_width %}
-                {% block messages %}
-                    {% if messages %}
-                        <div class="messages columns is-desktop">
-                            <div class="column is-full">
-                                {% for message in messages %}
-                                    <div class="message {% if message.tags %}is-{{ message.tags|bulma_message_tag }}{% endif %}">
-                                        <div class="message-body">{{ message }}</div>
-                                    </div>
-                                {% endfor %}
-                            </div>
+            {% block messages %}
+                {% if messages %}
+                    <div class="messages columns is-desktop">
+                        <div class="column is-full">
+                            {% for message in messages %}
+                                <div class="message {% if message.tags %}is-{{ message.tags|bulma_message_tag }}{% endif %}">
+                                    <div class="message-body">{{ message }}</div>
+                                </div>
+                            {% endfor %}
                         </div>
-                    {% endif %}
-                {% endblock messages %}
-                {% block content_area %}
-                    {% block content_title %}{% endblock content_title %}
-                    {% block content %}{% endblock content %}
-                {% endblock content_area %}
+                    </div>
+                {% endif %}
+            {% endblock messages %}
+            {% block content_area %}
+                {% block content_title %}{% endblock content_title %}
+                {% block content %}{% endblock content %}
+            {% endblock content_area %}
             </div>
         </div>
     </div>
@@ -88,7 +88,7 @@
 {% block modal %}{% endblock modal %}
 
 {% block footer %}
-    <footer class="footer">
+    <footer class="footer has-background-white-ter">
         <div class="container">
             <div class="content has-text-centered">
                 <p>
@@ -108,26 +108,7 @@
 {% endblock footer %}
 
 {% block javascript %}
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Get all "navbar-burger" elements
-            const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
-            // Check if there are any navbar burgers
-            if ($navbarBurgers.length > 0) {
-                // Add a click event on each of them
-                $navbarBurgers.forEach(el => {
-                    el.addEventListener('click', () => {
-                        // Get the target from the "data-target" attribute
-                        const target = el.dataset.target;
-                        const $target = document.getElementById(target);
-                        // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-                        el.classList.toggle('is-active');
-                        $target.classList.toggle('is-active');
-                    });
-                });
-            }
-        });
-    </script>
+    <script src="{% static 'lanve/js/burgers.js' %}"></script>
     {% block extra_javascript %}{% endblock extra_javascript %}
 {% endblock javascript %}
 </body>

@@ -26,8 +26,8 @@
 {% endblock content_title %}
 {% block content %}
     {% block user_informaiton %}
-        <div class="table-container">
-            <table class="table table is-fullwidth">
+        <div class="table-container user-information-table">
+            <table class="table table is-fullwidth has-background-white-bis">
                 <tbody>
                 <tr>
                     <th>username</th>
@@ -89,11 +89,11 @@
             </table>
         </div>
         {% if user.pk == lanveuser.pk %}
-            <a class="button is-info" href="{% url 'lanve:user_form' user.pk %}">Edit</a>
+            <a class="button is-info" href="{% url 'lanve:user_form' user.pk %}"><i class="fas fa-user-edit"> Edit</i></a>
         {% endif %}
     {% endblock user_informaiton %}
     {% block user_related %}
-        <div class="tabs is-centered">
+        <div class="tabs is-centered switch-tabs">
             <ul>
                 <li class="has-text-weight-semibold tab is-active"><a>{{ lanveuser.username }} Issues</a></li>
                 <li class="has-text-weight-semibold tab"><a>{{ lanveuser.username }} Comments</a></li>
