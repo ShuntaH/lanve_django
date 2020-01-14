@@ -69,19 +69,20 @@ class ListView(generic.ListView, LoginRequiredMixin):
     paginate_by = 100
     login_url = 'lanve:signin'
 
-    # def get_queryset(self):
-    #     queryset = Issue.objects.all().order_by('-created_at')  # 新しい投稿順
-    #     keyword = self.request.GET.get('keyword')
-    #     if keyword:
-    #         queryset = queryset.filter(
-    #             Q(title__icontains=keyword) | Q(text__icontains=keyword)
-    #
-    #         )
-    #     return queryset
+    def get_queryset(self):
+        user_mother_tongue = self.request.user.mother_tongue
+        queryset = Issue.objects \
+            .filter(language_to=user_mother_tongue) \
+            .order_by('-created_at')
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     return context
+
+        # keyword = self.request.GET.get('keyword')
+        # if keyword:
+        #     queryset = queryset.filter(
+        #         Q(title__icontains=keyword) | Q(text__icontains=keyword)
+        #
+        #     )
+        return queryset
 
 
 class AddView(LoginRequiredMixin, generic.CreateView):
@@ -94,9 +95,7 @@ class AddView(LoginRequiredMixin, generic.CreateView):
     def form_valid(self, form):
         messages.success(self.request, 'Your issue was posted successfully')
         issue = form.save(commit=False)
-        form.instance.user = self.request.user
-        user = form.instance.user
-        issue.contributor = user
+        issue.contributor = self.request.user
         issue.save()
         response = super().form_valid(form)
         return response
@@ -173,7 +172,7 @@ class UserDetailView(LoginRequiredMixin, generic.DetailView, ABC):
         queryset_issue = Issue.objects \
             .select_related() \
             .filter(contributor=user_pk) \
-            .order_by('-created_at')
+            .order_by('-updated_at')
         context = super().get_context_data(**kwargs)
         context['issue_list'] = queryset_issue
         context['issue_commented_list'] = queryset_issue_commented

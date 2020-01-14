@@ -19,6 +19,8 @@
 {% block content %}
     <form action="" method="post">
         {% csrf_token %}
+        <p class="is-size-4 has-text-weight-semibold">What language do you want to translate to ?</p>
+        {{ form.language_to|bulma }}
         <p class="is-size-4 has-text-weight-semibold">Create a sentence you want to translate</p>
         {{ form.question|bulma }}
         <p class="is-size-4 has-text-weight-semibold" style="margin-top: 40px">Explain a situation you are in</p>

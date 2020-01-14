@@ -19,6 +19,16 @@
                 <p class="title is-4">{{ issue.contributor.username }}</p>
             </a>
         </div>
+        <div class="media-right">
+            <span class="has-text-weight-semibold">
+                Translate: To {{ issue.get_language_to_display }}
+                {% with '/flags/'|add:issue.language_to|add:'.gif' as flags_static %}
+                    <img class="is-32x32" src="{% static flags_static %}" alt="a national flag">
+                {% endwith %}
+                <br>
+                 view: {{ issue.count_view }}
+            </span>
+        </div>
     </div>
     <div class="content">
         <p><small class="has-text-weight-semibold">Question</small>

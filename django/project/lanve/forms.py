@@ -10,7 +10,7 @@ from .widgets import FileInputWithPreview
 class IssueCreateForm(ModelForm):
     class Meta:
         model = Issue
-        fields = ('question', 'situation')
+        fields = ('question', 'situation', 'language_to')
 
 
 class CommentCreateForm(ModelForm):
