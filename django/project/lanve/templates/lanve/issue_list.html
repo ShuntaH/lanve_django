@@ -21,6 +21,7 @@
 {% endblock hero %}
 
 {% block content %}
+    <p class="lang-issue has-text-grey has-text-weight-semibold">Issues For {{ user.get_mother_tongue_display }} Speaker</p>
     {% for issue in issue_list %}
         <div class="card">
             <div class="card-content">
@@ -37,8 +38,15 @@
                             <p class="title is-4">{{ issue.contributor.username }}</p>
                         </a>
                     </div>
-                     <div class="media-right">
-                        <span class="has-text-weight-semibold"> view: {{ issue.count_view }}</span>
+                    <div class="media-right">
+                        <span class="has-text-weight-semibold">
+                            Translate: To {{ issue.get_language_to_display }}
+                            {% with '/flags/'|add:issue.language_to|add:'.gif' as flags_static %}
+                                <img class="is-32x32" src="{% static flags_static %}" alt="a national flag">
+                            {% endwith %}
+                            <br>
+                             view: {{ issue.count_view }}
+                        </span>
                     </div>
                 </div>
                 <div class="content">
@@ -55,11 +63,13 @@
                     <a class="icon"><i class="fas fa-fw fa-heart color-heart"></i></a>
                     <small>
                         <time datetime="{{ issue.updated_at }}"><span
-                                class="has-text-info">Updated:</span><span class="has-text-grey-light">{{ issue.updated_at }}</span></time>
+                                class="has-text-info">Updated:</span><span
+                                class="has-text-grey-light">{{ issue.updated_at }}</span></time>
                         <span class="has-text-grey-lighter">{{ issue.updated_at|timesince }}</span>
                         &nbsp;
                         <time datetime="{{ issue.created_at }}"><span
-                                class="has-text-info">Created:</span> <span class="has-text-grey-light">{{ issue.created_at }}</span></time>
+                                class="has-text-info">Created:</span> <span
+                                class="has-text-grey-light">{{ issue.created_at }}</span></time>
                     </small>
                 </div>
             </div>
