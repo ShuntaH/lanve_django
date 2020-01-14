@@ -16,7 +16,6 @@ from .admin import UserCreationForm
 from .forms import IssueCreateForm, CommentCreateForm, UserUpdateForm
 from .models import Issue, Comment, LanveUser
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -110,13 +109,23 @@ class DetailView(LoginRequiredMixin, generic.DetailView, generic.edit.ModelFormM
     form_class = CommentCreateForm
 
     def get_context_data(self, **kwargs):
-        """Get the context for this view. for comments"""
+        """
+        Get the context for this view. for comments
+        and count the number of view
+        """
+
+        # 閲覧数をカウント
+        issue = self.get_object()
+        issue.count_view += 1
+        issue.save()
+
+        # このissueのコメントを取得
         issue_pk = self.kwargs['pk']
-        comment = Comment.objects.select_related()\
-            .filter(issue=issue_pk)\
+        comment = Comment.objects.select_related() \
+            .filter(issue=issue_pk) \
             .annotate(
-                favorite_count=Count('favorite_comment')
-            )
+            favorite_count=Count('favorite_comment')
+        )
         context = super().get_context_data(**kwargs)
         context['comments'] = comment
         return context
@@ -191,5 +200,3 @@ class MyPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
 class MyPasswordChangeDoneVIew(PasswordChangeDoneView):
     """Password change is done View"""
     template_name = 'lanve/user_password_change_done.html'
-
-
