@@ -72,6 +72,7 @@ class ListView(generic.ListView, LoginRequiredMixin):
     def get_queryset(self):
         user_mother_tongue = self.request.user.mother_tongue
         queryset = Issue.objects \
+            .select_related() \
             .filter(language_to=user_mother_tongue) \
             .order_by('-created_at')
 
