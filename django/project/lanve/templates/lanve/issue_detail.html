@@ -124,7 +124,8 @@
     <form class="media" method="post" action="">
         {% csrf_token %}
         <figure class="media-left">
-            <p class="image is-64x64"><img src="{{ user.profile_pic.thumbnail.url }}"></p>
+            <p class="image is-64x64">
+                <img src="{{ user.profile_pic.thumbnail.url }}" alt="{{ user.profile_pic }}"></p>
         </figure>
         <div class="media-content">
             <div class="field"><p class="control">{{ form.text|bulma }}</p></div>

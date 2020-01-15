@@ -22,12 +22,10 @@
 
 {% block content %}
     <p class="lang-issue has-text-grey has-text-weight-semibold">
-
        <small>Issues to {{ user.get_mother_tongue_display }} speakers</small>
         {% with '/flags/'|add:user.nationality|lower|add:'.gif' as flags_static %}
-            <img class="is-32x32" src="{% static flags_static %}" alt="a national flag">
+            <img class="is-32x32" src="{% static flags_static %}" alt="{{ user.get_nationality_display }}">
         {% endwith %}
-
     </p>
     {% for issue in issue_list %}
         <div class="card">
@@ -50,7 +48,7 @@
                             {{ issue.contributor.get_mother_tongue_display }}
                             {% with '/flags/'|add:issue.contributor.nationality|lower|add:'.gif' as flags_static %}
                                 {% if flags_static %}
-                                <img class="is-32x32" src="{% static flags_static %}" alt="a national flag">
+                                <img class="is-32x32" src="{% static flags_static %}" alt="{{ issue.contributor.get_mother_tongue_display }}g">
                                 {% endif %}
                             {% endwith %}
                             <i class="fas fa-arrow-right"></i>

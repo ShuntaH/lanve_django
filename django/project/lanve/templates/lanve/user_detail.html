@@ -182,7 +182,10 @@
                                          Translate:
                                         {{ issue_commented.contributor.get_mother_tongue_display }}
                                         {% with '/flags/'|add:issue_commented.contributor.nationality|lower|add:'.gif' as flags_static %}
-                                            <img class="is-32x32" src="{% static flags_static %}" alt="a national flag">
+                                            <img class="is-32x32"
+                                                 src="{% static flags_static %}"
+                                                 alt="{{ issue_commented.contributor.get_nationality_display }}"
+                                            >
                                         {% endwith %}
                                         <i class="fas fa-arrow-right"></i>
                                         {{ issue_commented.get_language_to_display }}
