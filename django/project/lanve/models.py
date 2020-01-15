@@ -136,7 +136,6 @@ class LanveUser(AbstractBaseUser):
         blank=True
     )
 
-
     # auto_now_add はインスタンスの作成(DBにINSERT)する度に更新
     created_at = models.DateTimeField('created_at', auto_now_add=True)
     # # auto_now=Trueの場合はモデルインスタンスを保存する度に現在の時間で更新
@@ -210,6 +209,11 @@ class Relationship(models.Model):
 def set_default_contributor_issue_deleted():
     contributor = 'Disappeared user'
     return contributor
+
+
+def set_default_region_issue_deleted():
+    region_contributor = 'unknown'
+    return region_contributor
 
 
 class Issue(models.Model):

@@ -32,9 +32,18 @@
   }
 }
 
-//fontawesome
-.color-heart {
-  color: palevioletred;
+
+
+//user detail table
+.table-container.user-information-table {
+  margin-bottom: 26px;
 }
 
+.tabs.switch-tabs {
+  margin-top: 40px;
+}
 
+// リスト先頭の何語向けかの文章
+.lang-issue {
+  margin-bottom: 20px;
+}
