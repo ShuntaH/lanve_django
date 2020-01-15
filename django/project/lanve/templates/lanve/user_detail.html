@@ -89,7 +89,8 @@
             </table>
         </div>
         {% if user.pk == lanveuser.pk %}
-            <a class="button is-info" href="{% url 'lanve:user_form' user.pk %}"><i class="fas fa-user-edit"> Edit</i></a>
+            <a class="button is-info" href="{% url 'lanve:user_form' user.pk %}"><i class="fas fa-user-edit">
+                Edit</i></a>
         {% endif %}
     {% endblock user_informaiton %}
     {% block user_related %}
@@ -118,6 +119,19 @@
                                     <a href="{% url 'lanve:user_detail' issue.contributor.pk %}">
                                         <p class="title is-4">{{ issue.contributor.username }}</p>
                                     </a>
+                                </div>
+                                <div class="media-right">
+                                    <span class="has-text-weight-semibold">
+                                        Translate:
+                                        {{ lanveuser.get_mother_tongue_display }}
+                                        <i class="fas fa-arrow-right"></i>
+                                        {{ issue.get_language_to_display }}
+                                        {% with '/flags/'|add:user.nationality|lower|add:'.gif' as flags_static %}
+                                            <img class="is-32x32" src="{% static flags_static %}" alt="a national flag">
+                                        {% endwith %}
+                                        <br>
+                                         view: {{ issue.count_view }}
+                                    </span>
                                 </div>
                             </div>
                             <div class="content">
@@ -162,6 +176,19 @@
                                     <a href="{% url 'lanve:user_detail' issue_commented.contributor.pk %}">
                                         <p class="title is-4">{{ issue_commented.contributor.username }}</p>
                                     </a>
+                                </div>
+                                <div class="media-right">
+                                <span class="has-text-weight-semibold">
+                                    Translate:
+                                    {{ issue_commented.contributor.get_mother_tongue_display }}
+                                    <i class="fas fa-arrow-right"></i>
+                                    {{ issue_commented.get_language_to_display }}
+                                    {% with '/flags/'|add:user.nationality|lower|add:'.gif' as flags_static %}
+                                        <img class="is-32x32" src="{% static flags_static %}" alt="a national flag">
+                                    {% endwith %}
+                                    <br>
+                                     view: {{ issue_commented.count_view }}
+                                </span>
                                 </div>
                             </div>
                             <div class="content">

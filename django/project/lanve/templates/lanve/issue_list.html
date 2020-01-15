@@ -21,7 +21,8 @@
 {% endblock hero %}
 
 {% block content %}
-    <p class="lang-issue has-text-grey has-text-weight-semibold">Issues For {{ user.get_mother_tongue_display }} Speaker</p>
+    <p class="lang-issue has-text-grey has-text-weight-semibold">Issues For {{ user.get_mother_tongue_display }}
+        Speaker</p>
     {% for issue in issue_list %}
         <div class="card">
             <div class="card-content">
@@ -40,7 +41,10 @@
                     </div>
                     <div class="media-right">
                         <span class="has-text-weight-semibold">
-                            Translate: To {{ issue.get_language_to_display }}
+                            Translate:
+                            {{ issue.contributor.get_mother_tongue_display }}
+                           <i class="fas fa-arrow-right"></i>
+                            {{ issue.get_language_to_display }}
                             {% with '/flags/'|add:user.nationality|lower|add:'.gif' as flags_static %}
                                 <img class="is-32x32" src="{% static flags_static %}" alt="a national flag">
                             {% endwith %}
