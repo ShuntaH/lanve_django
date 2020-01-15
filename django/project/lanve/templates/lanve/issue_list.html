@@ -13,7 +13,7 @@
                     Timeline
                 </h1>
                 <h2 class="subtitle">
-                    form bangkok
+                    Issues which will be translated from your native language
                 </h2>
             </div>
         </div>
@@ -21,8 +21,14 @@
 {% endblock hero %}
 
 {% block content %}
-    <p class="lang-issue has-text-grey has-text-weight-semibold">Issues For {{ user.get_mother_tongue_display }}
-        Speaker</p>
+    <p class="lang-issue has-text-grey has-text-weight-semibold">
+
+       <small>Issues to {{ user.get_mother_tongue_display }} speakers</small>
+        {% with '/flags/'|add:user.nationality|lower|add:'.gif' as flags_static %}
+            <img class="is-32x32" src="{% static flags_static %}" alt="a national flag">
+        {% endwith %}
+
+    </p>
     {% for issue in issue_list %}
         <div class="card">
             <div class="card-content">
@@ -36,20 +42,27 @@
                     </div>
                     <div class="media-content">
                         <a href="{% url 'lanve:user_detail' issue.contributor.pk %}">
-                            <p class="title is-4">{{ issue.contributor.username }}</p>
+                            <span class="title is-4">{{ issue.contributor.username }}</span>
                         </a>
+                        <br>
+                        <span class="has-text-weight-semibold">
+                             Translate:
+                            {{ issue.contributor.get_mother_tongue_display }}
+                            {% with '/flags/'|add:issue.contributor.nationality|lower|add:'.gif' as flags_static %}
+                                {% if flags_static %}
+                                <img class="is-32x32" src="{% static flags_static %}" alt="a national flag">
+                                {% endif %}
+                            {% endwith %}
+                            <i class="fas fa-arrow-right"></i>
+                            {{ issue.get_language_to_display }}
+                            {% with '/flags/'|add:user.nationality|lower|add:'.gif' as flags_static %}
+                                <img class="is-32x32" src="{% static flags_static %}" alt="{{ user.nationality }}">
+                            {% endwith %}
+                        </span>
                     </div>
                     <div class="media-right">
                         <span class="has-text-weight-semibold">
-                            Translate:
-                            {{ issue.contributor.get_mother_tongue_display }}
-                           <i class="fas fa-arrow-right"></i>
-                            {{ issue.get_language_to_display }}
-                            {% with '/flags/'|add:user.nationality|lower|add:'.gif' as flags_static %}
-                                <img class="is-32x32" src="{% static flags_static %}" alt="a national flag">
-                            {% endwith %}
-                            <br>
-                             view: {{ issue.count_view }}
+                             Views: {{ issue.count_view }}
                         </span>
                     </div>
                 </div>

@@ -16,17 +16,25 @@
         </div>
         <div class="media-content">
             <a href="{% url 'lanve:user_detail' issue.contributor.pk %}">
-                <p class="title is-4">{{ issue.contributor.username }}</p>
+                <span class="title is-4">{{ issue.contributor.username }}</span>
             </a>
-        </div>
-        <div class="media-right">
+            <br>
             <span class="has-text-weight-semibold">
-                Translate: To {{ issue.get_language_to_display }}
+                 Translate:
+                {{ issue.contributor.get_mother_tongue_display }}
+                {% with '/flags/'|add:issue.contributor.nationality|lower|add:'.gif' as flags_static %}
+                    <img class="is-32x32" src="{% static flags_static %}" alt="a national flag">
+                {% endwith %}
+                <i class="fas fa-arrow-right"></i>
+                {{ issue.get_language_to_display }}
                 {% with '/flags/'|add:user.nationality|lower|add:'.gif' as flags_static %}
                     <img class="is-32x32" src="{% static flags_static %}" alt="a national flag">
                 {% endwith %}
-                <br>
-                 view: {{ issue.count_view }}
+            </span>
+        </div>
+        <div class="media-right">
+            <span class="has-text-weight-semibold">
+                 Views: {{ issue.count_view }}
             </span>
         </div>
     </div>
@@ -107,7 +115,10 @@
             </div>
         </article>
     {% empty %}
-        <p class="is-size-4">No comments yet</p>
+        <p class="is-size-4 empty-comment">
+            No comments yet ...
+            <small class="is-size-6">Be the first person to help</small>
+        </p>
     {% endfor %}
 
     <form class="media" method="post" action="">
