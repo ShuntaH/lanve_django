@@ -40,7 +40,15 @@
 }
 
 .lang-issue {
+<<<<<<< HEAD
   margin-bottom: 20px;
+=======
+  margin-bottom: 8px;
+}
+
+.empty-comment {
+  margin-bottom: 22px;
+>>>>>>> 9217ededc015610c8857827c5c3411305d43445f
 }
 
 /*# sourceMappingURL=issue_list.css.map */

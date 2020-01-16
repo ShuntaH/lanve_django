@@ -16,17 +16,25 @@
         </div>
         <div class="media-content">
             <a href="{% url 'lanve:user_detail' issue.contributor.pk %}">
-                <p class="title is-4">{{ issue.contributor.username }}</p>
+                <span class="title is-4">{{ issue.contributor.username }}</span>
             </a>
+            <br>
+            <span class="has-text-weight-semibold">
+                 Translate:
+                {{ issue.contributor.get_mother_tongue_display }}
+                {% with '/flags/'|add:issue.contributor.nationality|lower|add:'.gif' as flags_static %}
+                    <img class="is-32x32" src="{% static flags_static %}" alt="a national flag">
+                {% endwith %}
+                <i class="fas fa-arrow-right"></i>
+                {{ issue.get_language_to_display }}
+                {% with '/flags/'|add:user.nationality|lower|add:'.gif' as flags_static %}
+                    <img class="is-32x32" src="{% static flags_static %}" alt="a national flag">
+                {% endwith %}
+            </span>
         </div>
         <div class="media-right">
             <span class="has-text-weight-semibold">
-                Translate: To {{ issue.get_language_to_display }}
-                {% with '/flags/'|add:issue.language_to|lower|add:'.gif' as flags_static %}
-                    <img class="is-32x32" src="{% static flags_static %}" alt="a national flag">
-                {% endwith %}
-                <br>
-                 view: {{ issue.count_view }}
+                 Views: {{ issue.count_view }}
             </span>
         </div>
     </div>
@@ -107,13 +115,17 @@
             </div>
         </article>
     {% empty %}
-        <p class="is-size-4">No comments yet</p>
+        <p class="is-size-4 empty-comment">
+            No comments yet ...
+            <small class="is-size-6">Be the first person to help</small>
+        </p>
     {% endfor %}
 
     <form class="media" method="post" action="">
         {% csrf_token %}
         <figure class="media-left">
-            <p class="image is-64x64"><img src="{{ user.profile_pic.thumbnail.url }}"></p>
+            <p class="image is-64x64">
+                <img src="{{ user.profile_pic.thumbnail.url }}" alt="{{ user.profile_pic }}"></p>
         </figure>
         <div class="media-content">
             <div class="field"><p class="control">{{ form.text|bulma }}</p></div>
