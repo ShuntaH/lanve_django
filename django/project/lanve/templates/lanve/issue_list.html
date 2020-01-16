@@ -34,7 +34,7 @@
                     <div class="media-left">
                         <figure class="image is-48x48">
                             <a href="{% url 'lanve:user_detail' issue.contributor.pk %}">
-                                <img src="{{ issue.contributor.profile_pic.thumbnail.url }}" alt="profile picture">
+                                <img src="{{ issue.contributor.profile_pic.thumbnail.url }}" alt="{{ issue.contributor.profile_pic }}">
                             </a>
                         </figure>
                     </div>
