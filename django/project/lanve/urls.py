@@ -19,7 +19,12 @@ urlpatterns = [
     path('password_change/done/', views.MyPasswordChangeDoneVIew.as_view(), name='password_change_done'),
     path('password_reset/', views.MyPasswordResetView.as_view(), name='password_reset'),
     path('password_reset/done/', views.MyPasswordResetDoneView.as_view(), name='password_reset_done'),
-    path('password_reset/confirm/<uidb64>/<token>/', views.MyPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('password_reset/confirm/<uidb64>/<token>/', views.MyPasswordResetConfirmView.as_view(),
+         name='password_reset_confirm'),
     path('password_reset/complete/', views.MyPasswordResetCompleteView.as_view(), name='password_reset_complete'),
+    # 今回いいねボタンを設置するページ
+    path(r'^(?P[\w-]+)/$', views.LikePage, name="like_page"),
+    # いいね情報を格納するページ
+    path(r'^(?P[\w-]+)/like/$', views.LikeButton.as_view(), name='like_api'),
 
 ]

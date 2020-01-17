@@ -11,10 +11,13 @@ from django.shortcuts import get_object_or_404, redirect, resolve_url
 
 from django.urls import reverse_lazy
 from django.views import generic
+from rest_framework import authentication, permissions
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 from .admin import UserCreationForm
 from .forms import IssueCreateForm, CommentCreateForm, UserUpdateForm
-from .models import Issue, Comment, LanveUser
+from .models import Issue, Comment, LanveUser, LikeButtonModel
 
 logger = logging.getLogger(__name__)
 
@@ -75,7 +78,6 @@ class ListView(generic.ListView, LoginRequiredMixin):
             .select_related() \
             .filter(language_to=user_mother_tongue) \
             .order_by('-created_at')
-
 
         # keyword = self.request.GET.get('keyword')
         # if keyword:
@@ -200,3 +202,31 @@ class MyPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
 class MyPasswordChangeDoneVIew(PasswordChangeDoneView):
     """Password change is done View"""
     template_name = 'lanve/user_password_change_done.html'
+
+
+class LikeButton(APIView):
+    authentication_classes = (authentication.SessionAuthentication,)  # ユーザーが認証されているか確認
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request, slug=None):
+        obj = get_object_or_404(LikeButtonModel, slug=slug)  # いいねボタンを設置しているページの情報取得
+        url_ = obj.get_absolute_url()  # いいねボタンを設置しているページのURL取得
+        status = request.GET.getlist('status')  # 後半戦で説明
+        status = bool(int(status[0]))
+        user = self.request.user  # ユーザー情報の取得
+        if user in obj.like.all():  # ユーザーがいいねをしていた場合
+            if not (status):
+                liked = True
+            else:
+                obj.like.remove(user)  # likeからユーザーを外す
+                liked = False
+        else:  # ユーザーがいいねをしていない場合
+            if not (status):
+                liked = False
+            else:
+                obj.like.add(user)  # likeにユーザーを加える
+                liked = True
+        data = {
+            "liked": liked,
+        }
+        return Response(data)

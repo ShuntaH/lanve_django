@@ -5,6 +5,7 @@ from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
+from django.urls import reverse
 from django.utils import timezone
 from languages.fields import RegionField, LanguageField
 from stdimage import StdImageField
@@ -271,32 +272,52 @@ class Comment(models.Model):
         return self.text[:10]
 
 
-class FavoriteManager(models.Manager):
-    def create_favorite(self, ip_address, comment_id):
-        favorite = self.model(
-            ip_address=ip_address,
-            comment_id=comment_id
-        )
-        try:
-            favorite.save()
-        except:
-            return False
-        return True
+# class FavoriteManager(models.Manager):
+#     def create_favorite(self, ip_address, comment_id):
+#         favorite = self.model(
+#             ip_address=ip_address,
+#             comment_id=comment_id
+#         )
+#         try:
+#             favorite.save()
+#         except:
+#             return False
+#         return True
+#
+#
+# class Favorite(models.Model):
+#     ip_address = models.CharField('IP Address', max_length=50)
+#     comment = models.ForeignKey(
+#         Comment,
+#         on_delete=models.CASCADE,
+#         related_name='favorite_comment'
+#     )
+#     # auto_now_add はインスタンスの作成(DBにINSERT)する度に更新
+#     created_at = models.DateTimeField('created_at', auto_now_add=True)
+#     # # auto_now=Trueの場合はモデルインスタンスを保存する度に現在の時間で更新
+#     updated_at = models.DateTimeField('update_at', auto_now=True)
+#
+#     objects = FavoriteManager()
+#
+#     def __str__(self):
+#         return '{}-{}-favorite'.format(self.comment.text[:10], self.comment.issue.question[:10])
 
 
-class Favorite(models.Model):
-    ip_address = models.CharField('IP Address', max_length=50)
-    comment = models.ForeignKey(
-        Comment,
-        on_delete=models.CASCADE,
-        related_name='favorite_comment'
-    )
-    # auto_now_add はインスタンスの作成(DBにINSERT)する度に更新
-    created_at = models.DateTimeField('created_at', auto_now_add=True)
-    # # auto_now=Trueの場合はモデルインスタンスを保存する度に現在の時間で更新
-    updated_at = models.DateTimeField('update_at', auto_now=True)
+class LikeButtonModel(models.Model):
+    # ユーザー情報
+    user = models.ForeignKey(LanveUser, default=1, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    slug = models.SlugField()
+    body = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
+    thumb = models.ImageField(default='default.png', blank=True)
+    # いいね情報
+    like = models.ManyToManyField(LanveUser, blank=True, related_name="likes")
 
-    objects = FavoriteManager()
+    # いいねを設置するページのURLを取得する設定
+    def get_absolute_url(self):
+        return reverse("app:like_page", kwargs={"slug": self.slug})
 
-    def __str__(self):
-        return '{}-{}-favorite'.format(self.comment.text[:10], self.comment.issue.question[:10])
+    # いいね情報を記録するページの設定
+    def get_api_like_url(self):
+        return reverse("app:like_api", kwargs={"slug": self.slug})
