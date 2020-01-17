@@ -164,7 +164,7 @@ class UserDetailView(LoginRequiredMixin, generic.DetailView, ABC):
 
     def get_context_data(self, **kwargs):
         """Get the context for this view. for comments"""
-        user_pk = self.request.user.id
+        user_pk = self.kwargs['pk']
         queryset_issue_commented = Issue.objects \
             .select_related() \
             .filter(issue__contributor_id=user_pk) \
