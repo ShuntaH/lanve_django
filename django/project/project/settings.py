@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # my apps
     'lanve.apps.LanveConfig',
-    'api.apps.ApiConfig',
     'django.forms',
     # third apps
     'bulma',
@@ -53,7 +52,6 @@ INSTALLED_APPS = [
     'django_cleanup',
     'stdimage',
     'rest_framework',
-    'guardian',
     'django_filters',
 ]
 
@@ -257,3 +255,12 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',  # default
     'guardian.backends.ObjectPermissionBackend',
 )
+
+REST_FRAMEWORK = {
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.JSONParser',
+    ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    )
+}

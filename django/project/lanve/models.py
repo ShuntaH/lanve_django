@@ -1,5 +1,6 @@
 import os
 
+
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 from django.contrib.auth.models import (
@@ -8,6 +9,7 @@ from django.contrib.auth.models import (
 from django.urls import reverse
 from django.utils import timezone
 from languages.fields import RegionField, LanguageField
+
 from stdimage import StdImageField
 
 
@@ -51,7 +53,7 @@ class LanveUserManager(BaseUserManager):
 
 #  upload_to path of a profile picture
 def profile_pic_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/post/<post_title>.拡張子
+    # file will be uploaded to MEDIA_ROOT/post/<post_title>.ext
     filename_divided = os.path.splitext(filename)
     ext = filename_divided[1]
     filename = 'users/profile/{0}{1}'.format(instance.username, ext)
@@ -60,7 +62,7 @@ def profile_pic_directory_path(instance, filename):
 
 # set a default user profile picture when an user make a new account
 def get_default_profile_picture():
-    path = 'users/profile/default-user-profile-picture.jpg'
+    path = 'users/profile/default-user-profile-picture.thumbnail.jpg'
     return path
 
 
@@ -259,7 +261,8 @@ class Comment(models.Model):
         on_delete=models.CASCADE,
         related_name='contributor_comment',
     )
-    text = models.TextField('comment', )
+    text = models.TextField('comment')
+    like = models.ManyToManyField('LanveUser', blank=True, related_name="likes")
     # auto_now_add はインスタンスの作成(DBにINSERT)する度に更新
     created_at = models.DateTimeField('created_at', auto_now_add=True)
     # # auto_now=Trueの場合はモデルインスタンスを保存する度に現在の時間で更新
@@ -272,52 +275,6 @@ class Comment(models.Model):
         return self.text[:10]
 
 
-# class FavoriteManager(models.Manager):
-#     def create_favorite(self, ip_address, comment_id):
-#         favorite = self.model(
-#             ip_address=ip_address,
-#             comment_id=comment_id
-#         )
-#         try:
-#             favorite.save()
-#         except:
-#             return False
-#         return True
-#
-#
-# class Favorite(models.Model):
-#     ip_address = models.CharField('IP Address', max_length=50)
-#     comment = models.ForeignKey(
-#         Comment,
-#         on_delete=models.CASCADE,
-#         related_name='favorite_comment'
-#     )
-#     # auto_now_add はインスタンスの作成(DBにINSERT)する度に更新
-#     created_at = models.DateTimeField('created_at', auto_now_add=True)
-#     # # auto_now=Trueの場合はモデルインスタンスを保存する度に現在の時間で更新
-#     updated_at = models.DateTimeField('update_at', auto_now=True)
-#
-#     objects = FavoriteManager()
-#
-#     def __str__(self):
-#         return '{}-{}-favorite'.format(self.comment.text[:10], self.comment.issue.question[:10])
 
 
-class LikeButtonModel(models.Model):
-    # ユーザー情報
-    user = models.ForeignKey(LanveUser, default=1, on_delete=models.CASCADE)
-    title = models.CharField(max_length=100)
-    slug = models.SlugField()
-    body = models.TextField()
-    date = models.DateTimeField(auto_now_add=True)
-    thumb = models.ImageField(default='default.png', blank=True)
-    # いいね情報
-    like = models.ManyToManyField(LanveUser, blank=True, related_name="likes")
 
-    # いいねを設置するページのURLを取得する設定
-    def get_absolute_url(self):
-        return reverse("app:like_page", kwargs={"slug": self.slug})
-
-    # いいね情報を記録するページの設定
-    def get_api_like_url(self):
-        return reverse("app:like_api", kwargs={"slug": self.slug})

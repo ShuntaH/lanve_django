@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-{"version":3,"sourceRoot":"","sources":["issue_list.scss"],"names":[],"mappings":";AAAA;AACA;EACE;EACA;EACA;AAEA;;AACA;EACE;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;;AAGF;EACE;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;;;AAOJ;EACE;;;AAGF;EACE;;;AAIF;EACE","file":"issue_list.css"}
-=======
-{"version":3,"sourceRoot":"","sources":["issue_list.scss"],"names":[],"mappings":";AAAA;AACA;EACE;EACA;EACA;AAEA;;AACA;EACE;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;;AAGF;EACE;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;;;AAOJ;EACE;;;AAGF;EACE;;;AAIF;EACE;;;AAIF;EACE","file":"issue_list.css"}
->>>>>>> 9217ededc015610c8857827c5c3411305d43445f
+{"version":3,"sourceRoot":"","sources":["issue_list.scss"],"names":[],"mappings":";AAAA;AACA;EACE;EACA;EACA;AAEA;;AACA;EACE;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;;AAGF;EACE;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;;;AAOJ;EACE;;;AAGF;EACE;;;AAIF;EACE;;;AAIF;EACE;;;AAIF;EAAM;EAAqB","file":"issue_list.css"}

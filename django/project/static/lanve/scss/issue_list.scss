@@ -42,12 +42,6 @@
 .tabs.switch-tabs {
   margin-top: 40px;
 }
-<<<<<<< HEAD
-
-// リスト先頭の何語向けかの文章
-.lang-issue {
-  margin-bottom: 20px;
-=======
 
 // リスト先頭の何語向けかの文章
 .lang-issue {
@@ -57,5 +51,7 @@
 // if no comments
 .empty-comment {
   margin-bottom: 22px;
->>>>>>> 9217ededc015610c8857827c5c3411305d43445f
 }
+
+// color settings for likes icon
+.on { background: #F75D5D; color: #fff; }

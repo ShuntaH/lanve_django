@@ -82,20 +82,14 @@
                         {{ comment.text }}
                         <br>
                         <small>
-                    <p>
-                        <span class="liked-cnt">{{ app.like.count }}</span>
-                        <i class="fas fa-kiss-wink-heart"></i>
-                    </p>
-                    <a class='like-btn' data-href="{{ app.get_api_like_url }}">
-                        <i class="fas fa-fw fa-heart color-heart"></i>
-                        &nbsp;
-                        <span class="liked-cnt">{{ app.like.count }}</span>
-                        <span class="favorite_counter">{{ comment.favorite_count }}</span>
-                    </a>
-                    · <a>Reply</a> · <span class="has-text-grey">{{ comment.updated_at }}</span>
-                    &nbsp;
-                    <span class="has-text-grey-light">{{ comment.updated_at|timesince }}</span>
-                    </small>
+                            <a class='like-btn' data-href={% url 'lanve:api' user_pk=user.pk comment_pk=comment.pk %}>
+                                <i class="fas fa-fw fa-heart color-heart"></i>
+                                &nbsp;
+                                <span class="liked-cnt">{{ comment.like.count }}</span>
+                            </a> · <a>Reply</a> · <span class="has-text-grey">{{ comment.updated_at }}</span>
+                            &nbsp;
+                            <span class="has-text-grey-light">{{ comment.updated_at|timesince }}</span>
+                        </small>
                     </p>
                 </div>
             </div>
@@ -125,5 +119,5 @@
 {% endblock %}
 
 {% block extra_javascript %}
-    <script src="{% static 'lanve/js/favorite.js' %}"></script>
+    <script src="{% static 'lanve/js/liked.js' %}"></script>
 {% endblock %}
