@@ -1,12 +1,15 @@
 import os
 
+
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
+from django.urls import reverse
 from django.utils import timezone
 from languages.fields import RegionField, LanguageField
+
 from stdimage import StdImageField
 
 
@@ -50,7 +53,7 @@ class LanveUserManager(BaseUserManager):
 
 #  upload_to path of a profile picture
 def profile_pic_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/post/<post_title>.拡張子
+    # file will be uploaded to MEDIA_ROOT/post/<post_title>.ext
     filename_divided = os.path.splitext(filename)
     ext = filename_divided[1]
     filename = 'users/profile/{0}{1}'.format(instance.username, ext)
@@ -59,7 +62,7 @@ def profile_pic_directory_path(instance, filename):
 
 # set a default user profile picture when an user make a new account
 def get_default_profile_picture():
-    path = 'users/profile/default-user-profile-picture.jpg'
+    path = 'users/profile/default-user-profile-picture.thumbnail.jpg'
     return path
 
 
@@ -136,7 +139,6 @@ class LanveUser(AbstractBaseUser):
         blank=True
     )
 
-
     # auto_now_add はインスタンスの作成(DBにINSERT)する度に更新
     created_at = models.DateTimeField('created_at', auto_now_add=True)
     # # auto_now=Trueの場合はモデルインスタンスを保存する度に現在の時間で更新
@@ -212,6 +214,11 @@ def set_default_contributor_issue_deleted():
     return contributor
 
 
+def set_default_region_issue_deleted():
+    region_contributor = 'unknown'
+    return region_contributor
+
+
 class Issue(models.Model):
     question = models.TextField(verbose_name='question sentence', blank=False)
     situation = models.TextField(verbose_name='situation', blank=True)
@@ -254,7 +261,8 @@ class Comment(models.Model):
         on_delete=models.CASCADE,
         related_name='contributor_comment',
     )
-    text = models.TextField('comment', )
+    text = models.TextField('comment')
+    like = models.ManyToManyField('LanveUser', blank=True, related_name="likes")
     # auto_now_add はインスタンスの作成(DBにINSERT)する度に更新
     created_at = models.DateTimeField('created_at', auto_now_add=True)
     # # auto_now=Trueの場合はモデルインスタンスを保存する度に現在の時間で更新
@@ -267,32 +275,6 @@ class Comment(models.Model):
         return self.text[:10]
 
 
-class FavoriteManager(models.Manager):
-    def create_favorite(self, ip_address, comment_id):
-        favorite = self.model(
-            ip_address=ip_address,
-            comment_id=comment_id
-        )
-        try:
-            favorite.save()
-        except:
-            return False
-        return True
 
 
-class Favorite(models.Model):
-    ip_address = models.CharField('IP Address', max_length=50)
-    comment = models.ForeignKey(
-        Comment,
-        on_delete=models.CASCADE,
-        related_name='favorite_comment'
-    )
-    # auto_now_add はインスタンスの作成(DBにINSERT)する度に更新
-    created_at = models.DateTimeField('created_at', auto_now_add=True)
-    # # auto_now=Trueの場合はモデルインスタンスを保存する度に現在の時間で更新
-    updated_at = models.DateTimeField('update_at', auto_now=True)
 
-    objects = FavoriteManager()
-
-    def __str__(self):
-        return '{}-{}-favorite'.format(self.comment.text[:10], self.comment.issue.question[:10])

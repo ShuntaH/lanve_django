@@ -7,10 +7,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView, PasswordResetView, \
     PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 from django.db.models import Count
-from django.shortcuts import get_object_or_404, redirect, resolve_url
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, redirect, resolve_url, render
 
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import generic
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
+from rest_framework import authentication, permissions
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 from .admin import UserCreationForm
 from .forms import IssueCreateForm, CommentCreateForm, UserUpdateForm
@@ -76,7 +81,6 @@ class ListView(generic.ListView, LoginRequiredMixin):
             .filter(language_to=user_mother_tongue) \
             .order_by('-created_at')
 
-
         # keyword = self.request.GET.get('keyword')
         # if keyword:
         #     queryset = queryset.filter(
@@ -87,7 +91,8 @@ class ListView(generic.ListView, LoginRequiredMixin):
 
 
 class AddView(LoginRequiredMixin, generic.CreateView):
-    """Create new issues View"""
+    """ Create new issues View """
+
     model = Issue
     form_class = IssueCreateForm
     login_url = 'lanve:signin'
@@ -103,10 +108,21 @@ class AddView(LoginRequiredMixin, generic.CreateView):
 
 
 class DetailView(LoginRequiredMixin, generic.DetailView, generic.edit.ModelFormMixin):
-    """Details of each issue View"""
+    """ Details of each issue View """
+
     login_url = 'lanve:signin'
     model = Issue
     form_class = CommentCreateForm
+
+    # def get_api_like_url(self, request):
+    #     user_pk = request.user.id
+    #     issue_pk = self.kwargs['pk']
+    #     comment = Comment.objects.select_related() \
+    #         .filter(issue=issue_pk)
+    #     return reverse("lanve:api", kwargs={
+    #         "comment_pk": comment.pk,
+    #         "user_pk": user_pk
+    #     })
 
     def get_context_data(self, **kwargs):
         """
@@ -122,10 +138,11 @@ class DetailView(LoginRequiredMixin, generic.DetailView, generic.edit.ModelFormM
         # このissueのコメントを取得
         issue_pk = self.kwargs['pk']
         comment = Comment.objects.select_related() \
-            .filter(issue=issue_pk) \
-            .annotate(
-            favorite_count=Count('favorite_comment')
-        )
+            .filter(issue=issue_pk)
+        #     .annotate(
+        #     favorite_count=Count('likes')
+        # )
+
         context = super().get_context_data(**kwargs)
         context['comments'] = comment
         return context
@@ -197,6 +214,43 @@ class MyPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     template_name = 'lanve/user_password_change.html'
 
 
-class MyPasswordChangeDoneVIew(PasswordChangeDoneView):
+class MyPasswordChangeDoneView(PasswordChangeDoneView):
     """Password change is done View"""
     template_name = 'lanve/user_password_change_done.html'
+
+
+# def LikeComment(request):
+#     return render(request, 'lanve/issue_detail.html')
+
+
+def get_absolute_url(self):
+    issue_pk = self.issue.pk
+    return reverse("lanve:detail", kwargs={"issue_pk": issue_pk})
+
+
+class LikeComment(APIView):
+    # authentication_classes = (authentication.SessionAuthentication,)
+    # permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request, *args, **kwargs):
+        comment_like_obj = get_object_or_404(Comment, pk=self.kwargs['comment_pk'], )
+        url_ = get_absolute_url
+        status = request.GET.getlist('status')
+        status = bool(int(status[0]))
+        user = self.request.user
+        if user in comment_like_obj.like.all():
+            if not (status):
+                liked = True
+            else:
+                comment_like_obj.like.remove(user)
+                liked = False
+        else:
+            if not (status):
+                liked = False
+            else:
+                comment_like_obj.like.add(user)
+                liked = True
+        data = {
+            "liked": liked,
+        }
+        return Response(data)

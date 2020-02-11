@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # my apps
     'lanve.apps.LanveConfig',
-    'api.apps.ApiConfig',
     'django.forms',
     # third apps
     'bulma',
@@ -52,6 +51,8 @@ INSTALLED_APPS = [
     'django_countries',
     'django_cleanup',
     'stdimage',
+    'rest_framework',
+    'django_filters',
 ]
 
 FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
@@ -248,3 +249,18 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+
+#  gurdian
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',  # default
+    'guardian.backends.ObjectPermissionBackend',
+)
+
+REST_FRAMEWORK = {
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.JSONParser',
+    ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    )
+}

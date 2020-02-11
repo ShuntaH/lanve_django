@@ -65,7 +65,8 @@
         <article class="media">
             <figure class="media-left">
                 <p class="image is-64x64">
-                    <img src="{{ comment.contributor.profile_pic.thumbnail.url }}" alt="{{ comment.contributor.profile_pic }}">
+                    <img src="{{ comment.contributor.profile_pic.thumbnail.url }}"
+                         alt="{{ comment.contributor.profile_pic }}">
                 </p>
             </figure>
             <div class="media-content">
@@ -80,38 +81,17 @@
                         <br>
                         {{ comment.text }}
                         <br>
-                        <small><a class="icon favorite-link" data-comment-id="{{ comment.id }}"
-                                  data-count="{{ comment.favorite_count }}">
-                            <i class="fas fa-fw fa-heart color-heart"></i>
+                        <small>
+                            <a class='like-btn' data-href={% url 'lanve:api' user_pk=user.pk comment_pk=comment.pk %}>
+                                <i class="fas fa-fw fa-heart color-heart"></i>
+                                &nbsp;
+                                <span class="liked-cnt">{{ comment.like.count }}</span>
+                            </a> · <a>Reply</a> · <span class="has-text-grey">{{ comment.updated_at }}</span>
                             &nbsp;
-                            <span class="favorite_counter">{{ comment.favorite_count }}</span>
-                        </a>
-
-                            · <a>Reply</a> · <span class="has-text-grey">{{ comment.updated_at }}</span>&nbsp;
-                            <span class="has-text-grey-light">{{ comment.updated_at|timesince }}</span></small>
+                            <span class="has-text-grey-light">{{ comment.updated_at|timesince }}</span>
+                        </small>
                     </p>
                 </div>
-                {#                <article class="media">#}
-                {#                    <figure class="media-left">#}
-                {#                        <p class="image is-48x48">#}
-                {#                            <img src="https://bulma.io/images/placeholders/96x96.png">#}
-                {#                        </p>#}
-                {#                    </figure>#}
-                {#                    <div class="media-content">#}
-                {#                        <div class="content">#}
-                {#                            <p>#}
-                {#                                <strong>Sean Brown</strong>#}
-                {#                                <br>#}
-                {#                                Donec sollicitudin urna eget eros malesuada sagittis. Pellentesque habitant morbi#}
-                {#                                tristique#}
-                {#                                senectus et netus et malesuada fames ac turpis egestas. Aliquam blandit nisl a nulla#}
-                {#                                sagittis, a lobortis leo feugiat.#}
-                {#                                <br>#}
-                {#                                <small><a>Like</a> · <a>Reply</a> · 2 hrs</small>#}
-                {#                            </p>#}
-                {#                        </div>#}
-                {#                    </div>#}
-                {#                </article>#}
             </div>
         </article>
     {% empty %}
@@ -139,5 +119,5 @@
 {% endblock %}
 
 {% block extra_javascript %}
-    <script src="{% static 'lanve/js/favorite.js' %}"></script>
+    <script src="{% static 'lanve/js/liked.js' %}"></script>
 {% endblock %}
