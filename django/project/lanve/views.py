@@ -2,17 +2,14 @@ import logging
 from abc import ABC
 
 from django.contrib import messages
-from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm, SetPasswordForm
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView, PasswordResetView, \
     PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
-from django.db.models import Count
-from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, redirect, resolve_url, render
+from django.shortcuts import get_object_or_404, redirect, resolve_url
 
 from django.urls import reverse_lazy, reverse
 from django.views import generic
-from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from rest_framework import authentication, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -25,13 +22,16 @@ logger = logging.getLogger(__name__)
 
 
 # Create your views here.
+
+
 class WelcomeView(generic.TemplateView):
-    """Top page for users who is not logged in"""
+    """ Top page for users who is not logged in """
     template_name = 'lanve/welcome.html'
 
 
 class SignupView(generic.CreateView):
-    """Sign up View"""
+    """ Sign up View """
+
     form_class = UserCreationForm
     success_url = reverse_lazy('lanve:signin')
 
@@ -42,7 +42,8 @@ class SignupView(generic.CreateView):
 
 
 class MyPasswordResetView(PasswordResetView):
-    """set email and send email to reset password View"""
+    """ Set email and send email to reset password View """
+
     subject_template_name = 'mailtemplates/password_reset/subject.txt'
     email_template_name = 'mailtemplates/password_reset/message.txt'
     template_name = 'password_reset_form.html'
@@ -50,24 +51,27 @@ class MyPasswordResetView(PasswordResetView):
 
 
 class MyPasswordResetDoneView(PasswordResetDoneView):
-    """page which notice that email already sent View"""
+    """ Page which notice that email already sent View """
+
     template_name = 'password_reset_done.html'
 
 
 class MyPasswordResetConfirmView(PasswordResetConfirmView):
-    """page to input new password View"""
+    """ Page to input new password View """
+
     form_class = SetPasswordForm
     success_url = reverse_lazy('lanve:password_reset_complete')
     template_name = 'password_reset_confirm.html'
 
 
 class MyPasswordResetCompleteView(PasswordResetCompleteView):
-    """page that notice new password set View"""
+    """ Page that notice new password set View """
+
     template_name = 'password_reset_complete.html'
 
 
 class ListView(generic.ListView, LoginRequiredMixin):
-    """Timeline page with Issue list View"""
+    """ Timeline page with Issue list View """
 
     model = Issue  # make html file name as model name + list.html
     ordering = ['-created_at']
@@ -114,16 +118,6 @@ class DetailView(LoginRequiredMixin, generic.DetailView, generic.edit.ModelFormM
     model = Issue
     form_class = CommentCreateForm
 
-    # def get_api_like_url(self, request):
-    #     user_pk = request.user.id
-    #     issue_pk = self.kwargs['pk']
-    #     comment = Comment.objects.select_related() \
-    #         .filter(issue=issue_pk)
-    #     return reverse("lanve:api", kwargs={
-    #         "comment_pk": comment.pk,
-    #         "user_pk": user_pk
-    #     })
-
     def get_context_data(self, **kwargs):
         """
         Get the context for this view. for comments
@@ -163,6 +157,7 @@ class DetailView(LoginRequiredMixin, generic.DetailView, generic.edit.ModelFormM
         Handle POST requests: instantiate a form instance with the passed
         POST variables and then check if it's valid.
         """
+
         # create a form instance and populate it with data from the request:
         form = self.get_form()
         # check whether it's valid:
@@ -174,13 +169,15 @@ class DetailView(LoginRequiredMixin, generic.DetailView, generic.edit.ModelFormM
 
 
 class UserDetailView(LoginRequiredMixin, generic.DetailView, ABC):
-    """User detail page View"""
+    """ User detail page View """
+
     model = LanveUser
     template_name = 'lanve/user_detail.html'
     login_url = 'lanve:signin'
 
     def get_context_data(self, **kwargs):
-        """Get the context for this view. for comments"""
+        """ Get the context for this view. for comments """
+
         user_pk = self.kwargs['pk']
         queryset_issue_commented = Issue.objects \
             .select_related() \
@@ -198,7 +195,8 @@ class UserDetailView(LoginRequiredMixin, generic.DetailView, ABC):
 
 
 class UserUpdateView(LoginRequiredMixin, generic.UpdateView, ABC):
-    """User update page View"""
+    """ User update page View """
+
     model = LanveUser
     form_class = UserUpdateForm
     template_name = 'lanve/user_form.html'
@@ -208,19 +206,17 @@ class UserUpdateView(LoginRequiredMixin, generic.UpdateView, ABC):
 
 
 class MyPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
-    """Password change View"""
+    """ Password change View """
+
     form_class = PasswordChangeForm
     success_url = reverse_lazy('lanve:password_change_done')
     template_name = 'lanve/user_password_change.html'
 
 
 class MyPasswordChangeDoneView(PasswordChangeDoneView):
-    """Password change is done View"""
+    """ Password change is done View """
+
     template_name = 'lanve/user_password_change_done.html'
-
-
-# def LikeComment(request):
-#     return render(request, 'lanve/issue_detail.html')
 
 
 def get_absolute_url(self):
@@ -229,8 +225,10 @@ def get_absolute_url(self):
 
 
 class LikeComment(APIView):
-    # authentication_classes = (authentication.SessionAuthentication,)
-    # permission_classes = (permissions.IsAuthenticated,)
+    """ API for like button of each comments """
+
+    authentication_classes = (authentication.SessionAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request, *args, **kwargs):
         comment_like_obj = get_object_or_404(Comment, pk=self.kwargs['comment_pk'], )
