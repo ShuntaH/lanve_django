@@ -82,11 +82,14 @@
                         {{ comment.text }}
                         <br>
                         <small>
-                            <a class='like-btn' data-href={% url 'lanve:api' user_pk=user.pk comment_pk=comment.pk %}>
-                                <i class="fas fa-fw fa-heart color-heart"></i>
-                                &nbsp;
-                                <span class="liked-cnt">{{ comment.like.count }}</span>
-                            </a> · <a>Reply</a> · <span class="has-text-grey">{{ comment.updated_at }}</span>
+                            <i class="like-btn fas fa-fw fa-heart color-heart"
+                               data-href={% url 'lanve:api' user_pk=user.pk comment_pk=comment.pk %}>
+                            </i>
+                            <span class="liked-cnt">{{ comment.like.count }}</span>
+                            ·
+                            <a>Reply</a>
+                            ·
+                            <span class="has-text-grey">{{ comment.updated_at }}</span>
                             &nbsp;
                             <span class="has-text-grey-light">{{ comment.updated_at|timesince }}</span>
                         </small>

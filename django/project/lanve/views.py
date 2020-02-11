@@ -120,16 +120,16 @@ class DetailView(LoginRequiredMixin, generic.DetailView, generic.edit.ModelFormM
 
     def get_context_data(self, **kwargs):
         """
-        Get the context for this view. for comments
-        and count the number of view
+        Get the context of comments for this view.
+        Handle to calculate the number of views of this issue.
         """
 
-        # 閲覧数をカウント
+        # Count the number of views
         issue = self.get_object()
         issue.count_view += 1
         issue.save()
 
-        # このissueのコメントを取得
+        # get comment queryset of the issue
         issue_pk = self.kwargs['pk']
         comment = Comment.objects.select_related() \
             .filter(issue=issue_pk)
@@ -142,13 +142,15 @@ class DetailView(LoginRequiredMixin, generic.DetailView, generic.edit.ModelFormM
         return context
 
     def form_valid(self, form):
+
         # process the data in form.cleaned_data as required
         issue_pk = self.kwargs['pk']
         contributor_pk = self.request.user.id
         comment = form.save(commit=False)
         comment.issue = get_object_or_404(Issue, pk=issue_pk)
         comment.contributor = get_object_or_404(LanveUser, pk=contributor_pk)
-        # 保存
+
+        # save
         comment.save()
         return redirect('lanve:detail', pk=issue_pk)
 
@@ -160,6 +162,7 @@ class DetailView(LoginRequiredMixin, generic.DetailView, generic.edit.ModelFormM
 
         # create a form instance and populate it with data from the request:
         form = self.get_form()
+
         # check whether it's valid:
         if form.is_valid():
             # redirect to a new URL:
