@@ -1,13 +1,11 @@
 import os
 
-
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
-from django.urls import reverse
-from django.utils import timezone
+
 from languages.fields import RegionField, LanguageField
 
 from stdimage import StdImageField
@@ -21,6 +19,7 @@ class LanveUserManager(BaseUserManager):
         Creates and saves a User with the given email, date of
         birth and password.
         """
+
         if not username:
             raise ValueError('Users must have an username')
         if not email:
@@ -30,7 +29,6 @@ class LanveUserManager(BaseUserManager):
             username=username,
             email=self.normalize_email(email),
         )
-
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -40,12 +38,12 @@ class LanveUserManager(BaseUserManager):
         Creates and saves a superuser with the given email, date of
         birth and password.
         """
+
         user = self.create_user(
             username,
             email,
             password=password,
         )
-
         user.is_admin = True
         user.save(using=self._db)
         return user
@@ -82,8 +80,8 @@ class LanveUser(AbstractBaseUser):
 
        Username and password are required. Other fields are optional.
        """
-    username_validator = UnicodeUsernameValidator()
 
+    username_validator = UnicodeUsernameValidator()
     username = models.CharField(
         'username',
         max_length=150,
@@ -108,7 +106,6 @@ class LanveUser(AbstractBaseUser):
         blank=True,
         null=True,
     )
-
     profile_pic = StdImageField(
         upload_to=profile_pic_directory_path,
         verbose_name='profile picture',
@@ -118,7 +115,6 @@ class LanveUser(AbstractBaseUser):
             'thumbnail': (300, 300, True),
         },
         delete_orphans=True)
-
     gender = models.CharField(
         "gender",
         max_length=2,
@@ -143,7 +139,6 @@ class LanveUser(AbstractBaseUser):
     created_at = models.DateTimeField('created_at', auto_now_add=True)
     # # auto_now=Trueの場合はモデルインスタンスを保存する度に現在の時間で更新
     updated_at = models.DateTimeField('update_at', auto_now=True)
-
     is_staff = models.BooleanField(
         'staff status',
         default=False,
@@ -151,9 +146,7 @@ class LanveUser(AbstractBaseUser):
     )
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-
     objects = LanveUserManager()
-
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = [
         'username',
@@ -163,6 +156,7 @@ class LanveUser(AbstractBaseUser):
         """
         Return the first_name plus the last_name, with a space in between.
         """
+
         full_name = '%s %s' % (self.first_name, self.last_name)
         return full_name.strip()
 
@@ -170,18 +164,18 @@ class LanveUser(AbstractBaseUser):
         return self.email
 
     def has_perm(self, perm, obj=None):
-        "Does the user have a specific permission?"
+        """Does the user have a specific permission?"""
         # Simplest possible answer: Yes, always
         return True
 
     def has_module_perms(self, app_label):
-        "Does the user have permissions to view the app `app_label`?"
+        """Does the user have permissions to view the app `app_label`?"""
         # Simplest possible answer: Yes, always
         return True
 
     @property
     def is_staff(self):
-        "Is the user a member of staff?"
+        """Is the user a member of staff?"""
         # Simplest possible answer: All admins are staff
         return self.is_admin
 
