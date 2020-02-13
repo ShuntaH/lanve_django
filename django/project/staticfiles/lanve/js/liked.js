@@ -39,6 +39,7 @@ $(function () {
         success: function (data) {
             if (data.liked) {
                 this_.addClass("on");
+                this_.removeClass("color-heart");
             }
         }, error: function (error) {
             console.log("error")
@@ -60,9 +61,11 @@ $(".like-btn").click(function (e) {
                 if (data.liked) {
                     like_cnt.text(++change_like);
                     this_.addClass("on");
+                    this_.removeClass("color-heart")
                 } else {
                     like_cnt.text(--change_like);
                     this_.removeClass("on");
+                    this_.addClass(("color-heart"))
                 }
             }, error: function (error) {
                 console.log("error")

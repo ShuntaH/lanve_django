@@ -60,10 +60,12 @@ $(".like-btn").click(function (e) {
                 let change_like = like_cnt.text();
                 if (data.liked) {
                     like_cnt.text(++change_like);
-                    this_.addClass("on color-heart");
+                    this_.addClass("on");
+                    this_.removeClass("color-heart")
                 } else {
                     like_cnt.text(--change_like);
                     this_.removeClass("on");
+                    this_.addClass(("color-heart"))
                 }
             }, error: function (error) {
                 console.log("error")
