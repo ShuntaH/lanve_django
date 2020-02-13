@@ -1,0 +1,126 @@
+{% load static i18n bulma_tags lanve_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock title %}</title>
+    <link rel="shortcut icon" href="{% static 'lanve/image/favicon.ico' %}"/>
+    {% block css %}
+        {% font_awesome %}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome-animation/0.0.10/font-awesome-animation.css" type="text/css" media="all" />
+        <link rel="stylesheet" href="{% static 'bulma/css/style.min.css' %}">
+        <link rel="stylesheet" href="{% static 'lanve/scss/base.css' %}">
+        {% block extra_css %}{% endblock extra_css %}
+    {% endblock css %}
+</head>
+<body>
+
+{% block header %}
+    <div class="container">
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="{% url 'lanve:list' %}">
+                    <img src="{% static 'lanve/image/lanve-logo.png' %}" alt="lanve-logo">
+                </a>
+                <div class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </div>
+            </div>
+            <div id="navMenu" class="navbar-menu">
+                <div class="navbar-end">
+                    <div class="navbar-item is-hoverable">
+                        <a class="navbar-link is-arrowless"
+                           href="{% url 'lanve:add' %}">
+                            <i class="fas fa-edit fa-lg color-post"></i>
+                            <span>&nbsp;&nbsp;</span>
+                            <small>Post</small>
+                        </a>
+                    </div>
+                    <div class="navbar-item is-hoverable">
+                        <a class="navbar-link is-arrowless"
+                           href="{% url 'lanve:signout' %}">
+                            <i class="fas fa-sign-out-alt fa-lg color-singout"></i>
+                            <span>&nbsp;&nbsp;</span>
+                            <small>Sign Out</small>
+                        </a>
+                    </div>
+                    <div class="navbar-item is-hoverable">
+                        <a class="navbar-link is-arrowless"
+                           href="{% url 'lanve:user_detail' user.pk %}">
+                            {% if user.profile_pic %}
+                                <img src="{{ user.profile_pic.thumbnail.url }}" alt="profile pictures">
+                            {% endif %}
+                            <span>&nbsp;&nbsp;</span>
+                            <span>{{ user.username }}</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+{% endblock header %}
+
+{% block hero %}{% endblock hero %}
+
+<section class="section has-background-white-bis">
+    <div class="container">
+        <div class="columns is-desktop">
+            <div class="column is-three-fifths-desktop is-offset-one-fifth-desktop">
+                {% block messages %}
+                    {% if messages %}
+                        <div class="messages columns is-desktop">
+                            <div class="column is-full">
+                                {% for message in messages %}
+                                    <div class="message {% if message.tags %}is-{{ message.tags|bulma_message_tag }}{% endif %}">
+                                        <div class="message-body">{{ message }}</div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endblock messages %}
+                {% block content_area %}
+                    {% block content_title %}{% endblock content_title %}
+                    {% block content %}{% endblock content %}
+                {% endblock content_area %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% block modal %}{% endblock modal %}
+
+{% block footer %}
+    <footer class="footer has-background-white-ter">
+        <div class="container">
+            <div class="content has-text-centered">
+                <p>
+                    <strong>Lanve</strong> by <a href="https://github.com/ShuntaH">ShuntaH</a>
+                <p>
+                <p>
+                    <small>Powered by <strong><a href="https://www.djangoproject.com/">Django</a></strong> |
+                        Theme by <strong><a href="https://bulma.io/">Bulma</a></strong>
+                    </small>
+                </p>
+                <a class="icon is-large" href="/">
+                    <img src="{% static 'lanve/image/lanve-logo.png' %}" alt="lanve-logo">
+                </a>
+            </div>
+        </div>
+    </footer>
+{% endblock footer %}
+
+{% block javascript %}
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    {% block extra_javascript %}{% endblock extra_javascript %}
+{% endblock javascript %}
+</body>

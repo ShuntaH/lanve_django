@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static i18n bulma_tags %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'lanve/scss/issue_list.css' %}">
+{% endblock %}
+
+{% block hero %}
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Timeline
+                </h1>
+                <h2 class="subtitle">
+                    Issues which will be translated from your native language
+                </h2>
+            </div>
+        </div>
+    </section>
+{% endblock hero %}
+
+{% block content %}
+    <p class="lang-issue has-text-grey has-text-weight-semibold">
+       <small>Issues to {{ user.get_mother_tongue_display }} speakers</small>
+        {% with '/flags/'|add:user.nationality|lower|add:'.gif' as flags_static %}
+            <img class="is-32x32" src="{% static flags_static %}" alt="{{ user.get_nationality_display }}">
+        {% endwith %}
+    </p>
+    {% for issue in issue_list %}
+        <div class="card">
+            <div class="card-content">
+                <div class="media">
+                    <div class="media-left">
+                        <figure class="image is-48x48">
+                            <a href="{% url 'lanve:user_detail' issue.contributor.pk %}">
+                                <img src="{{ issue.contributor.profile_pic.thumbnail.url }}"
+                                     alt="{{ issue.contributor.profile_pic }}">
+                            </a>
+                        </figure>
+                    </div>
+                    <div class="media-content">
+                        <a href="{% url 'lanve:user_detail' issue.contributor.pk %}">
+                            <span class="title is-4">{{ issue.contributor.username }}</span>
+                        </a>
+                        <br>
+                        <span class="has-text-weight-semibold">
+                             Translate:
+                            {{ issue.contributor.get_mother_tongue_display }}
+                            {% with '/flags/'|add:issue.contributor.nationality|lower|add:'.gif' as flags_static %}
+                                {% if flags_static %}
+                                <img class="is-32x32" src="{% static flags_static %}" alt="{{ issue.contributor.get_mother_tongue_display }}g">
+                                {% endif %}
+                            {% endwith %}
+                            <i class="fas fa-arrow-right"></i>
+                            {{ issue.get_language_to_display }}
+                            {% with '/flags/'|add:user.nationality|lower|add:'.gif' as flags_static %}
+                                <img class="is-32x32" src="{% static flags_static %}" alt="{{ user.nationality }}">
+                            {% endwith %}
+                        </span>
+                    </div>
+                    <div class="media-right">
+                        <span class="has-text-weight-semibold">
+                             Views: {{ issue.count_view }}
+                        </span>
+                    </div>
+                </div>
+                <div class="content">
+                    <p><small class="has-text-weight-semibold">Question</small>
+                        <br>
+                        <a class="is-size-3" href="{% url 'lanve:detail' issue.pk %}">
+                            {{ issue.question|urlize|truncatechars_html:100 }}
+                        </a>
+                    </p>
+                    <p class="situation-border"><small class="has-text-weight-semibold">Situation</small>
+                        <br>
+                        {{ issue.situation|linebreaksbr|urlize|truncatechars_html:250 }}
+                    </p>
+                    <small>
+                        <time datetime="{{ issue.updated_at }}">
+                            <span class="has-text-info">Updated : </span>
+                            <span class="has-text-grey-light">{{ issue.updated_at }}</span>
+                        </time>
+                        <span class="has-text-grey-light">{{ issue.updated_at|timesince }}</span>
+                        &nbsp;
+                        <time datetime="{{ issue.created_at }}">
+                            <span class="has-text-info">Created : </span>
+                            <span class="has-text-grey-light">{{ issue.created_at }}</span>
+                        </time>
+                    </small>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p>there is not any posts yet.</p>
+    {% endfor %}
+{% endblock %}

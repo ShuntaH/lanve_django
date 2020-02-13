@@ -26,16 +26,17 @@ services:
     volumes:
       - ./db/data:/var/lib/mysql
       - ./db/sql:/docker-entrypoint-initdb.d
+      - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
   web:
     build: ./web
     image: lanve_web
     container_name: lanve_web
-    expose:
-      - "8001"
     ports:
-      - "8001:8001"
+    - "8001:8001"
     command: uwsgi --ini /code/project/project/uwsgi.ini
     volumes:
       - ./django:/code
-    depends_on:
+      - ./web/requirements.txt:/code/project/project/requirements.txt
+    links:
       - db

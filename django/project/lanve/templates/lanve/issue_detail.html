@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static i18n bulma_tags %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'lanve/scss/issue_list.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="media">
+        <div class="media-left">
+            <figure class="image is-48x48">
+                <a href="{% url 'lanve:user_detail' issue.contributor.pk %}">
+                    <img src="{{ issue.contributor.profile_pic.thumbnail.url }}" alt="profile picture">
+                </a>
+            </figure>
+        </div>
+        <div class="media-content">
+            <a href="{% url 'lanve:user_detail' issue.contributor.pk %}">
+                <span class="title is-4">{{ issue.contributor.username }}</span>
+            </a>
+            <br>
+            <span class="has-text-weight-semibold">
+                 Translate:
+                {{ issue.contributor.get_mother_tongue_display }}
+                {% with '/flags/'|add:issue.contributor.nationality|lower|add:'.gif' as flags_static %}
+                    <img class="is-32x32" src="{% static flags_static %}" alt="a national flag">
+                {% endwith %}
+                <i class="fas fa-arrow-right"></i>
+                {{ issue.get_language_to_display }}
+                {% with '/flags/'|add:user.nationality|lower|add:'.gif' as flags_static %}
+                    <img class="is-32x32" src="{% static flags_static %}" alt="a national flag">
+                {% endwith %}
+            </span>
+        </div>
+        <div class="media-right">
+            <span class="has-text-weight-semibold">
+                 Views: {{ issue.count_view }}
+            </span>
+        </div>
+    </div>
+    <div class="content">
+        <p><small class="has-text-weight-semibold">Question</small>
+            <br>
+            <a class="is-size-3" href="{% url 'lanve:detail' issue.pk %}">
+                {{ issue.question|urlize|truncatechars_html:100 }}
+            </a>
+        </p>
+        <p class="situation-border has-background-white"><small class="has-text-weight-semibold">Situation</small>
+            <br>
+            {{ issue.situation|linebreaksbr|urlize|truncatechars_html:250 }}
+        </p>
+        <small>
+            <time datetime="{{ issue.updated_at }}"><span
+                    class="has-text-info">Updated:</span> <span class="has-text-grey">{{ issue.updated_at }}</span>
+            </time>
+            <span class="has-text-grey-light">{{ issue.updated_at|timesince }}</span>
+            &nbsp;
+            <time datetime="{{ issue.created_at }}"><span
+                    class="has-text-info">Created:</span> <span
+                    class="has-text-grey">{{ issue.created_at }}</span></time>
+        </small>
+    </div>
+    <hr>
+    {% for comment in comments %}
+        <article class="media">
+            <figure class="media-left">
+                <p class="image is-64x64">
+                    <img src="{{ comment.contributor.profile_pic.thumbnail.url }}"
+                         alt="{{ comment.contributor.profile_pic }}">
+                </p>
+            </figure>
+            <div class="media-content">
+                <div class="content">
+                    <p>
+                        {% if comment.contributor.username == user.username %}
+                            {#  もしcomment.contributorだとmodelのdef __str__(self):でemailが設定される#}
+                            <span class="has-text-weight-semibold">You ({{ user.username }})</span>
+                        {% else %}
+                            <span class="has-text-weight-semibold"> {{ comment.contributor.username }}</span>
+                        {% endif %}
+                        <br>
+                        {{ comment.text }}
+                        <br>
+                        <small>
+                            <i class="like-btn fas fa-fw fa-heart color-heart"
+                               data-href={% url 'lanve:api' user_pk=user.pk comment_pk=comment.pk %}>
+                            </i>
+                            <span class="liked-cnt">{{ comment.like.count }}</span>
+                            ·
+                            <a>Reply</a>
+                            ·
+                            <span class="has-text-grey">{{ comment.updated_at }}</span>
+                            &nbsp;
+                            <span class="has-text-grey-light">{{ comment.updated_at|timesince }}</span>
+                        </small>
+                    </p>
+                </div>
+            </div>
+        </article>
+    {% empty %}
+        <p class="is-size-4 empty-comment">
+            No comments yet ...
+            <small class="is-size-6">Be the first person to help</small>
+        </p>
+    {% endfor %}
+
+    <form class="media" method="post" action="">
+        {% csrf_token %}
+        <figure class="media-left">
+            <p class="image is-64x64">
+                <img src="{{ user.profile_pic.thumbnail.url }}" alt="{{ user.profile_pic }}"></p>
+        </figure>
+        <div class="media-content">
+            <div class="field"><p class="control">{{ form.text|bulma }}</p></div>
+            <div class="field">
+                <p class="control">
+                    <button class="button" type="submit">Post comment</button>
+                </p>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+{% block extra_javascript %}
+    <script src="{% static 'lanve/js/liked.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,196 @@
+{% extends 'base_auth.html' %}
+
+{% load i18n static bulma_tags %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'lanve/scss/welcome.css' %}">
+{% endblock extra_css %}
+
+
+{% block title %}{% trans "Welcome to Lanve" %}{% endblock %}
+{% block window_width %}
+    <div class="column">
+{% endblock window_width %}
+{% block content %}
+    <section class="hero is-fullheight is-default is-bold">
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-vcentered">
+                    <div class="column is-5 is-offset-1 landing-caption">
+                            <span>
+                            developing
+                            </span>
+                        <h1 class="title is-1 is-bold is-spaced">
+                            Lanve
+                        </h1>
+                        <p class="subtitle is-muted">
+                            The simplest translating foreign languages App
+                        </p>
+                        <p>
+                            <a href="{% url 'lanve:signup' %}"
+                               class="button cta rounded primary-btn raised">
+                                Sign up
+                            </a>
+                            <a href="{% url 'lanve:signin' %}"
+                               class="button cta rounded primary-btn raised">
+                                Sign In
+                            </a>
+                        </p>
+                    </div>
+                    <div class="column is-5 is-offset-1">
+                        <figure class="image is-4by4">
+                            <img class="lazy"
+                                 src="{% static 'lanve/image/welcome-top.png' %}"
+                                 data-src="lanve/image/welcome-top.png"
+                                 alt="Lanve images">
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section is-medium">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-centered-tablet-portrait">
+                    <h2 class="title section-title">You're here because you want the best translating</h2>
+                    <h3 class="subtitle is-4 is-muted">And we Know it</h3>
+                    <div class="divider"></div>
+                </div>
+                <div class="column is-8 mt-60">
+                    <!-- icon block -->
+                    <article class="media icon-box">
+                        <figure class="media-left">
+                            <p class="image">
+                                <img class="lazy"
+                                     data-src="">
+                            </p>
+                        </figure>
+                        <div class="media-content mt-50">
+                            <div class="content">
+                                <p>
+                                    <span class="icon-box-title">You can get the answer quickly</span>
+                                    <span class="icon-box-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </article>
+                    <!-- /icon block -->
+                    <!-- icon block -->
+                    <article class="media icon-box">
+                        <figure class="media-left">
+                            <p class="image">
+                                <img class="lazy" data-src="">
+                            </p>
+                        </figure>
+                        <div class="media-content mt-50">
+                            <div class="content">
+                                <p>
+                                    <span class="icon-box-title">Cross languages wall</span>
+                                    <span class="icon-box-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </article>
+                    <!-- /icon block -->
+                    <!-- icon block -->
+                    <article class="media icon-box">
+                        <figure class="media-left">
+                            <p class="image">
+                                <img class="lazy" data-src="">
+                            </p>
+                        </figure>
+                        <div class="media-content mt-50">
+                            <div class="content">
+                                <p>
+                                    <span class="icon-box-title">Reliable System</span>
+                                    <span class="icon-box-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </article>
+                    <!-- /icon block -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="cta" class="section section-feature-grey is-medium">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-10 is-offset-1">
+                    <div class="has-text-centered">
+                        <img alt=""
+                             class="pushed-image lazy"
+                             src=""
+                             data-src="">
+                    </div>
+                </div>
+            </div>
+
+            <div class="title-wrapper has-text-centered">
+                <h2 class="title is-2">Translating is fun</h2>
+                <h3 class="subtitle is-5 is-muted">Translated by native speakers</h3>
+            </div>
+
+            <p class="has-text-centered mt-20">
+                <a target="_blank" href="{% url 'lanve:signup' %}"
+                   class="button cta is-large rounded secondary-btn raised">
+                    Get an account
+                </a>
+            </p>
+        </div>
+    </section>
+
+    <section class="section is-medium section-secondary">
+        <div class="container">
+
+            <div class="title-wrapper has-text-centered">
+                <h2 class="title is-2 light-text is-spaced">Time Less. Live More</h2>
+                <h3 class="subtitle is-5 light-text">Help your life</h3>
+            </div>
+
+            <div class="content-wrapper">
+                <div class="columns is-vcentered">
+                    <div class="column is-4">
+                        <figure class="testimonial">
+                            <blockquote>
+                                Lorem ipsum dolor sit amet, elit deleniti dissentias quo eu, hinc minim appetere te usu,
+                                ea case duis scribentur has. Duo te consequat elaboraret, has quando suavitate at.
+                            </blockquote>
+                            <div class="author">
+                                <img class="lazy" data-src="assets/images/illustrations/faces/1.png" alt=""/>
+                                <h5>Irma Walters</h5><span>Accountant</span>
+                            </div>
+                        </figure>
+                    </div>
+                    <div class="column is-4">
+                        <figure class="testimonial">
+                            <blockquote>
+                                Lorem ipsum dolor sit amet, elit deleniti dissentias quo eu, hinc minim appetere te usu,
+                                ea case duis scribentur has. Duo te consequat elaboraret, has quando suavitate at.
+                            </blockquote>
+                            <div class="author">
+                                <img class="lazy" data-src="assets/images/illustrations/faces/2.png" alt=""/>
+                                <h5>John Bradley</h5><span>Financial Analyst</span>
+                            </div>
+                        </figure>
+                    </div>
+                    <div class="column is-4">
+                        <figure class="testimonial">
+                            <blockquote>
+                                Lorem ipsum dolor sit amet, elit deleniti dissentias quo eu, hinc minim appetere te usu,
+                                ea case duis scribentur has. Duo te consequat elaboraret, has quando suavitate at.
+                            </blockquote>
+                            <div class="author">
+                                <img class="lazy" data-src="assets/images/illustrations/faces/3.png" alt=""/>
+                                <h5>Gary Blackman</h5><span>HR Manager</span>
+                            </div>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

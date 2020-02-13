@@ -1,0 +1,59 @@
+/* 吹き出し本体 */
+.situation-border {
+  position: relative;
+  padding: 20px;
+  border: 1px solid darkgray;
+
+  /* beforeで三角を表現 */
+  &::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: -15px;
+    display: block;
+    width: 0;
+    height: 0;
+    border-right: 15px solid transparent;
+    border-bottom: 15px solid darkgray;
+    border-left: 15px solid transparent;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    left: 20px;
+    top: -14px;
+    border-right: 15px solid transparent;
+    border-bottom: 15px solid white;
+    border-left: 15px solid transparent;
+  }
+}
+
+
+
+//user detail table
+.table-container.user-information-table {
+  margin-bottom: 26px;
+}
+
+.tabs.switch-tabs {
+  margin-top: 40px;
+}
+
+// リスト先頭の何語向けかの文章
+.lang-issue {
+  margin-bottom: 8px;
+}
+
+// if no comments
+.empty-comment {
+  margin-bottom: 22px;
+}
+
+// color settings for likes icon
+.on {
+  color: #ff4d6a
+}

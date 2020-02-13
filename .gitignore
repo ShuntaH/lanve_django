@@ -85,4 +85,4 @@ db/data/*
 *.jpg
 
 # log
-*.log⏎
+*.log

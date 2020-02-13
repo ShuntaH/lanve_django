@@ -1,0 +1,114 @@
+{% load static i18n bulma_tags lanve_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock title %}</title>
+    <link rel="shortcut icon" href="{% static 'lanve/image/favicon.ico' %}"/>
+    {% block css %}
+        {% font_awesome %}
+        <link rel="stylesheet" href="{% static 'bulma/css/style.min.css' %}">
+        {% block extra_css %}
+            <link rel="stylesheet" href="{% static 'lanve/scss/base_auth.css' %}">
+        {% endblock extra_css %}
+    {% endblock css %}
+</head>
+<body>
+
+{% block header %}
+    <div class="container">
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="{% url 'lanve:welcome' %}">
+                    <img src="{% static 'lanve/image/lanve-logo.png' %}"
+                         alt="lanve-logo">
+                </a>
+                <div class="navbar-burger burger" data-target="navMenuExample">
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div id="navMenuExample" class="navbar-menu">
+                <div class="navbar-end">
+                    {% url 'lanve:signin' as login_url %}
+                    {% if login_url %}
+                        <a class="navbar-item is-hidden-desktop-only" href="{{ login_url }}">
+                           <i class="fas fa-sign-in-alt"><small> Sign In</small></i>
+                        </a>
+                    {% endif %}
+                    {#                    {% url 'lanve:signin' as login_auth_url %}#}
+                    {#                    {% if login_url %}#}
+                    {#                        <a class="navbar-item is-hidden-desktop-only" href="{{ login_url }}">#}
+                    {#                            Login (allauth)#}
+                    {#                        </a>#}
+                    {#                    {% endif %}#}
+                    {% url 'lanve:signup' as signup_url %}
+                    {% if signup_url %}
+                        <a class="navbar-item is-hidden-desktop-only" href="{{ signup_url }}">
+                            <i class="fas fa-sign-out-alt"><small> Sign Up</small></i>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    </div>
+{% endblock header %}
+
+{% block hero %}{% endblock hero %}
+
+<section class="section has-background-white-bis">
+    <div class="container">
+        <div class="columns is-desktop">
+            {% block window_width %}
+                <div class="column is-three-fifths-desktop is-offset-one-fifth-desktop">
+            {% endblock window_width %}
+            {% block messages %}
+                {% if messages %}
+                    <div class="messages columns is-desktop">
+                        <div class="column is-full">
+                            {% for message in messages %}
+                                <div class="message {% if message.tags %}is-{{ message.tags|bulma_message_tag }}{% endif %}">
+                                    <div class="message-body">{{ message }}</div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endblock messages %}
+            {% block content_area %}
+                {% block content_title %}{% endblock content_title %}
+                {% block content %}{% endblock content %}
+            {% endblock content_area %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% block modal %}{% endblock modal %}
+
+{% block footer %}
+    <footer class="footer has-background-white-ter">
+        <div class="container">
+            <div class="content has-text-centered">
+                <p>
+                    <strong>Lanve</strong> by <a href="https://github.com/ShuntaH">ShuntaH</a>
+                <p>
+                <p>
+                    <small>Powered by <strong><a href="https://www.djangoproject.com/">Django</a></strong> |
+                        Theme by <strong><a href="https://bulma.io/">Bulma</a></strong>
+                    </small>
+                </p>
+                <a class="icon is-large" href="/">
+                    <img src="{% static 'lanve/image/lanve-logo.png' %}" alt="lanve-logo">
+                </a>
+            </div>
+        </div>
+    </footer>
+{% endblock footer %}
+
+{% block javascript %}
+    <script src="{% static 'lanve/js/burgers.js' %}"></script>
+    {% block extra_javascript %}{% endblock extra_javascript %}
+{% endblock javascript %}
+</body>

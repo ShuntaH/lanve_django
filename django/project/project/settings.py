@@ -31,11 +31,11 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
 ALLOWED_HOSTS = ['*']
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -45,12 +45,23 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # my apps
     'lanve.apps.LanveConfig',
+    'django.forms',
     # third apps
     'bulma',
     'languages',
     'django_countries',
     'django_cleanup',
+    'stdimage',
+    'rest_framework',
+    'django_filters',
 ]
+
+
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
+
+
+CRISPY_TEMPLATE_PACK = "bulma"
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -67,7 +78,7 @@ ROOT_URLCONF = 'project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -77,11 +88,10 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
             ],
         },
-    },
+    }
 ]
 
 WSGI_APPLICATION = 'project.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -94,12 +104,12 @@ DATABASES = {
         'PASSWORD': 'root',
         'HOST': 'db',
         'PORT': '3306',
-        'OPTIONS': {
-            'charset': 'utf8mb4',
-        },
+        'OPTIONS': {'charset': 'utf8mb4',
+                    'sql_mode': 'TRADITIONAL,NO_AUTO_VALUE_ON_ZERO',
+                    },
+        'AUTOMATIC_REQUESTS': True,  # transaction now is working
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -119,11 +129,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'ja'
+LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'Asia/Tokyo'
 
@@ -133,7 +142,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
@@ -141,7 +149,124 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # 本番環境用の配信用の
 STATIC_URL = '/static/'  # 本番環境で使われるurl
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "staticfiles"),
-    ]
+]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+
+# Custom User
+AUTH_USER_MODEL = 'lanve.LanveUser'
+
+
+'''
+The URL or named URL pattern where requests are redirected after login
+when the LoginView doesn't get a next GET parameter.
+'''
+LOGIN_REDIRECT_URL = 'lanve:list'
+
+
+'''
+The URL or named URL pattern where requests are redirected for login
+when using the login_required() decorator, LoginRequiredMixin, or AccessMixin.
+'''
+LOGIN_URL = 'lanve:signin'
+
+
+'''
+The URL or named URL pattern where requests are redirected after logout
+if LogoutView doesn't have a next_page attribute.
+If None, no redirect will be performed and the logout view will be rendered.
+'''
+LOGOUT_REDIRECT_URL = 'lanve:welcome'
+
+
+# logging configuration
+# LOGGING = {
+#     # バージョンは1で固定
+#     'version': 1,
+#     # 既存のログ設定を無効化しない
+#     'disable_existing_loggers': False,
+#     # ログフォーマット
+#     'formatters': {
+#         # 開発用
+#         'develop': {
+#             'format': '%(asctime)s [%(levelname)s] %(pathname)s:%(lineno)d '
+#                       '%(message)s'
+#         },
+#     },
+#     # ハンドラ
+#     'handlers': {
+#         # コンソール出力用ハンドラ
+#         'console': {
+#             'level': 'DEBUG',
+#             'class': 'logging.StreamHandler',
+#             'formatter': 'develop',
+#         },
+#     },
+#     # ロガー
+#     'loggers': {
+#         # 自作アプリケーションz全般のログを拾うロガー
+#         # ロガー （loggers） に 「’’」 という設定を書くと
+#         # 独⾃に追加したアプリケーション全般のログを拾うことができるs。
+#         '': {
+#             'handlers': ['console'],
+#             'level': 'DEBUG',
+#             'propagate': False,
+#         },
+#         # django全般が出すエラーを拾うロガー
+#         'django': {
+#             'handlers': ['console'],
+#             'level': 'INFO',
+#             'propagate': False,
+#         },
+#         # 発行されるsql文を出力するための設定
+#         'django.db.backend': {
+#             'handlers': ['console'],
+#             'level': 'DEBUG',
+#             'propagate': False,
+#         },
+#     },
+# }
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django.db.backends': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    },
+}
+
+
+# Mail
+
+# develop
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# production
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.JSONParser',
+    ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    )
+}

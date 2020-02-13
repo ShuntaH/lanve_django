@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static i18n bulma_tags %}
+
+{% block hero %}
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Post page
+                </h1>
+                <h2 class="subtitle">
+                    form bangkok
+                </h2>
+            </div>
+        </div>
+    </section>
+{% endblock hero %}
+
+{% block content %}
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.language_to|bulma }}
+        <p class="is-size-4 has-text-weight-semibold">Create a sentence you want to translate</p>
+        {{ form.question|bulma }}
+        <p class="is-size-4 has-text-weight-semibold" style="margin-top: 40px">Explain a situation you are in</p>
+        {{ form.situation|bulma }}
+        <div class="field" style="margin-top: 40px">
+            <button type="submit" class="button is-primary">Post</button>
+        </div>
+        <input type="hidden" name="next" value="{{ next }}"/>
+    </form>
+{% endblock %}
