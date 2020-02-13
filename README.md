@@ -1,15 +1,17 @@
 # lanve_django
 
-Python3.8 + Django3.1 + Mariadb + Nginx + uWsgi + dockcer-compose + Bluma + Pycharm
+dockcer-compose(Python3.8 + Django3.1 + Mariadb + Nginx + uWsgi) + Bluma + Pycharm + AWS
 
 ## Setup
 
 developing environment
 ```
-$ docker-compose up
+$ git clone git@github.com:ShuntaH/lanve_django.git
+$ docker-compose up -d
+$ charm .
 ```
 
 editor
 * Pycharm Professinal
-docker & debugger
+docker & debugger setting
 
