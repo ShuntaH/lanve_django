@@ -4,7 +4,7 @@ MacOS + dockcer-compose(Python3.8 + Django3.1 + Mariadb + Nginx + uWsgi) + Bluma
 
 ## Description
 
-This is my first web app powerd by Django.
+This is my first web app powerd by Django.<br>
 Its purpose is to help to exchange unfamiliar languages between each others.
 
 ## Setup
