@@ -16,6 +16,9 @@ $ docker-compose up -d
 $ charm .
 ```
 
+Development django server -> localhost:8001
+Nginx server -> localhost:8000
+
 editor
 * Pycharm Professinal
 docker & debugger setting
