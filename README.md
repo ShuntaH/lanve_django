@@ -9,18 +9,20 @@ Its purpose is to help to exchange unfamiliar languages between each others.
 
 ## Setup
 
-developing environment
+Development environment
 ```
 $ git clone git@github.com:ShuntaH/lanve_django.git
 $ docker-compose up -d
 $ charm .
 ```
 
-Development django server -> localhost:8001
-Nginx server -> localhost:8000
+### Development django server -> localhost:8001
+### Nginx server -> localhost:8000
 
-editor
+
 * Pycharm Professinal
 docker & debugger setting
 
-make .env file for SECRET INFORMATION
+### Create .env file for SECRET INFORMATION<br>
+-/docker-compose.yml database <br> 
+-/django/project/project/settings/base.py secretkey&database
