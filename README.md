@@ -20,3 +20,4 @@ editor
 * Pycharm Professinal
 docker & debugger setting
 
+make .env file for SECRET INFORMATION
