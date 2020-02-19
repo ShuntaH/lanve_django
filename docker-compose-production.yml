@@ -1,10 +1,10 @@
-version: '3.4'
+version: '2'
 services:
   nginx:
     image: nginx:1.13
     container_name: lanve_nginx
     ports:
-      - "8000:8000"
+      - "80:8000"
     volumes:
       - ./nginx/conf:/etc/nginx/conf.d
       - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
