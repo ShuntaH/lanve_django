@@ -82,7 +82,7 @@ db/data/*
 
 
 # Media
-*.jpg
+media/**/*.jpg
 
 # log
 *.log
