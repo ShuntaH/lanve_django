@@ -14,14 +14,14 @@ services:
     depends_on:
       - web
   db:
-    image: mariadb:10.5
+    image: mariadb:10.1
     container_name: lanve_mariadb
     ports:
       - 3306:3306
     environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_ROOT_USER: ${MYSQL_ROOT_USER}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: lanve
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: root
       TZ: 'Asia/Tokyo'
     volumes:
       - ./db/data:/var/lib/mysql
