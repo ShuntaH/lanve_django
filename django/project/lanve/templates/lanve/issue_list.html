@@ -34,8 +34,13 @@
                     <div class="media-left">
                         <figure class="image is-48x48">
                             <a href="{% url 'lanve:user_detail' issue.contributor.pk %}">
+                                {% if issue.contributor.profile_pic %}
                                 <img src="{{ issue.contributor.profile_pic.thumbnail.url }}"
-                                     alt="{{ issue.contributor.profile_pic }}">
+                                     alt="{{ issue.contributor.username }}">
+                                {% else %}
+                                <img src="{% static 'lanve/image/default-user-profile-picture.jpg' %}"
+                                     alt={{ issue.contributor.username }}>
+                                 {% endif %}
                             </a>
                         </figure>
                     </div>
