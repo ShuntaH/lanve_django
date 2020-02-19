@@ -216,7 +216,7 @@ class MyPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     template_name = 'lanve/user_password_change.html'
 
 
-class MyPasswordChangeDoneView(PasswordChangeDoneView):
+class MyPasswordChangeDoneView(LoginRequiredMixin, PasswordChangeDoneView):
     """ Password change is done View """
 
     template_name = 'lanve/user_password_change_done.html'
