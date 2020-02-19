@@ -7,7 +7,6 @@ from django.contrib.auth.models import (
 )
 
 from languages.fields import RegionField, LanguageField
-
 from stdimage import StdImageField
 
 
@@ -58,12 +57,6 @@ def profile_pic_directory_path(instance, filename):
     return filename
 
 
-# set a default user profile picture when an user make a new account
-def get_default_profile_picture():
-    path = 'users/profile/default-user-profile-picture.thumbnail.jpg'
-    return path
-
-
 GENDER_CHOICES = (
     ('1', 'Male'),
     ('2', 'Female'),
@@ -73,13 +66,13 @@ GENDER_CHOICES = (
 
 class LanveUser(AbstractBaseUser):
     """
-       LanveUser is only for Shunta's web app 'Lanve'
+     LanveUser is only for Shunta's web app 'Lanve'
 
-       An abstract base class implementing a fully featured User model with
-       admin-compliant permissions.
+     An abstract base class implementing a fully featured User model with
+     admin-compliant permissions.
 
-       Username and password are required. Other fields are optional.
-       """
+     Username and password are required. Other fields are optional.
+     """
 
     username_validator = UnicodeUsernameValidator()
     username = models.CharField(
@@ -106,11 +99,15 @@ class LanveUser(AbstractBaseUser):
         blank=True,
         null=True,
     )
+
+    # default profile picture is located at static dir
+    # when a specific profile picture doesn't set up, it will be displayed from static
+    # when it is already set up, it will be displayed from media/users/profile
     profile_pic = StdImageField(
         upload_to=profile_pic_directory_path,
         verbose_name='profile picture',
-        default=get_default_profile_picture,
         blank=True,
+        null=True,
         variations={
             'thumbnail': (300, 300, True),
         },

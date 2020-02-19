@@ -48,10 +48,11 @@
                         </a>
                     </div>
                     <div class="navbar-item is-hoverable">
-                        <a class="navbar-link is-arrowless"
-                           href="{% url 'lanve:user_detail' user.pk %}">
+                        <a class="navbar-link is-arrowless" href="{% url 'lanve:user_detail' user.pk %}">
                             {% if user.profile_pic %}
-                                <img src="{{ user.profile_pic.thumbnail.url }}" alt="profile pictures">
+                                <img src="{{ user.profile_pic.thumbnail.url }}" alt={{ user.username }}>
+                            {% else %}
+                                <img src="{% static 'lanve/image/default-user-profile-picture.jpg' %}" alt={{ user.username }}>
                             {% endif %}
                             <span>&nbsp;&nbsp;</span>
                             <span>{{ user.username }}</span>
