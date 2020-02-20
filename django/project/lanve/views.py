@@ -214,12 +214,14 @@ class MyPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     form_class = PasswordChangeForm
     success_url = reverse_lazy('lanve:password_change_done')
     template_name = 'lanve/user_password_change.html'
+    login_url = 'lanve:signin'
 
 
 class MyPasswordChangeDoneView(LoginRequiredMixin, PasswordChangeDoneView):
     """ Password change is done View """
 
     template_name = 'lanve/user_password_change_done.html'
+    login_url = 'lanve:signin'
 
 
 def get_absolute_url(self):
