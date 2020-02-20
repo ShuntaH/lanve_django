@@ -5,7 +5,6 @@ services:
     container_name: lanve_nginx
     ports:
       - "80:8000"
-    restart: always
     tty: true
     volumes:
       - ./nginx/conf/lanve_nginx_production.conf:/etc/nginx/conf.d/lanve_nginx_production.conf
