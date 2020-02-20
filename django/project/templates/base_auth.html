@@ -34,7 +34,7 @@
                     {% url 'lanve:signin' as login_url %}
                     {% if login_url %}
                         <a class="navbar-item is-hidden-desktop-only" href="{{ login_url }}">
-                           <i class="fas fa-sign-in-alt"><small> Sign In</small></i>
+                            <i class="fas fa-sign-in-alt"><small> Sign in</small></i>
                         </a>
                     {% endif %}
                     {#                    {% url 'lanve:signin' as login_auth_url %}#}
@@ -46,7 +46,7 @@
                     {% url 'lanve:signup' as signup_url %}
                     {% if signup_url %}
                         <a class="navbar-item is-hidden-desktop-only" href="{{ signup_url }}">
-                            <i class="fas fa-sign-out-alt"><small> Sign Up</small></i>
+                            <i class="fas fa-sign-out-alt"><small> Sign up</small></i>
                         </a>
                     {% endif %}
                 </div>
@@ -108,6 +108,11 @@
 {% endblock footer %}
 
 {% block javascript %}
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
     <script src="{% static 'lanve/js/burgers.js' %}"></script>
     {% block extra_javascript %}{% endblock extra_javascript %}
 {% endblock javascript %}
