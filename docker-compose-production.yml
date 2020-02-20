@@ -12,7 +12,7 @@ services:
       - ./django/project/media:/media
       - ./django/project/static:/static
       - ./nginx/log:/var/log/nginx
-    command: bash -c "cd / && mkdir -p var/www/letsencrypt"
+    command: bash -c "mkdir -p var/www/letsencrypt"
     depends_on:
       - web
   db:
