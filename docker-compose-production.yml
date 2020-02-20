@@ -6,6 +6,7 @@ services:
     ports:
       - "80:8000"
     restart: always
+    tty: true
     volumes:
       - ./nginx/conf/lanve_nginx_production.conf:/etc/nginx/conf.d/lanve_nginx_production.conf
       - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
@@ -30,6 +31,7 @@ services:
       - ./db/sql:/docker-entrypoint-initdb.d
       - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
     restart: always
+    tty: true
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
   web:
     build: ./web
@@ -38,6 +40,7 @@ services:
     ports:
     - "8001:8001"
     restart: always
+    tty: true
     command: uwsgi --ini /code/project/project/uwsgi.ini
     volumes:
       - ./django:/code
