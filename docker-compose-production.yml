@@ -5,6 +5,7 @@ services:
     container_name: lanve_nginx
     ports:
       - "80:8000"
+    restart: always
     volumes:
       - ./nginx/conf:/etc/nginx/conf.d
       - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
@@ -27,6 +28,7 @@ services:
       - ./db/data:/var/lib/mysql
       - ./db/sql:/docker-entrypoint-initdb.d
       - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
+    restart: always
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
   web:
     build: ./web
@@ -34,6 +36,7 @@ services:
     container_name: lanve_web
     ports:
     - "8001:8001"
+    restart: always
     command: uwsgi --ini /code/project/project/uwsgi.ini
     volumes:
       - ./django:/code

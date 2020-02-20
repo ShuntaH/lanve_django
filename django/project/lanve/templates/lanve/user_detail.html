@@ -145,7 +145,6 @@
                             <br>
                             {{ issue.situation|linebreaksbr|urlize|truncatechars_html:250 }}
                         </p>
-                        <a class="icon"><i class="fas fa-fw fa-heart color-heart"></i></a>
                         <small>
                             <time datetime="{{ issue.created_at }}">{{ issue.created_at }}</time>
                             &nbsp;&nbsp;
@@ -215,7 +214,6 @@
                                 <br>
                                 {{ issue_commented.situation|linebreaksbr|urlize|truncatechars_html:250 }}
                             </p>
-                            <a class="icon"><i class="fas fa-fw fa-heart color-heart"></i></a>
                             <small>
                                 <time datetime="{{ issue_commented.created_at }}">{{ issue_commented.created_at }}</time>
                                 &nbsp;&nbsp;
