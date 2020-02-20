@@ -413,6 +413,7 @@ Classes to change the feel of bulma buttons
   background-color: #4FC1EA;
   color: #fff;
   transition: all 0.5s;
+  margin-bottom: 12px;
 }
 
 .button.primary-btn:hover {
