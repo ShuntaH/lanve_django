@@ -7,7 +7,7 @@ services:
       - "80:8000"
     restart: always
     volumes:
-      - ./nginx/conf:/etc/nginx/conf.d
+      - ./nginx/conf/lanve_nginx_production.conf:/etc/nginx/conf.d
       - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
       - ./django/project/media:/media
       - ./django/project/static:/static
