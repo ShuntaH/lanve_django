@@ -31,7 +31,7 @@ mysqlclient==1.4.6
 parso==0.5.2
 pexpect==4.7.0
 pickleshare==0.7.5
-Pillow==6.2.1
+Pillow==9.0.0
 progressbar2==3.47.0
 prompt-toolkit==3.0.2
 ptyprocess==0.6.0
